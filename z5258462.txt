@@ -1,0 +1,12 @@
+Week 1
+
+During the Tuesday lab; the group was formed, and GitHub and Jira accounts were created. Collaboratively, there were discussions on software which would aid in the project, including React, Django and SQLite and the potential use of a custom project proposal suggested by Darius to create a travel planner. 
+On Saturday, the custom proposal was submitted waiting for feedback on the proposal.
+
+Week 2
+
+Feedback was provided on Monday, which had addressed some concerns that the lecturer perceived. We had decided to postpone discussions on the project until the next lab, so that we could get the opinion on a recently added member on whether we should pursue the custom or swap to a predesignated project idea.
+
+In the Tuesday lab, we decided to drop the custom project and after discussing with the mentor, we chose to complete a task manager system.
+
+On Saturday, we initiated a stand-up to set up the GitHub to include the required branches and Jira, implementing the first sprint and assignment of tasks. We also considered time availability to determine future weekly stand-ups.  
