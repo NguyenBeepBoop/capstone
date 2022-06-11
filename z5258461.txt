@@ -1,0 +1,38 @@
+Darius Carlin, z5258461 Diary
+
+
+========== Week 1 ==========
+In the Tuesday lab, we set up Jira accounts and formed the team (excluding Brent who joined week 2).
+The team discussed ideas for the project and decided on a custom project idea - Travel Planning app.
+I introduced the idea of using Google's Places API to pull information about a location so we can
+recommend it to the user. Nguyen suggested using Django/Python for the backend
+and React for the frontend. SQLLite was the recommended query language for the database.
+
+On Saturday, we submitted the proposal form and awaited feedback from the lecturer. The three novel features
+we described was an algorithm to learn search preferences to recommend locations/events, an auto planner
+and system to view, save, and copy other people's planners.
+
+
+========== Week 2 ==========
+On Monday, we received feedback from the lecturer who was not certain our idea would work well.
+We were also informed of the new team member Brent. We waiting until the Tuesday lab to discuss further.
+
+In the Tuesday lab, we opted to drop the custom project for either the recipe recommender or the
+task manager. After discussion with the tutor, we went with the task management system with the following
+novel features. Firstly, a Gantt chart analysis software to find critical path, bottlenecks and cost analysis.
+The second was to introduce a task assignment recommender based on team qualities and characteristics.
+I sent a email in the evening to ask for clarity on "novelty".
+
+Wednesday morning we received feedback from the lecturer who cleared up definitions. We were then able to confirm
+our task assignment recommender was novel but the Gantt analysis was only partially.
+
+On Friday, Nguyen suggested a novel feature - incorporated retrospective/project review, including
+a feature to flag certain task cards for the review.
+
+On Saturday, myself, Josh, Newton and Nguyen held a small meeting to setup the github. This includes
+a dedicated diary branch. The Jira was also updated to add some cards and a proposal page.
+Diaries were added to the github on this day as well. The four of us agreed that a retrospective idea is
+good but we do not want to overcommit. Brent was still yet to be added to the group chat so he was absent.
+
+
+========== Week 3 ==========
