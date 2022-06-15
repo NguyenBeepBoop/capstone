@@ -45,12 +45,6 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
     'django_filters',
     'simple_history',
     # 'django_bootstrap_breadcrumbs',
