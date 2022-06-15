@@ -1,0 +1,7 @@
+__pycache__/
+lib/
+.venv
+*venv/
+ENV/
+config/settings/.env
+.env
