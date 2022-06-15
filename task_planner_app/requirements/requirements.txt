@@ -10,6 +10,6 @@ pandas==1.1.5
 
 # Django
 # -----------------------------------------------------
-django==4.0.5
+django==3.2.13
 django-model-utils==4.2.0
 django-crispy-forms==1.14.0
