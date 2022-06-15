@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 
+import task_planners
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -43,19 +45,13 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    'rest_framework',
-    'rest_framework.authtoken',
-    'corsheaders',
     'django_filters',
     'simple_history',
     # 'django_bootstrap_breadcrumbs',
 ]
 
 LOCAL_APPS = [
-
+    'task_planners'
 ] 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
