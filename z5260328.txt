@@ -1,0 +1,11 @@
+Week 1
+
+Formed our group. We decided to go with a custom idea (darius' idea) involving a travel planner. Created my github and jira account. As a team we filled out the custom project form to see whether the lecturer/tutor was fine with it. 
+We received feedback on the monday of Week 2 saying we had to elaborate more/think of better and new proposals. New member of the team joined during the weekend. We decided to wait for his say before choosing an official project.
+
+Week 2
+
+After further discussion with our new member and the team, we decided to drop out custom project due to its strictness, hence deciding the task management project. It did take us quite a while to choose a project due to the fact
+that we dropped our custom project but also it seems that none of the projects listed stood out to any of us. By listing our the pros and cons of each project and researching similar systems to potential projects, we chose the task management project.
+We also spoke which software tools to use, most likely react/django/sqlite. Organised the frequency of standups (Everyday tuesday, thursday, saturday/sunday). Nguyen created the backlogs (Sprint and cards) and discussed also the frequency
+of sprints and their time blocks.
