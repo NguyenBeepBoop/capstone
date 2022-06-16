@@ -1,0 +1,10 @@
+Week 1
+Had a funeral, but team set up the github and Jira accounts. Originally planned to create a custom project, leaning towards
+a travel planner but the lack of a good API to extract travel data would create a huge problem when trying to create such an app.
+Team send their idea in for feedback and waited for me to see if I would also agree with it.
+
+Week 2
+Lecture feedback for the custom project was not as favourable as we'd like. Team decided to drop the project and go for one of 
+the standard ones. We decided to go with the "task planner" project however coming up with useful novel features required a lot
+of brainstorming. 
+
