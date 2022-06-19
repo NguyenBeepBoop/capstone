@@ -10,3 +10,9 @@ Feedback was provided on Monday, which had addressed some concerns that the lect
 In the Tuesday lab, we decided to drop the custom project and after discussing with the mentor, we chose to complete a task manager system.
 
 On Saturday, we initiated a stand-up to set up the GitHub to include the required branches and Jira, implementing the first sprint and assignment of tasks. We also considered time availability to determine future weekly stand-ups.  
+
+Week 3
+
+Tuesday lab was spent deciding on the user stories to cover the project objectives. From this we created approximately 30 user stories.
+
+From Thursday to Sunday, we were finalising the proposal for submission, with most of the focus aimed at ensuring the user stories and storyboards were well addressed. The proposal was then promptly submitted.
