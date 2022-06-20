@@ -10,3 +10,9 @@ After further discussion with our new member and the team, we decided to drop ou
 that we dropped our custom project but also it seems that none of the projects listed stood out to any of us. By listing our the pros and cons of each project and researching similar systems to potential projects, we chose the task management project.
 We also spoke which software tools to use, most likely react/django/sqlite. Organised the frequency of standups (Everyday tuesday, thursday, saturday/sunday). Nguyen created the backlogs (Sprint and cards) and discussed also the frequency
 of sprints and their time blocks. I plan to get part of the proposal done such as user stories/background/technical depth. 
+
+Week 3
+
+On Tuesday, we established our novelty functions with Nguyen coming up with the idea of an integrated support System. During the process of our proposal, Nguyen and I worked on the User stories 
+and Darius and Joshua continued to work on our proposal, including the background, storyboard and other parts of the proposal. I worked on the Software Architechture of our project whilst
+elaborating on the different softwares we used. We finished our proposal on the sunday and submitted before the due date. 
