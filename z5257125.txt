@@ -21,3 +21,23 @@ Some ideas that we came up with:
 
 Created a Sprint 0 to organise tasks that need to be done until project proposal submission. Had a 
 meeting with team, to get started on our project proposal. 
+
+Week 3
+
+Tuesday
+Received feedback on our idea for some of the novelty ideas that were discussed during the week. We
+decided to go with the novely idea that involved building a characteristic task assignment system
+based on the proficiencies of the user. I had also came up with the idea of using including a helper
+system where users would be recommended websites on how to complete a task if they were unsure of how
+it could be done. After discussion with the team we decided to go forth with this idea as our second 
+novelty idea. We also starting putting some user story and cards onto our jira board to help with 
+getting our project proposal started.
+
+Thursday
+We had our team standup, and decided to work on adding cards and user stories to our jira board to be
+added to our project proposal later. Newton and Josh started working on the system architecture 
+components of the project whilst I continued to add cards to jira for my team members to update on the 
+document. Darius had made a start on the story board for the project proposal.
+
+Friday - Sunday
+We continued to work on the project proposal and completed on Sunday evening.
