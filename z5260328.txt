@@ -13,6 +13,4 @@ of sprints and their time blocks. I plan to get part of the proposal done such a
 
 Week 3
 
-On Tuesday, we established our novelty functions with Nguyen coming up with the idea of an integrated support System. During the process of our proposal, Nguyen and I worked on the User stories 
-and Darius and Joshua continued to work on our proposal, including the background, storyboard and other parts of the proposal. I worked on the Software Architechture of our project whilst
-elaborating on the different softwares we used. We finished our proposal on the sunday and submitted before the due date. 
+On Tuesday, we established our novelty functions with Nguyen coming up with the idea of an integrated support System and our second novelty function as the characteristic tagging system. During the process of our proposal, Nguyen and I worked on the User stories and Darius and Joshua continued to work on our proposal, including the background, storyboard and other parts of the proposal. I worked on the Software Architechture of our project whilst elaborating on the different softwares we used. We all took part on the user stories table in the proposal. I created the background description in the proposal whilst Josh completed the table of competitive systems. On the Thursday, we continued our user stories that extends into our second and third sprint. Brent started to work with us on Sunday as he did the reference.  We finished our proposal on the sunday and submitted before the due date.
