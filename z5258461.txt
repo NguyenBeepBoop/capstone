@@ -29,10 +29,51 @@ our task assignment recommender was novel but the Gantt analysis was only partia
 On Friday, Nguyen suggested a novel feature - incorporated retrospective/project review, including
 a feature to flag certain task cards for the review.
 
-On Saturday, myself, Josh, Newton and Nguyen held a small meeting to setup the github. This includes
+On Saturday, myself, Joshua, Newton and Nguyen held a small meeting to setup the github. This includes
 a dedicated diary branch. The Jira was also updated to add some cards and a proposal page.
 Diaries were added to the github on this day as well. The four of us agreed that a retrospective idea is
 good but we do not want to overcommit. Brent was still yet to be added to the group chat so he was absent.
 
 
 ========== Week 3 ==========
+Monday, Brent was added to the group chat.
+
+In the Tuesday lab, we discussed our novel features with our tutor. We agreed that the recommendation system 
+based on user/team characteristics was novel and substantial. Nguyen came up with an idea to suggested
+stackoverflow links to help a user if they are stuck on where to start. All team members were present.
+
+On Friday, I started helping with the proposal, clarifying features and issues so the team could
+write the user stories nicely. I also started looking at the required software libraries and 
+architecture to see if there would be any concerns when writing the proposal report.
+
+On Saturday, myself, Joshua, Newton and Nguyen worked on the proposal report. The others were adding user stories
+to the report as well as user types, software architecture, background research and other requirements.
+I began working on drawing user storyboards to demonstrate the UI/UX design for the created user stories.
+
+On Sunday, Brent (who was absent since Tuesday) joined the meeting and informed us of his situation. He worked
+on finalising parts of the report. Joshua, Newton and Nguyen continued with the user stories and report
+similar to Saturday. I continued to work on the storyboards. We made a few decisions to clarify some of the user stories.
+Firstly, we decided on the object hierarchy relating to tasks. The decision was to have a task group that contains
+users and task lists, which group task cards by category. Secondly, we made defintions for user types, 
+all users are classified as task masters. The owner of a task group is the group owner. Task groups can have moderators. 
+The first novel feature recommends a taskto a user using more than just the characteristic/skill tags we 
+initially visioned. It also includes past performance and relationships between task dependencies. 
+The second novel feature now includes a search for all websites and not just stackoverflow, potentially
+using APIs SerpAPI or Google Customer Search JSON API.
+
+
+========== Week 4 ==========
+On early Monday morning, Joshua helped me to annotate the user storyboards to help with readability.
+I continued to work on finalising the formatting and rewriting certain sections to add detail before
+Joshua submitted the final copy before the deadline.
+
+In the Tuesday lab, we updated the tutor with progress on the current sprint.
+
+
+
+
+
+
+
+
+
