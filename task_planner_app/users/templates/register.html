@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Create an Account{% endblock %}
+
+{% block content %}
+<body style="background-color:#33475b">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-9 mx-auto">
+        <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
+          <div class="card-body p-4 p-sm-5">
+            <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4 mt-4">Sign up</p>
+            <form method="post">
+              {% csrf_token %}
+              {{ form|crispy }}
+              <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" class="btn btn-primary btn-lg">Register</button>
+              </div>
+              <p class="text-center">
+                Have an account? <a href="">Log In</a>
+              </p>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+{% endblock content %}
