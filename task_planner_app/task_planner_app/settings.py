@@ -53,7 +53,7 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'django_filters',
-    'simple_history',
+    # 'simple_history',
     # 'django_bootstrap_breadcrumbs',
 ]
 
