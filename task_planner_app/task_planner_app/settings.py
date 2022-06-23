@@ -30,6 +30,12 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
+AUTH_USER_MODEL = "users.User"
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.AllowAllUsersModelBackend', 
+    'users.backends.CaseInsensitiveModelBackend',
+]
 
 # Application definition
 
@@ -47,12 +53,13 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'django_filters',
-    'simple_history',
+    # 'simple_history',
     # 'django_bootstrap_breadcrumbs',
 ]
 
 LOCAL_APPS = [
-    'task_planners'
+    'task_planners',
+    'users',
 ] 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -165,13 +172,18 @@ DEFAULT_MAX_NUM = 200
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
-STATIC_URL = 'static/'
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static')
+    os.path.join(BASE_DIR, 'static'),
+    os.path.join(BASE_DIR, 'media')
 ]
 
-MEDIA = '/images/'
+STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media_cdn')
+
+TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
