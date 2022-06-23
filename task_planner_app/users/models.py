@@ -40,6 +40,7 @@ def get_profile_image_path(self, filename):
 
 def get_default_profile_image():
     return 'default_image/default.png'
+    
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
@@ -69,3 +70,4 @@ class User(AbstractBaseUser):
         
     def has_module_perms(self, app_label):
         return True
+        
