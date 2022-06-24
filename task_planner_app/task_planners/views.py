@@ -1,5 +1,26 @@
 from django.shortcuts import render
+from .models import Task
+from django.views.generic.edit import CreateView
+from django.urls import reverse_lazy
+
+
 
 # Create your views here.
 def home(request):
   return render(request, 'base.html', {})
+
+def createTask(request):
+  task = Task.objects.all().values()
+  context= {'task':task}
+  return render(request, 'base.html', context)
+
+class TaskCreateView(CreateView):
+    model = Task
+    fields = ['task_name', 'task_description', 'status', 'priority']
+    template_name= 'base.html'
+    success_url=reverse_lazy("task_planners:home")
+
+    def get_context_data(self, **kwargs):
+       context= super().get_context_data(**kwargs)
+       context['task']=Task.objects.all()
+       return context
