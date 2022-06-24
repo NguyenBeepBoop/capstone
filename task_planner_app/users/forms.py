@@ -7,7 +7,6 @@ from users.models import User
 
 class RegistrationForm(UserCreationForm):
 	email = forms.EmailField(max_length=254)
-    
 	class Meta:
 		model = User
 		fields = ('email', 'username', 'password1', 'password2', )
@@ -27,3 +26,17 @@ class RegistrationForm(UserCreationForm):
 		except User.DoesNotExist:
 			return username
 		raise forms.ValidationError('"%s" is already in use.' % username)
+
+class UserAuthenticationForm(forms.ModelForm):
+	password = forms.CharField(label="Password", widget=forms.PasswordInput)
+	
+	class Meta:
+		model = User
+		fields = ('email', 'password')
+	
+	def clean(self):
+		if self.is_valid():
+			email = self.cleaned_data['email'].lower()
+			password = self.cleaned_data['password']
+			if not authenticate(email=email, password=password):
+				raise forms.ValidationError("Please enter a correct email and password.")
