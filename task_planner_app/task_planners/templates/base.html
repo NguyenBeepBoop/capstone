@@ -16,7 +16,7 @@
   {% include 'navbar.html' %}
   {% block content %}
 
-  <div>
+  <div style="height:50%">
     <form action="/tasks/" method="POST">
       {% csrf_token %}
       {{ form|crispy }}
@@ -26,9 +26,11 @@
     </form>
   </div>
   <div>
-    {% for i in task %}
-      {{i.task_name}}
-    {% endfor %}
+      {% for i in task %}
+        {{i.task_name}}
+        
+        {% if not i.deadline %}{{"None"}}{% else %}{{i.deadline}}{% endif %}
+      {% endfor %}
   </div>
 </body>
 {% endblock %}
