@@ -16,11 +16,11 @@ def createTask(request):
 
 class TaskCreateView(CreateView):
     model = Task
-    fields = ['task_name', 'task_description', 'status', 'priority']
-    template_name= 'base.html'
-    success_url=reverse_lazy("task_planners:home")
+    fields = ['task_name', 'task_description', 'deadline', 'status', 'priority']
+    template_name = 'base.html'
+    success_url = reverse_lazy("task_planners:tasks")
 
     def get_context_data(self, **kwargs):
        context= super().get_context_data(**kwargs)
-       context['task']=Task.objects.all()
+       context['task'] = Task.objects.all()
        return context

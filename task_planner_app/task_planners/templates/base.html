@@ -14,24 +14,21 @@
 
 <body>
   {% include 'navbar.html' %}
-  <div class="container-fluid">
-    {% block content %}
+  {% block content %}
 
-
-
-    
-  </div>
   <div>
-    <form method="post">
+    <form action="/tasks/" method="POST">
       {% csrf_token %}
       {{ form|crispy }}
       <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-        <button type="submit" class="btn btn-primary btn-lg">Register</button>
+        <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
       </div>
     </form>
   </div>
   <div>
-    {{task}}
+    {% for i in task %}
+      {{i.task_name}}
+    {% endfor %}
   </div>
 </body>
 {% endblock %}

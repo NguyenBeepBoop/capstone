@@ -31,9 +31,9 @@ class Task(models.Model):
     ]
 
     task_name = models.CharField(max_length=100) 
-    task_description = models.TextField(max_length=2000)
-    #date_created = models.DateTimeField(auto_now=True)
-    #deadline = models.DateTimeField()
+    task_description = models.TextField(max_length=2000, blank=True, default='')
+    date_created = models.DateTimeField(auto_now_add=True)
+    deadline = models.DateTimeField(blank=True, null=True)
     #assignee 
     status = models.CharField(
         max_length=2,
