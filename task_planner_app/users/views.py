@@ -1,32 +1,48 @@
-from django.shortcuts import render, redirect
-from django.http import HttpResponse
-from django.contrib.auth import login, authenticate
-from users.forms import RegistrationForm
+from django.shortcuts import HttpResponseRedirect, redirect, render
+from django.conf import settings
+from django.contrib.auth import login, authenticate, logout
+from django.views.generic.edit import CreateView
+from django.views.generic import View
+from django.urls import reverse_lazy
+from users.forms import RegistrationForm, UserAuthenticationForm
+from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
+class RegisterView(SuccessMessageMixin, CreateView):
+  template_name = 'register.html'
+  success_url = reverse_lazy('task_planners:login')
+  form_class = RegistrationForm
+  success_message = "Your profile was created successfully"
 
-# Create your views here.
+
+class LogoutView(SuccessMessageMixin, View):
+
+    def get(self, request):
+        logout(request)
+        messages.success(request, "Logged out successfully")
+        return HttpResponseRedirect(settings.LOGOUT_REDIRECT_URL)
 
 
-def register(request, *args, **kwargs):
-    context = {}
-    user = request.user
-    if user.is_authenticated:
-        return redirect('home')
+def LoginView(request):
+	context = {}
+	user = request.user
+	if user.is_authenticated: 
+		return redirect('task_planners:home')
 
-    if request.POST:
-        form = RegistrationForm(request.POST)
-        if form.is_valid():
-            form.save()
-            email = form.cleaned_data.get('email').lower()
-            raw_password = form.cleaned_data.get('password1')
-            account = authenticate(email=email, password=raw_password)
-            login(request, account)
-            destination = kwargs.get("next")
-            if destination:
-                return redirect(destination)
-            return redirect('home')
-        else:
-            context['form'] = form
-    else:
-        form = RegistrationForm()
-        context['form'] = form
-    return render(request, 'register.html', context)
+	if request.POST:
+		form = UserAuthenticationForm(request.POST)
+		if form.is_valid():
+			email = request.POST['email'].lower()
+			password = request.POST['password']
+			user = authenticate(request, email=email, password=password)
+
+			if user:
+				login(request, user)
+				messages.success(request, "Logged in successfully")
+				return redirect('task_planners:home')
+
+	else:
+		form = UserAuthenticationForm()
+
+	context['form'] = form
+
+	return render(request, "login.html", context)

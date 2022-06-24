@@ -5,3 +5,4 @@ lib/
 ENV/
 config/settings/.env
 .env
+db.sqlite3
