@@ -34,6 +34,7 @@ class Task(models.Model):
     task_description = models.TextField(max_length=2000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
+    task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     #assignee 
     status = models.CharField(
         max_length=2,
@@ -51,3 +52,12 @@ class Task(models.Model):
 
     def __str__(self):
         return self.task_name
+
+    class Meta:
+        ordering = ['status', '-priority', models.F('deadline').asc(nulls_last=True)]
+
+class TaskList(models.Model):
+    list_name = models.CharField(max_length=100, default="0")
+
+    def __str__(self):
+        return self.list_name
