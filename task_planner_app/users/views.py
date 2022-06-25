@@ -2,13 +2,11 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
+
 from django.shortcuts import HttpResponseRedirect, redirect, render
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
 from django.views.generic import View
-from users.forms import RegistrationForm, UserAuthenticationForm
-from .models import User
+from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
+from django.contrib.auth.forms import UserChangeForm 
 
 def RegisterView(request, *args, **kwargs):
     user = request.user
@@ -70,13 +68,19 @@ def LoginView(request):
 
     return render(request, "login.html", context)
 
-def UserProfileView(request):
-    context = {}
-    my_profile = None
-    user = request.user
-    if user.is_authenticated:
-        username = request.user.username
-
-    context['username'] = username
-
+def ProfileView(request):
+    context = {'user': request.user}
     return render(request, 'profile_view.html', context)
+
+def EditProfileView(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile_view')
+        
+    else:
+        form = EditProfileForm(instance=request.user)
+        context = {'form': form}
+        return render(request, 'edit_profile.html', context)
