@@ -2,19 +2,40 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
+from django.http import HttpResponse
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView
 from django.views.generic import View
 from users.forms import RegistrationForm, UserAuthenticationForm
+from .models import User
 
+def RegisterView(request, *args, **kwargs):
+    user = request.user
+    if user.is_authenticated:
+        messages.success(request, "You are already authenticated as " + str(user.email))
+        return redirect('task_planners:home')
 
-class RegisterView(SuccessMessageMixin, CreateView):
-    template_name = 'register.html'
-    success_url = reverse_lazy('task_planners:login')
-    form_class = RegistrationForm
-    success_message = "Your profile was created successfully"
+    context = {}
+    if request.POST:
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            form.save()
+            email = form.cleaned_data.get('email').lower()
+            password = form.cleaned_data.get('password1')
+            user = authenticate(email=email, password=password)
+            login(request, user)
+            destination = kwargs.get("next")
+            if destination:
+                return redirect(destination)
+            return redirect('home')
+        else:
+            context['form'] = form
 
+    else:
+        form = RegistrationForm()
+        context['form'] = form
+    return render(request, 'register.html', context)
 
 class LogoutView(SuccessMessageMixin, View):
 
@@ -48,3 +69,14 @@ def LoginView(request):
     context['form'] = form
 
     return render(request, "login.html", context)
+
+def UserProfileView(request):
+    context = {}
+    my_profile = None
+    user = request.user
+    if user.is_authenticated:
+        username = request.user.username
+
+    context['username'] = username
+
+    return render(request, 'profile_view.html', context)
