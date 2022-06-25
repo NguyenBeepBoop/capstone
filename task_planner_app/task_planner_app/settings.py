@@ -14,8 +14,6 @@ import os
 from pathlib import Path
 from django.contrib.messages import constants as messages
 
-import task_planners
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -59,8 +57,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'task_planners',
     'users',
+    'tasks',
 ] 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS

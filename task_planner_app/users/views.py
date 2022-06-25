@@ -2,19 +2,16 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
 from django.shortcuts import HttpResponseRedirect, redirect, render
-from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView
 from django.views.generic import View
 from users.forms import RegistrationForm, UserAuthenticationForm
-from .models import User
+from django.contrib.auth.decorators import login_required
 
 def RegisterView(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
         messages.success(request, "You are already authenticated as " + str(user.email))
-        return redirect('task_planners:home')
+        return redirect('tasks:tasks')
 
     context = {}
     if request.POST:
@@ -28,7 +25,7 @@ def RegisterView(request, *args, **kwargs):
             destination = kwargs.get("next")
             if destination:
                 return redirect(destination)
-            return redirect('home')
+            return redirect('tasks:tasks')
         else:
             context['form'] = form
 
@@ -49,7 +46,7 @@ def LoginView(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-        return redirect('task_planners:home')
+        return redirect('tasks:tasks')
 
     if request.POST:
         form = UserAuthenticationForm(request.POST)
@@ -61,7 +58,7 @@ def LoginView(request):
             if user:
                 login(request, user)
                 messages.success(request, "Logged in successfully")
-                return redirect('task_planners:home')
+                return redirect('tasks:tasks')
 
     else:
         form = UserAuthenticationForm()
@@ -70,6 +67,7 @@ def LoginView(request):
 
     return render(request, "login.html", context)
 
+@login_required
 def UserProfileView(request):
     context = {}
     my_profile = None
