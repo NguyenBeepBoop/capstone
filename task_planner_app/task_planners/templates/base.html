@@ -16,21 +16,30 @@
   {% include 'navbar.html' %}
   {% block content %}
 
-  <div style="height:50%">
-    <form action="/tasks/" method="POST">
-      {% csrf_token %}
-      {{ form|crispy }}
-      <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-        <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
-      </div>
-    </form>
-  </div>
-  <div>
-      {% for i in task %}
+  <div class='container'>
+    <div class="row">
+      <div class="col-lg-6">
+        <div>
+          {% for i in task %}
+        <div>
         {{i.task_name}}
-        
+
         {% if not i.deadline %}{{"None"}}{% else %}{{i.deadline}}{% endif %}
+        </div>
       {% endfor %}
+      </div>
+      </div>
+      <div class="col-lg-6">
+        <form action="/tasks/" method="POST">
+          {% csrf_token %}
+          {{ form|crispy }}
+          <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
   </div>
 </body>
 {% endblock %}
