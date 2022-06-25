@@ -8,39 +8,14 @@
   <title>3.5 Planner</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}"
+  <link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
 
 </head>
 
+{% include 'navbar.html' %}
 <body>
-  {% include 'navbar.html' %}
-  {% block content %}
-
-  <div class='container'>
-    <div class="row">
-      <div class="col-lg-6">
-        {{context}}
-        {% for i in tasks %}
-            <div class="task-border">
-                <div class="my-2 mx-3">
-                    {{i.task_name}}
-                    {% if not i.deadline %}{{""}}{% else %}{{i.deadline}}{% endif %}
-                </div>
-            </div>
-        {% endfor %}
-      </div>
-      <div class="col-lg-6">
-        <form action="/tasks/" method="POST">
-          {% csrf_token %}
-          {{ form|crispy }}
-          <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  {% endblock %}
+{% block content %}
+{% endblock %}
 </body>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"

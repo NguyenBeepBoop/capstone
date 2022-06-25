@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Task, TaskList
+from .forms import TaskForm
 from django.views.generic.edit import CreateView
 from django.urls import reverse_lazy
 
@@ -9,16 +10,16 @@ from django.urls import reverse_lazy
 def home(request):
     return render(request, 'base.html', {})
 
-def createTask(request):
+"""def createTask(request):
     task = Task.objects.all().values()
     context= {'task':task}
-    return render(request, 'base.html', context)
+    return render(request, 'tasks_template.html', context)"""
 
 class TaskCreateView(CreateView):
     model = Task
-    fields = ['task_name', 'task_description', 'deadline', 'status', 'priority']
-    template_name = 'base.html'
-    success_url = reverse_lazy("task_planners:tasks")
+    form_class = TaskForm
+    template_name = 'tasks_template.html'
+    success_url = reverse_lazy("tasks:tasks")
 
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -28,8 +29,8 @@ class TaskCreateView(CreateView):
 class TaskListCreateView(CreateView):
     model = TaskList
     fields = ['list_name']
-    template_name = "base.html"
-    success_url = reverse_lazy("task_planners:tasks")
+    template_name = "tasks_template.html"
+    success_url = reverse_lazy("tasks:tasks")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -37,3 +38,5 @@ class TaskListCreateView(CreateView):
         context['context'] = context
         context['task_list'] = TaskList.objects.all()
         return context
+
+# Create your views here.

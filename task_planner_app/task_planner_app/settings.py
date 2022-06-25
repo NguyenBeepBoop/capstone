@@ -58,8 +58,8 @@ THIRD_PARTY_APPS = [
 ]
 
 LOCAL_APPS = [
-    'task_planners.apps.TaskPlannersConfig',
     'users',
+    'tasks',
 ] 
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
