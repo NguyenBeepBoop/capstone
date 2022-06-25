@@ -16,3 +16,10 @@ Week 3
 Tuesday lab was spent deciding on the user stories to cover the project objectives. From this we created approximately 30 user stories.
 
 From Thursday to Sunday, we were finalising the proposal for submission, with most of the focus aimed at ensuring the user stories and storyboards were well addressed. The proposal was then promptly submitted.
+
+Week 4
+We spent Tuesday lab allocating the tasks for sprint one, we already had the environment and home page readily available for use. Nguyen and Newton will be working on all cards regarding users, including registering, logging on and off and reseting private details. Meanwhile, Darius and I will be working on task related features.
+
+Thursday, we created a basic task creation model with fields including [name, description, deadline, priority and status]. It also returned the name of the task, and deadlines. We will attempt to create a working frontend for this by Saturday and hopefully complete a task list and group view as well.
+
+
