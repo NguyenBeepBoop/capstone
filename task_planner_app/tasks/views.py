@@ -7,14 +7,6 @@ from django.urls import reverse_lazy
 
 
 # Create your views here.
-def home(request):
-    return render(request, 'base.html', {})
-
-"""def createTask(request):
-    task = Task.objects.all().values()
-    context= {'task':task}
-    return render(request, 'tasks_template.html', context)"""
-
 class TaskCreateView(CreateView):
     model = Task
     form_class = TaskForm
