@@ -14,19 +14,22 @@
       <li class="nav-item">
         <a class="nav-link" href="#">Dashboard</a>
       </li>
+      <li class="nav-item">
+        <a class="nav-link" href="{% url 'profile_view' %}">Profile</a>
+      </li>
     </ul>
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'task_planners:logout' %}">Logout</a>
+        <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </li>
     </ul>
     {% else %}
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'task_planners:login' %}">Login</a>
+        <a class="nav-link" href="{% url 'login' %}">Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="{% url 'task_planners:register' %}">Sign up</a>
+        <a class="nav-link" href="{% url 'register' %}">Sign up</a>
       </li>
     </ul>
     {% endif %}

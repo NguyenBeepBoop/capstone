@@ -200,7 +200,6 @@ EMAIL_HOST_PASSWORD = 'bimjdvlydmofcxwk'
 EMAIL_USE_TLS = True 
 
 
-
 LOGOUT_REDIRECT_URL = '../login'
 
 MESSAGE_TAGS = {
