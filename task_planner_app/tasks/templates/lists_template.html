@@ -10,10 +10,11 @@
       <div class="row">
         <div class="col-lg-6">
           {% for i in task_lists %}
-            <a class='text-decoration-none text-dark' href="{% url 'tasks:tasks' %}">
+            <a class='text-decoration-none text-dark' href="{% url 'tasks:display' i.id%}">
                 <div class="task-border">
                     <div class="my-2 mx-3">
                         {{i.list_name}}
+                        {{i.id}}
                     </div>
                 </div>
             </a>

@@ -6,5 +6,5 @@ app_name='tasks'
 urlpatterns = [
     path('tasks/', login_required(views.TaskCreateView.as_view()), name="tasks"),
     path('lists/', login_required(views.TaskListCreateView.as_view()), name='lists'),
-    re_path('tasks/(?P<pk>\d+)/', login_required(views.TaskListCreateView.as_view()), name="tasks")
+    path('disp/(?P<pk>\d+)', login_required(views.TaskListDisplView.as_view()), name="display")
 ]

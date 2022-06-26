@@ -48,8 +48,6 @@ class Task(models.Model):
         default=LOWEST,
     )
 
-    
-
     def __str__(self):
         return self.task_name
 
@@ -58,6 +56,13 @@ class Task(models.Model):
 
 class TaskList(models.Model):
     list_name = models.CharField(max_length=100)
+    list_group = models.ForeignKey("TaskGroup", on_delete=models.CASCADE, null=True, default='')
+
+    def __str__(self):
+        return self.list_name
+
+class TaskGroup(models.Model):
+    group_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.list_name

@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Create Task List{% endblock %}
+
+{% block content %}
+<body>
+    <div class='container my-2'>
+      <div class="row">
+        <div class="col-lg-6">
+          {% for i in tasks %}
+                <div class="task-border">
+                    <div class="my-2 mx-3">
+                        {{i.task_name}}
+                    </div>
+                </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+</body>
+{% endblock %}
