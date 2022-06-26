@@ -57,7 +57,7 @@ class Task(models.Model):
         ordering = ['status', '-priority', models.F('deadline').asc(nulls_last=True)]
 
 class TaskList(models.Model):
-    list_name = models.CharField(max_length=100, default="0")
+    list_name = models.CharField(max_length=100)
 
     def __str__(self):
         return self.list_name
