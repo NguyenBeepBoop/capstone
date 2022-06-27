@@ -4,24 +4,19 @@ from django.conf import settings
 # Create your models here.
 
 
-TO_DO = 'S1'
-IN_PROG = 'S2'
-REVIEW = 'S3'
-COMPLETE = 'S4'
-
 STATUS_CHOICES = [
-    (TO_DO, 'To do'),
-    (IN_PROG, 'In progress'),
-    (REVIEW, 'Review'),
-    (COMPLETE, 'Complete')
+    ('To do', 'To do'),
+    ('In progress', 'In progress'),
+    ('Review', 'Review'),
+    ('Complete', 'Complete')
 ]
 
 PRIORITY_CHOICES = [
-    ('LOWEST', 'Lowest'),
-    ('LOW', 'Low'),
-    ('MEDIUM', 'Medium'),
-    ('HIGH', 'High'),
-    ('HIGHEST', 'Highest')
+    ('Lowest', 'Lowest'),
+    ('Low', 'Low'),
+    ('Medium', 'Medium'),
+    ('High', 'High'),
+    ('Highest', 'Highest')
 ]
 class Task(models.Model):
     name = models.CharField(max_length=100) 
@@ -31,15 +26,15 @@ class Task(models.Model):
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
     status = models.CharField(
-        max_length=8,
+        max_length=15,
         choices=STATUS_CHOICES,
-        default='TO_DO',
+        default='To do',
     )
 
     priority = models.CharField(
         max_length=8,
         choices=PRIORITY_CHOICES,
-        default='LOWEST',
+        default='Lowest',
     )
 
     def __str__(self):
