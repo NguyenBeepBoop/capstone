@@ -9,7 +9,11 @@ class RegistrationForm(UserCreationForm):
 	email = forms.EmailField(max_length=254)
 	class Meta:
 		model = User
-		fields = ('email', 'username','first_name', 'last_name', 'password1', 'password2', )
+		fields = ('email', 'username','first_name', 'last_name', 'date_of_birth', 'password1', 'password2', )
+    
+		widgets = {
+        'date_of_birth': forms.DateInput(attrs={'type':'date'})
+    	}
 
 	def clean_email(self):
 		email = self.cleaned_data['email'].lower()
@@ -44,12 +48,17 @@ class UserAuthenticationForm(forms.ModelForm):
 class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
+	
 	class Meta:
+		widgets = {
+        'date_of_birth': forms.DateInput(attrs={'type':'date'})
+    	}
 		model = User 
 		fields = [
 			'first_name',
 			'last_name',
 			'username',
 			'email',
+			'date_of_birth',
 			'profile_image',
 		]
