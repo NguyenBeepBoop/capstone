@@ -6,13 +6,13 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
 from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
-from django.contrib.auth.forms import UserChangeForm 
+from django.contrib.auth.decorators import login_required
 
 def RegisterView(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
         messages.success(request, "You are already authenticated as " + str(user.email))
-        return redirect('task_planners:home')
+        return redirect('tasks:tasks')
 
     context = {}
     if request.POST:
@@ -26,7 +26,7 @@ def RegisterView(request, *args, **kwargs):
             destination = kwargs.get("next")
             if destination:
                 return redirect(destination)
-            return redirect('home')
+            return redirect('tasks:tasks')
         else:
             context['form'] = form
 
@@ -47,7 +47,7 @@ def LoginView(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-        return redirect('task_planners:home')
+        return redirect('tasks:tasks')
 
     if request.POST:
         form = UserAuthenticationForm(request.POST)
@@ -59,7 +59,7 @@ def LoginView(request):
             if user:
                 login(request, user)
                 messages.success(request, "Logged in successfully")
-                return redirect('task_planners:home')
+                return redirect('tasks:tasks')
 
     else:
         form = UserAuthenticationForm()
@@ -68,10 +68,12 @@ def LoginView(request):
 
     return render(request, "login.html", context)
 
+@login_required
 def ProfileView(request):
     context = {'user': request.user}
     return render(request, 'profile_view.html', context)
 
+@login_required
 def EditProfileView(request):
     if request.method == 'POST':
         form = EditProfileForm(request.POST, instance=request.user)
