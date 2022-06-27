@@ -21,14 +21,36 @@ class TaskCreateView(CreateView):
 class TaskListCreateView(CreateView):
     model = TaskList
     fields = ['list_name']
-    template_name = "tasks_template.html"
-    success_url = reverse_lazy("tasks:tasks")
+    template_name = "lists_template.html"
+    success_url = reverse_lazy("tasks:lists")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        #context['tasks'] = self.get_object().task_set.all()
+        context['task_lists'] = TaskList.objects.all()
+        return context
+
+class TaskListDisplView(CreateView):
+    model = TaskList
+    fields = ['list_name']
+    template_name = "task_list.html"
+    success_url = reverse_lazy("tasks:lists")
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['tasks'] = self.get_object().task_set.all()
-        context['context'] = context
-        context['task_list'] = TaskList.objects.all()
+        return context
+
+class TaskGroupCreateView(CreateView):
+    model = TaskList
+    fields = ['list_name']
+    template_name = "lists_template.html"
+    success_url = reverse_lazy("tasks:lists")
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        #context['tasks'] = self.get_object().task_set.all()
+        context['task_lists'] = TaskList.objects.all()
         return context
 
 # Create your views here.
