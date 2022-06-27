@@ -6,3 +6,4 @@ ENV/
 config/settings/.env
 .env
 db.sqlite3
+media/profile_images

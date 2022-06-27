@@ -4,7 +4,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
-from users.forms import RegistrationForm, UserAuthenticationForm
+from .models import User
+from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
 from django.contrib.auth.decorators import login_required
 
 def RegisterView(request, *args, **kwargs):
@@ -68,13 +69,22 @@ def LoginView(request):
     return render(request, "login.html", context)
 
 @login_required
-def UserProfileView(request):
-    context = {}
-    my_profile = None
-    user = request.user
-    if user.is_authenticated:
-        username = request.user.username
-
-    context['username'] = username
-
+def ProfileView(request):
+    context = {'user': request.user}
     return render(request, 'profile_view.html', context)
+
+@login_required
+def EditProfileView(request):
+    user = User.objects.get(pk=request.user.pk)
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST,request.FILES, instance=request.user)
+
+        if form.is_valid():
+            user.profile_image.delete()
+            form.save()
+            return redirect('profile_view')
+        
+    else:
+        form = EditProfileForm(instance=request.user)
+        context = {'form': form}
+        return render(request, 'edit_profile.html', context)
