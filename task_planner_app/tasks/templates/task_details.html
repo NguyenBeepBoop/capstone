@@ -6,12 +6,18 @@
 
 {% block content %}
 
-    <h3>Name:{{object.name}}</h3>
-    <p>Description<br>{{object.description}}</p>
-    <p>Deadline<br>{{object.deadline}}</p>
-    <p>Status<br>{{object.status}}</p>
-    <p>Priority<br>{{object.priority}}</p>
-    
+<body>
+    <div class="container">
+        <h3>{{object.name}}</h3>
+        <p><b>Description</b> <br>{{object.description}}</p>
+        <p><b>Deadline</b> <br>{{object.deadline}}</p>
+        <p><b>Status</b> <br>{{object.status}}</p>
+        <p><b>Priority</b> <br>{{object.priority}}</p>
+    </div>
+    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+        <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
+    </div>
+</body>
 
 {% endblock %}
 
