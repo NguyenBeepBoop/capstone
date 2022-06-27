@@ -1,3 +1,4 @@
+from users.views import LoginView
 from django.urls import path, re_path
 from django.contrib.auth.decorators import login_required
 from tasks.views import *
@@ -11,6 +12,7 @@ urlpatterns = [
     re_path('lists/(?P<pk>\d+)$', TaskDisplView, name="lists_list"),
     path('groups/', login_required(TaskGroupCreateView.as_view()), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListDisplView, name="group_list"),
+    path('', LoginView, name="home"),
 ]
 
 
