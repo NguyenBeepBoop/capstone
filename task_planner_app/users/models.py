@@ -36,7 +36,7 @@ class UserManager(BaseUserManager):
 
 
 def get_profile_image_path(self, filename):
-    return f'profile_images/{self.pk}/{"profile_image.png"}'
+    return f'profile_images/{self.pk}/{"defa.png"}'
 
 def get_default_profile_image():
     return 'default_image/default.png'
@@ -44,6 +44,8 @@ def get_default_profile_image():
 class User(AbstractBaseUser):
     email = models.EmailField(verbose_name="email", max_length=60, unique=True)
     username = models.CharField(max_length=30, unique=True)
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
     date_joined = models.DateTimeField(verbose_name="date joined", auto_now_add=True)
     last_login = models.DateTimeField(verbose_name="last login", auto_now=True)
     is_admin = models.BooleanField(default=False)
@@ -57,7 +59,7 @@ class User(AbstractBaseUser):
     objects = UserManager()
     
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username']
+    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
     def __str__(self):
         return self.username

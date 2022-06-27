@@ -2,22 +2,31 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Create an Account{% endblock %}
+{% block head %}
+<title>Profile</title>
+{% endblock %}
 
-{% block content %}
-<body style="background-color:#33475b">
-  <div class="container">
+{% block content%}
+<div class="container">
+    <h1>Profile</h1>
     <div class="row">
-      <div class="col-lg-10 col-xl-9 mx-auto">
-        <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
-          <div class="card-body p-4 p-sm-5 ">
-            {% for profiles in profile %} 
-                <li> {{profiles}}</li>
-            {% endfor %}
-          </div>
-        </div>
+      <div class="col-lg-9">
+        {% if user.profile_image %}
+        <img style="border-radius: 50%" src="{{ user.profile_image.url}}" width="255">
+        {% endif %}
+      </div>
+      <div class="col-lg-3">
+        <p>
+          <a class='justify-content-right btn btn-secondary' href="{% url 'edit_profile' %}">Edit Profile</a>
+        </p>
       </div>
     </div>
-  </div>
-</body>
+    <p>Username: {{ user }}</p>
+    <p>First name: {{ user.first_name }}</p>
+    <p>Last name: {{ user.last_name }}</p>
+    <div>                     
+      <i class="fa-solid fa-envelope"></i>                     
+      <span>Email: {{ user.email }}</span>                 
+    </div>
+</div>
 {% endblock content %}
