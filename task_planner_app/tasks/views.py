@@ -74,45 +74,16 @@ class TaskDetailView(DetailView):
     model = Task
     fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
     template_name = "task_details.html"
-    
-    def get_context_data(self, **kwargs):
-        context= super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.all()
-        return context
-
-'''    def task_copy(request, id):
-    new_task = get_object_or_404(Task, pk = id)
-    new_task.pk = None
-    new_task.name = "Copy of" + new_task.name
-
-    form = TaskForm(request.POST or None, instance = new_task)
-
-    context = {
-        "form": form
-    }
-    return render(request, "tasks_template.html", context)
-
-
-    class TaskDetailView(DetailView):
-    model = Task
-    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
-    template_name = "task_details.html"
     success_url = reverse_lazy("tasks:tasks")
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
         context['tasks'] = Task.objects.all()
         return context
-
-    def post(self, request, pk):
-        old_task = Task.objects.get(id=pk)
-        new_task = Task(name="Copy of" + old_task.name, 
-        description=old_task.description, 
-        deadline=old_task.deadline, 
-        status=old_task.status, 
-        priority=old_task.priority, 
-        TaskList=old_task.task_list, 
-        assignee=old_task.assignee)
-        new_task.save()
-
-        return redirect(self.success_url)'''
+    
+    def post(self, *args, **kwargs):
+        obj = self.get_object()
+        obj.name = "Copy of " + obj.name
+        obj.pk = None
+        obj.save()
+        return redirect(self.success_url)
