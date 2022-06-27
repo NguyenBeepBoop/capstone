@@ -9,17 +9,24 @@
 {% block content%}
 <div class="container">
     <h1>Profile</h1>
-    <p class="text-right">
-      <a href="{% url 'edit_profile' %}">Change Details here</a>
-    </p>
+    <div class="row">
+      <div class="col-lg-9">
+        {% if user.profile_image %}
+        <img style="border-radius: 50%" src="{{ user.profile_image.url}}" width="255">
+        {% endif %}
+      </div>
+      <div class="col-lg-3">
+        <p>
+          <a class='justify-content-right btn btn-secondary' href="{% url 'edit_profile' %}">Edit Profile</a>
+        </p>
+      </div>
+    </div>
     <p>Username: {{ user }}</p>
     <p>First name: {{ user.first_name }}</p>
     <p>Last name: {{ user.last_name }}</p>
-    <p>Email: {{ user.email }}</p>
-    <p class="text-center">
-    </p>
-    {% if user.userprofile.image %}
-    <img src="{{ user.userprofile.image.url }}" width="240">
-    {% endif %}
+    <div>                     
+      <i class="fa-solid fa-envelope"></i>                     
+      <span>Email: {{ user.email }}</span>                 
+    </div>
 </div>
 {% endblock content %}

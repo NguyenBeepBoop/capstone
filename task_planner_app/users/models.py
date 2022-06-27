@@ -36,7 +36,7 @@ class UserManager(BaseUserManager):
 
 
 def get_profile_image_path(self, filename):
-    return f'profile_images/{self.pk}/{"profile_image.png"}'
+    return f'profile_images/{self.pk}/{"defa.png"}'
 
 def get_default_profile_image():
     return 'default_image/default.png'

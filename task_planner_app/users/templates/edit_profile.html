@@ -12,10 +12,17 @@
         <div class="card flex-row my-5 border-0 shadow rounded-3 overflow-hidden">
           <div class="card-body p-4 p-sm-5 ">
             <div class="container">
-                <form method="post">
+                <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
                     {{ form|crispy }}
-                    <button type="submit" class="btn btn-primary btn-lg">Save changes</button>
+                    <div class="row">
+                      <div class="col">
+                        <button type="submit" class="btn btn-primary btn-lg">Save changes</button>
+                      </div>
+                      <div class="col">
+                        <a class ="float-right" href="{{request.META.HTTP_REFERER}}">Back to profile</a>
+                      </div>
+                    </div>
                 </form>
                 <br>
             </div>

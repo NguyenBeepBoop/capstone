@@ -2,9 +2,9 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
-
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
+from .models import User
 from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
 from django.contrib.auth.decorators import login_required
 
@@ -75,10 +75,12 @@ def ProfileView(request):
 
 @login_required
 def EditProfileView(request):
+    user = User.objects.get(pk=request.user.pk)
     if request.method == 'POST':
-        form = EditProfileForm(request.POST, instance=request.user)
+        form = EditProfileForm(request.POST,request.FILES, instance=request.user)
 
         if form.is_valid():
+            user.profile_image.delete()
             form.save()
             return redirect('profile_view')
         

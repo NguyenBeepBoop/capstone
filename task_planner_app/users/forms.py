@@ -46,7 +46,10 @@ class EditProfileForm(UserChangeForm):
 	username = forms.CharField(max_length=100)
 	class Meta:
 		model = User 
-		fields = {
+		fields = [
+			'first_name',
+			'last_name',
 			'username',
 			'email',
-		}
+			'profile_image',
+		]
