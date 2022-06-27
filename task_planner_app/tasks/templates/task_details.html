@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Create Task List{% endblock %}
+
+{% block content %}
+
+    <h3>Name:{{object.name}}</h3>
+    <p>Description<br>{{object.description}}</p>
+    <p>Deadline<br>{{object.deadline}}</p>
+    <p>Status<br>{{object.status}}</p>
+    <p>Priority<br>{{object.priority}}</p>
+    
+
+{% endblock %}
+
