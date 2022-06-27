@@ -9,7 +9,7 @@ class RegistrationForm(UserCreationForm):
 	email = forms.EmailField(max_length=254)
 	class Meta:
 		model = User
-		fields = ('email', 'username', 'password1', 'password2', )
+		fields = ('email', 'username','first_name', 'last_name', 'password1', 'password2', )
 
 	def clean_email(self):
 		email = self.cleaned_data['email'].lower()
@@ -42,7 +42,8 @@ class UserAuthenticationForm(forms.ModelForm):
 				raise forms.ValidationError("Please enter a correct email and password.")
 
 class EditProfileForm(UserChangeForm):
-
+	password = None
+	username = forms.CharField(max_length=100)
 	class Meta:
 		model = User 
 		fields = {

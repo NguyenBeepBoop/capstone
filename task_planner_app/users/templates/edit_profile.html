@@ -14,8 +14,8 @@
             <div class="container">
                 <form method="post">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <button type="submit">Save changes</button>
+                    {{ form|crispy }}
+                    <button type="submit" class="btn btn-primary btn-lg">Save changes</button>
                 </form>
                 <br>
             </div>
