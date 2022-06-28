@@ -52,8 +52,12 @@ finish the register view.
 Thursday
 Had our team standup to check up on how everyone was progressing, finished off my login and logout
 views so that my team members could begin testing their views with logged in and logged out 
-permissions. 
+permissions. Some issues I came accross was that users could register and log in views when they were
+already logged in and vice versa. Had a discussion with the team to ensure that this problem was 
+rectified across all of our views.
 
 Friday - Monday
 Had eam standups since I was already done with my cards I was there to assist any of my team members
-in the event that their workload got too heavy.
+in the event that their workload got too heavy. We were all pretty bad at front end development
+so our views are very basic for now and we plan to integrate react into our app at a later stage
+(the upcoming sprint).
