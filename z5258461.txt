@@ -67,8 +67,30 @@ On early Monday morning, Joshua helped me to annotate the user storyboards to he
 I continued to work on finalising the formatting and rewriting certain sections to add detail before
 Joshua submitted the final copy before the deadline.
 
-In the Tuesday lab, we updated the tutor with progress on the current sprint.
+In the Tuesday lab, we updated the tutor with progress on the current sprint. We decided on who would
+be assigned to each user story, which was mostly evenly split excluding Brent. I attempted to setup
+my environment but could not finalise the process due to Python compatibility with certain packages.
 
+On Thursday, I finalised the environment setup process and began working on my assigned user stories
+with Joshua, who was doing similar user stories. We worked on the database models as well as connecting
+to the frontend views. Nguyen, who had more experience with Django, helped with debugging.
+
+On Friday, I continued developing my assigned user stories for tasks with Joshua. One issue that arose
+was that the UI/UX drafted in the user storyboards from the proposal required jQuery in order to
+sen http requests without refreshing the page. For this sprint we decided to make a url and view for every
+UI element, i.e. task creation, list creation, etc. 
+
+On Saturday, the first working prototype was pushed to the repo. I did not do much work today but the 
+rest of the group, except Brent, continued to work on improving the user and task stories. The group
+managed to resolve some UI and backend issues, most notably Google's email restrictions that was solved by
+Newton and Nguyen. Joshua and I, managed to fix some css styling issues that arose with Bootstrap's
+auto-css for the Django crispy forms.
+
+On Sunday, the team made final changes and testing to the overall Ui/UX experience, including the ability
+to view task details and specific lists and groups based on their primary key. Accessing, models based
+on their primary key took up some time, but Nguyen was able to resolve that issue. Newton worked on creating 
+user profile editing, which had an issue on image uploading, which was resolved by the rest of the team.
+All bugs found during the testing process was fixed.
 
 
 
