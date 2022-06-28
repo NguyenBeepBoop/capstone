@@ -41,3 +41,19 @@ document. Darius had made a start on the story board for the project proposal.
 
 Friday - Sunday
 We continued to work on the project proposal and completed on Sunday evening.
+
+Week 4
+
+Tuesday
+I made a start in setting up the users app for the project created the models for the Users that are 
+going to be in the system. Started working on the sign up and login views for the app, managed to 
+finish the register view. 
+
+Thursday
+Had our team standup to check up on how everyone was progressing, finished off my login and logout
+views so that my team members could begin testing their views with logged in and logged out 
+permissions. 
+
+Friday - Monday
+Had eam standups since I was already done with my cards I was there to assist any of my team members
+in the event that their workload got too heavy.
