@@ -41,6 +41,15 @@ def TaskListDisplView(request, pk):
     return render(request, template, context)
     
 @login_required
+def MembersListView(request, pk):
+    template = "task_list.html"
+    tasklists = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+    context = {
+        "tasklists": tasklists
+    }
+    return render(request, template, context)
+    
+@login_required
 def TaskDisplView(request, pk):
     template = "task_list.html"
     tasklists = TaskList.objects.get(pk=pk).task_set.all()

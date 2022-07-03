@@ -18,6 +18,16 @@ PRIORITY_CHOICES = [
     ('High', 'High'),
     ('Highest', 'Highest')
 ]
+
+MEM_STATUS_CHOICES = [
+    ('Active', 'Active'),
+    ('Pending', 'Pending'),
+]
+
+ROLE_CHOICES = [
+    ('Moderator', 'Moderator'),
+    ('Member', 'Member'),
+]
 class Task(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField(max_length=2000, blank=True, default='')
@@ -57,6 +67,16 @@ class TaskGroup(models.Model):
     description = models.TextField(max_length=2000, null=True, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, 
                         on_delete=models.SET_NULL, null=True, blank=True)
+    members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership', related_name='groups')
     def __str__(self):
         return self.name
 
+class Membership(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, 
+                        on_delete=models.CASCADE)
+    group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE)
+    role = models.CharField(max_length=15, choices=ROLE_CHOICES, default='Member')
+    status = models.CharField(max_length=15, choices=MEM_STATUS_CHOICES, default='Pending')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    

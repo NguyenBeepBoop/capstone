@@ -12,6 +12,7 @@ urlpatterns = [
     re_path('lists/(?P<pk>\d+)$', TaskDisplView, name="lists_list"),
     path('groups/', login_required(TaskGroupCreateView.as_view()), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListDisplView, name="group_list"),
+    re_path('group_members/(?P<pk>\d+)$', MembersListView, name="members_list"),
     path('', LoginView, name="home"),
 ]
 
