@@ -13,6 +13,7 @@ urlpatterns = [
     re_path('lists/(?P<pk>\d+)$', TaskDisplView, name="lists_list"),
     path('groups/', login_required(TaskGroupCreateView.as_view()), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListDisplView, name="group_list"),
+    re_path('groups_notify/(?P<pk>\d+)$', TaskGroupNotify, name="group_notify"),
     re_path('group_members/(?P<pk>\d+)$', MembersListView, name="members_list"),
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
 ]
