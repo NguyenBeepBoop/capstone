@@ -1,0 +1,22 @@
+{% load static %}
+
+<div class="dropdown">
+	<span class="badge bg-primary notification-badge fa-regular fa-bell" onclick="showNotifications()"> {%if notifications %} {{ notifications.count }}{% endif %}</span>
+	<div class="dropdown-content d-none" id="notification-container">
+		{% for notification in notifications %}
+			{% if notification.notification_type == 1 %}
+				<div class="dropdown-item-parent">
+					<a href="">@{{ notification.group }} has a new updates</a>
+					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
+				</div>
+			{% elif notification.notification_type == 2 %}
+				<div class="dropdown-item-parent">
+					<a href="">@{{ notification.sender }} sent you a connection request</a>
+					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
+				</div>
+			{% endif %}
+		{% endfor %}
+	</div>
+</div>
+
+<script type="text/javascript" src="{% static 'js/show_notifications.js' %}"></script>

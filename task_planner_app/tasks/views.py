@@ -1,9 +1,11 @@
-from django.shortcuts import get_object_or_404, render
-from .models import Task, TaskList, TaskGroup
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.views import View
+from .models import Notification, Task, TaskList, TaskGroup
 from .forms import TaskForm, TaskListForm
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
-from django.urls import is_valid_path, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect
 
@@ -78,7 +80,6 @@ class TaskGroupCreateView(CreateView):
         return redirect(self.success_url)
 
 
-# Create your views here.
 class TaskDetailView(DetailView):
     model = Task
     fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
@@ -96,3 +97,12 @@ class TaskDetailView(DetailView):
         obj.pk = None
         obj.save()
         return redirect(self.success_url)
+        
+class RemoveNotification(View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+
+        notification.seen = True
+        notification.save()
+
+        return HttpResponse('Success', content_type='text/plain')
