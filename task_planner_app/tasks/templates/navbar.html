@@ -1,5 +1,5 @@
 {% load static %}
-
+{% load custom_tags %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <img src="{% static 'images/logo.png' %}" height="50">
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav">
@@ -25,6 +25,9 @@
       </li>
     </ul>
     <ul class="navbar-nav ml-auto">
+      <li class="nav-item">
+        {% show_notifications %}
+      </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'logout' %}">Logout</a>
       </li>

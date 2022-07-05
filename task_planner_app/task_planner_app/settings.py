@@ -95,7 +95,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'task_planner_app.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
@@ -206,4 +205,4 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert-success',
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
- }
+}
