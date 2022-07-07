@@ -5,6 +5,13 @@
 {% block title %}Create Tasks{% endblock %}
 
 {% block content %}
+
+<form method="GET">
+    {% csrf_token %}
+    {{ myFilter.form|crispy }}
+    <button type="submit" class="btn btn-primary"> Test</button>
+</form>
+
 <body>
     <div class='container my-2'>
       <div class="row">

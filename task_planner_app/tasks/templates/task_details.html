@@ -7,16 +7,18 @@
 {% block content %}
 
 <body>
-    <div class="container">
+    <!--<div class="container">
         <h3>{{object.name}}</h3>
         <p><b>Description</b> <br>{{object.description}}</p>
         <p><b>Deadline</b> <br>{{object.deadline}}</p>
         <p><b>Status</b> <br>{{object.status}}</p>
         <p><b>Priority</b> <br>{{object.priority}}</p>
         <p><b>Assignee</b> <br>{{object.assignee}}</p>
-    </div>
+    </div>-->
+
     <form method="POST">
         {% csrf_token %}
+        {{ form.as_p }}
         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
             <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
         </div>

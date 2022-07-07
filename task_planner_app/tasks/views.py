@@ -1,16 +1,12 @@
-from ast import Del, Delete
-from django.shortcuts import get_object_or_404, render
-
-from tasks.filters import TaskFilter
-from .models import Task, TaskList, TaskGroup
-from .forms import TaskForm, TaskListForm
-from django.views.generic.edit import CreateView, DeleteView
+from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.views.generic.detail import DetailView
-from django.views.generic.list import ListView
 from django.urls import is_valid_path, reverse_lazy
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect
+from django.shortcuts import render, redirect
+
 from .filters import ListFilter, TaskFilter
+from .models import Task, TaskList, TaskGroup
+from .forms import TaskForm, TaskListForm
 
 # Create your views here.
 class TaskCreateView(CreateView):
@@ -20,8 +16,16 @@ class TaskCreateView(CreateView):
     success_url = reverse_lazy("tasks:tasks")
 
     def get_context_data(self, **kwargs):
-        context= super().get_context_data(**kwargs)
-        context['tasks'] = Task.objects.all()
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = TaskList.objects.get(pk=pk).task_set.all()
+        else:
+            queryset = None
+
+        myFilter = TaskFilter(self.request.GET, queryset=queryset)
+        context['tasks'] = myFilter.qs
+        context['myFilter'] = myFilter
         return context
 
 class TaskListCreateView(CreateView):
@@ -32,48 +36,18 @@ class TaskListCreateView(CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        #context['tasks'] = self.get_object().task_set.all()
-        context['task_lists'] = TaskList.objects.all()
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+        else:
+            queryset = None
+        
+        myFilter = ListFilter(self.request.GET, queryset=queryset)
+        context['myFilter'] = myFilter
+        context['task_lists'] = myFilter.qs
+        
         return context
-
-@login_required
-def TaskListDisplView(request, pk):
-    template = "task_list.html"
-    taskgroups = TaskGroup.objects.get(pk=pk).tasklist_set.all()
-    #groups = list(TaskList.objects.get(pk=pk))
-    myFilter = ListFilter(request.GET, queryset=taskgroups)
-    taskgroups = myFilter.qs
     
-    context = {
-        "myFilter": myFilter,
-        "tasklists": taskgroups,
-    }
-    print(context)
-    return render(request, template, context)
-    
-@login_required
-def TaskDisplView(request, pk):
-    template = "task_list.html"
-    tasklists = TaskList.objects.get(pk=pk).task_set.all()
-    myFilter = TaskFilter(request.GET, queryset=tasklists)
-    tasklists = myFilter.qs
-    something = TaskList.objects.get(pk=pk)
-    context = {
-        "myFilter": myFilter,
-        "tasklists": tasklists,
-        "something": something,
-    }
-    return render(request, template, context)
-
-class TaskListView(ListView):
-    model = Task
-    template_name = 'task_list.html'
-    context_object_name = 'tasklists'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['filters'] = TaskFilter(self.request.GET, queryset=self.get_queryset())
-        return context
         
 class TaskGroupCreateView(CreateView):
     model = TaskGroup
@@ -96,7 +70,7 @@ class TaskGroupCreateView(CreateView):
 
 
 # Create your views here.
-class TaskDetailView(DetailView):
+class TaskDetailView(UpdateView):
     model = Task
     fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
     template_name = "task_details.html"
@@ -107,12 +81,12 @@ class TaskDetailView(DetailView):
         context['tasks'] = Task.objects.all()
         return context
     
-    def post(self, *args, **kwargs):
+    """def post(self, *args, **kwargs):
         obj = self.get_object()
         obj.name = "Copy of " + obj.name
         obj.pk = None
         obj.save()
-        return redirect(self.success_url)
+        return redirect(self.success_url)"""
 
 
 class TaskDeleteView(DeleteView):
@@ -125,3 +99,36 @@ class ListDeleteView(DeleteView):
     model = TaskList
     template_name = "list_delete.html"
     success_url = reverse_lazy("tasks:lists")
+
+
+#Deprecated views.
+"""
+@login_required
+def TaskDisplView(request, pk):
+    template = "task_list.html"
+    tasklists = TaskList.objects.get(pk=pk).task_set.all()
+    myFilter = TaskFilter(request.GET, queryset=tasklists)
+    tasklists = myFilter.qs
+    something = TaskList.objects.get(pk=pk)
+    context = {
+        "myFilter": myFilter,
+        "tasklists": tasklists,
+        "something": something,
+    }
+    return render(request, template, context)
+    
+@login_required
+def TaskListDisplView(request, pk):
+    template = "task_list.html"
+    taskgroups = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+    #groups = list(TaskList.objects.get(pk=pk))
+    myFilter = ListFilter(request.GET, queryset=taskgroups)
+    taskgroups = myFilter.qs
+    
+    context = {
+        "myFilter": myFilter,
+        "tasklists": taskgroups,
+    }
+    print(context)
+    return render(request, template, context)    
+"""

@@ -4,7 +4,6 @@ from django.utils import timezone
 from .models import Task, TaskList
 
 class TaskForm(forms.ModelForm):
-    
     class Meta:
         model = Task
         fields = ['name', 'description', 'deadline', 'status', 'priority', 'task_list', 'assignee']

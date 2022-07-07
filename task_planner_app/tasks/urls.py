@@ -9,9 +9,9 @@ urlpatterns = [
     path('tasks/', login_required(TaskCreateView.as_view()), name="tasks"),
     re_path('tasks/(?P<pk>\d+)', login_required(TaskDetailView.as_view()), name="task_details"),
     path('lists/', login_required(TaskListCreateView.as_view()), name='lists'),
-    re_path('lists/(?P<pk>\d+)$', TaskDisplView, name="lists_list"),
+    re_path('lists/(?P<pk>\d+)$', login_required(TaskCreateView.as_view()), name="lists_list"),
     path('groups/', login_required(TaskGroupCreateView.as_view()), name='groups'),
-    re_path('groups/(?P<pk>\d+)$', TaskListDisplView, name="group_list"),
+    #re_path('groups/(?P<pk>\d+)$', TaskListDisplView, name="group_list"),
     path('', LoginView, name="home"),
 
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
