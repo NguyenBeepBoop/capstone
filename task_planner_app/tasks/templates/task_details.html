@@ -13,6 +13,7 @@
         <p><b>Deadline</b> <br>{{object.deadline}}</p>
         <p><b>Status</b> <br>{{object.status}}</p>
         <p><b>Priority</b> <br>{{object.priority}}</p>
+        <p><b>Assignee</b> <br>{{object.assignee}}</p>
     </div>
     <form method="POST">
         {% csrf_token %}
@@ -20,6 +21,7 @@
             <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
         </div>
     </form>
+    <a class='text-decoration-none text-dark' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
 </body>
 
 {% endblock %}
