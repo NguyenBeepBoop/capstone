@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from users.models import User
+from users.models import User, Friend
 # Register your models here.
 
 class UserAdmin(UserAdmin):
@@ -13,4 +13,4 @@ class UserAdmin(UserAdmin):
     fieldsets = ()
     
 admin.site.register(User, UserAdmin)
-
+admin.site.register(Friend)

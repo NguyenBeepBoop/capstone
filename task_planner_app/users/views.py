@@ -4,9 +4,10 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
-from .models import User
+from users.models import User, Friend
 from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 
 def RegisterView(request, *args, **kwargs):
     user = request.user
@@ -69,9 +70,13 @@ def LoginView(request):
     return render(request, "login.html", context)
 
 @login_required
-def ProfileView(request):
-    context = {'user': request.user}
-    return render(request, 'profile_view.html', context)
+def ProfileView(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args = {'user': user}
+    return render(request, 'profile_view.html', args)
 
 @login_required
 def EditProfileView(request):
@@ -88,3 +93,23 @@ def EditProfileView(request):
         form = EditProfileForm(instance=request.user)
         context = {'form': form}
         return render(request, 'edit_profile.html', context)
+
+def change_friends(request, operation, pk):
+    new_friend = User.objects.get(pk=pk)
+    if operation == "add":
+        Friend.make_friend(request.user, new_friend)
+    elif operation == "remove":
+        Friend.lose_friend(request.user, new_friend)
+    return redirect('friend')
+
+def FriendView(request):
+    try:
+        friend = Friend.objects.get(current_user=request.user)
+        friends = friend.users.all()
+    except Friend.DoesNotExist:
+        friends = None
+
+    users = User.objects.all()
+    context = {'user': request.user, 'users': users, 'friends':friends}
+    return render(request, 'friend.html', context)
+    

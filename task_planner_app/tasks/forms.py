@@ -1,7 +1,7 @@
 from django import forms
 from datetime import datetime
 from django.utils import timezone
-from .models import Task, TaskList
+from .models import Task, TaskList, Comment
 
 class TaskForm(forms.ModelForm):
     
@@ -20,3 +20,8 @@ class TaskListForm(forms.ModelForm):
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
+
+class CommentForm(forms.ModelForm):
+    class Meta:
+        model = Comment
+        fields = ['name', 'body']

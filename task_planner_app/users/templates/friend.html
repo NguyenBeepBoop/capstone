@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+    <h2>Other People</h2>
+    {% for user in users %}
+        {% if not user in friends %}
+            <a href="{% url 'profile_view_with_pk' pk=user.pk %}">
+                <h3>{{user.username}}</h3>
+            </a>
+            <a href="{% url 'change_friends' operation='add' pk=user.pk %}">
+            <button type="button" class="btn btn-success">Add Friend</button>
+            </a>
+        {% endif %}
+    {% endfor %}
+    <h2>Friends</h2>
+    {% for friend in friends %}
+        <a href="{% url 'profile_view_with_pk' pk=user.pk %}">
+        <h3>{{friend.username}}</h3>
+        </a>
+        </a>
+        <a href="{% url 'change_friends' operation='remove' pk=friend.pk %}">
+        <button type="button" class="btn btn-secondary">Remove Friend</button>
+        </a>
+    {% endfor %}
+{% endblock content %}

@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404, render
 from .models import Task, TaskList, TaskGroup
-from .forms import TaskForm, TaskListForm
+from .forms import TaskForm, TaskListForm, CommentForm
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.urls import is_valid_path, reverse_lazy
@@ -87,3 +87,27 @@ class TaskDetailView(DetailView):
         obj.pk = None
         obj.save()
         return redirect(self.success_url)
+
+@login_required
+def comment(request, slug):
+        task = Task.objects.get(slug=slug)
+
+        if request.method == "POST":
+            form = CommentForm(request.POST)
+
+            if form.is_valid():
+                obj = form.save(commit=False)
+                obj.task = task 
+                obj.save()
+
+                return redirect('task_details', slug=post.slug)
+
+        else:
+            form = CommentForm()
+
+        context = {
+            'task': task, 
+            'form': form,
+        }
+    
+        return render(request, 'task_details.html', context)
