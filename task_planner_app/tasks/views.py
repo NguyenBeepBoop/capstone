@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from .models import Notification, Task, TaskList, TaskGroup
-from .forms import TaskForm, TaskListForm
+from .forms import NotificationGroupForm, TaskForm, TaskListForm
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
@@ -35,11 +35,30 @@ class TaskListCreateView(CreateView):
 
 @login_required
 def TaskListDisplView(request, pk):
-    template = "task_list.html"
-    tasklists = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+    template = "task_group_detail.html"
+    taskgroup = TaskGroup.objects.get(pk=pk)
+    tasklists = taskgroup.tasklist_set.all()
     context = {
+        "taskgroup": taskgroup,
         "tasklists": tasklists
     }
+    return render(request, template, context)
+    
+@login_required
+def TaskGroupNotify(request, pk):
+    template = "task_group_notify.html"
+    taskgroup = TaskGroup.objects.get(pk=pk)
+    form = NotificationGroupForm
+    context = {
+        "taskgroup": taskgroup,
+        "form": form,
+    }
+    if request.method == 'POST':
+        form = NotificationGroupForm(request.POST)
+        if form.is_valid():
+            # leaving this for now until user group connection is made
+            pass
+            
     return render(request, template, context)
     
 @login_required
@@ -62,7 +81,7 @@ def TaskDisplView(request, pk):
 
 class TaskGroupCreateView(CreateView):
     model = TaskGroup
-    fields = '__all__'
+    fields = ['name', 'description']
     template_name = 'task_group_create.html'    
     success_url = reverse_lazy("tasks:groups")
     

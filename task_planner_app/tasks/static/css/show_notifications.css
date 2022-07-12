@@ -1,10 +1,11 @@
 .notification-badge {
 	transition: 0.3s;
 	margin-top: 6px;
+	margin-right: 6px;
 	padding:8px 10px;
 	font-size:100%;
 	font-variant-numeric: normal;
-	font-family: Arial, Helvetica, sans-serif;
+	font-family: "PT Sans", Helvetica, sans-serif;
 	color:whitesmoke
 }
 
