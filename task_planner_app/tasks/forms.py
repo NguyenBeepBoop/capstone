@@ -4,7 +4,9 @@ from django.utils import timezone
 from .models import Notification, Task, TaskList
 
 class TaskForm(forms.ModelForm):
-    
+    def __init__(self, *args, **kwargs):
+        super(TaskForm, self).__init__(*args, **kwargs) # Call to ModelForm constructor
+        self.fields['description'].widget.attrs['rows'] = 5
     class Meta:
         model = Task
         fields = ['name', 'description', 'deadline', 'status', 'priority', 'task_list', 'assignee']

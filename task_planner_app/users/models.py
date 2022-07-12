@@ -68,9 +68,10 @@ class User(AbstractBaseUser):
     def get_profile_image_filename(self):
         return str(self.profile_image)[str(self.profile_image).index(f'profile_images/{self.pk}/'):]
         
-    def has_perm(self, perm, obj=None):
-        return self.is_admin
         
-    def has_module_perms(self, app_label):
-        return True
-        
+class Profile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    capacity = models.IntegerField(blank=True, null=True)
+    
+    def __str__(self):
+        return self.user
