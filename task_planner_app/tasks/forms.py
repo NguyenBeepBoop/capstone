@@ -1,7 +1,7 @@
 from django import forms
 from datetime import datetime
 from django.utils import timezone
-from .models import Notification, Task, TaskList
+from .models import Notification, Task, TaskList, Tags
 
 class TaskForm(forms.ModelForm):
     
@@ -35,3 +35,9 @@ class NotificationGroupForm(forms.Form):
         self.fields['message'].widget.attrs['cols'] = 10
         self.fields['message'].widget.attrs['rows'] = 10
         self.fields['users'].widget.attrs['style'] = 'width:150px;'
+
+class TagForm(forms.ModelForm):
+    
+    class Meta:
+        model = Tags
+        fields = '__all__'

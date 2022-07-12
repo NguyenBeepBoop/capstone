@@ -27,6 +27,11 @@ ROLE_CHOICES = [
     ('Moderator', 'Moderator'),
     ('Member', 'Member'),
 ]
+
+TAGS_CHOICES = [
+    ('Active', 'Active'),
+    ('Inactive', 'Inactive'),
+]
 class Task(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField(max_length=2000, blank=True, default='')
@@ -34,6 +39,7 @@ class Task(models.Model):
     deadline = models.DateTimeField(blank=True, null=True)
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
+    tags = models.ManyToManyField("Tags")
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
@@ -91,3 +97,10 @@ class Notification(models.Model):
 	date = models.DateTimeField(auto_now_add=True)
 	seen = models.BooleanField(default=False)
 	
+class Tags(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(max_length=2000, null=True, blank=True)
+    status = models.CharField(max_length=15, choices=TAGS_CHOICES, default='Active')
+
+    def __str__(self):
+        return self.name

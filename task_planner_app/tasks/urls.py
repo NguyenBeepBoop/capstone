@@ -16,6 +16,7 @@ urlpatterns = [
     re_path('groups_notify/(?P<pk>\d+)$', TaskGroupNotify, name="group_notify"),
     re_path('group_members/(?P<pk>\d+)$', MembersListView, name="members_list"),
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
+    path('tags/', TagCreateView.as_view(), name='tags')
 ]
 
 

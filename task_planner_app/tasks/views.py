@@ -1,8 +1,8 @@
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
-from .models import Notification, Task, TaskList, TaskGroup
-from .forms import NotificationGroupForm, TaskForm, TaskListForm
+from .models import Notification, Task, TaskList, TaskGroup, Tags
+from .forms import NotificationGroupForm, TaskForm, TaskListForm, TagForm
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
@@ -125,3 +125,14 @@ class RemoveNotification(View):
         notification.save()
 
         return HttpResponse('Success', content_type='text/plain')
+
+class TagCreateView(CreateView):
+    model = Tags
+    form_class = TagForm
+    template_name = 'tag_create_template.html'
+    success_url = reverse_lazy("tasks:tags")
+
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        context['tags'] = Tags.objects.all()
+        return context
