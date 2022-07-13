@@ -1,10 +1,18 @@
 from django.forms import DateInput
 import django_filters
-from .models import STATUS_CHOICES, Task, TaskGroup, TaskList
+from .models import STATUS_CHOICES, PRIORITY_CHOICES, Task, TaskGroup, TaskList
 
 class TaskFilter(django_filters.FilterSet):
     deadline = django_filters.DateFilter(widget=DateInput(attrs={'type': 'date'}))
     status = django_filters.ChoiceFilter(choices=STATUS_CHOICES)
+
+    order = django_filters.OrderingFilter(
+        label='Sort by',
+        fields=(
+            ('name', 'Name'),
+
+        )
+    )
     class Meta:
         model = Task
         fields = {
@@ -15,7 +23,6 @@ class TaskFilter(django_filters.FilterSet):
             'deadline': ['date'],
             'status': [],
         }
-        ordering = []
         
 
 class ListFilter(django_filters.FilterSet):

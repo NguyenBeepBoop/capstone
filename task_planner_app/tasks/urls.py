@@ -13,6 +13,7 @@ urlpatterns = [
     path('groups/', login_required(TaskGroupCreateView.as_view()), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListCreateView.as_view(), name="group_list"),
     path('', LoginView, name="home"),
+    re_path('tasks?sort=(.*)', TaskCreateView.as_view(), name="task_sort"),
 
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
