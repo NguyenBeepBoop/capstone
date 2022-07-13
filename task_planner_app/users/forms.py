@@ -50,9 +50,9 @@ class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
 	proficiencies = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.all(),
+            queryset=Tags.objects.filter(status='Active'),
             widget=forms.CheckboxSelectMultiple,
-            required=True)
+            required=False)
 	class Meta:
 		widgets = {
         'date_of_birth': forms.DateInput(attrs={'type':'date'})
