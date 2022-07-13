@@ -28,3 +28,8 @@ a:hover {
     text-decoration: underline;
     filter: brightness(80%);
 }
+
+.checkbox-overflow {
+    height: 200px;
+    overflow-y: scroll;
+}

@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
 from tasks.models import Tags
-
+from django_select2.forms import Select2MultipleWidget
 from users.models import User
 
 
@@ -50,9 +50,9 @@ class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
 	proficiencies = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.all(),
-            widget=forms.CheckboxSelectMultiple,
-            required=True)
+            queryset=Tags.objects.filter(status='Active'),
+            widget=Select2MultipleWidget(attrs={'class':'checkbox'}),
+            required=False)
 	class Meta:
 		widgets = {
         'date_of_birth': forms.DateInput(attrs={'type':'date'})

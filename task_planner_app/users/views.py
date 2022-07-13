@@ -4,6 +4,8 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
+
+from tasks.models import Tags
 from .models import User
 from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
 from django.contrib.auth.decorators import login_required
@@ -86,5 +88,7 @@ def EditProfileView(request):
         
     else:
         form = EditProfileForm(instance=request.user)
-        context = {'form': form}
+        context = {
+            'form': form,
+        }
         return render(request, 'edit_profile.html', context)
