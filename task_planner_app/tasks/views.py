@@ -4,7 +4,7 @@ from django.urls import is_valid_path, reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
-from .filters import ListFilter, TaskFilter
+from .filters import ListFilter, TaskFilter, GroupFilter
 from .models import Task, TaskList, TaskGroup
 from .forms import TaskForm, TaskListForm
 
@@ -20,13 +20,23 @@ class TaskCreateView(CreateView):
         pk = self.kwargs.get('pk')
         if pk:
             queryset = TaskList.objects.get(pk=pk).task_set.all()
+            viewtype = 1
         else:
             queryset = None
+            viewtype = 0 
 
         myFilter = TaskFilter(self.request.GET, queryset=queryset)
         context['tasks'] = myFilter.qs
         context['myFilter'] = myFilter
+        context['type'] = viewtype
         return context
+    
+    '''def sorting(request):
+        sort= request.GET.get('sort_by', 'date')
+        slist= Task.objects.order_by(sort)
+        
+        context = {"tasks": slist}
+        return render(request, 'tasks/task_details.html', context)'''
 
 class TaskListCreateView(CreateView):
     model = TaskList
@@ -57,8 +67,17 @@ class TaskGroupCreateView(CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        if pk:
+            queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+        else:
+            queryset = None
+
+        myFilter = GroupFilter(self.request.GET, queryset=queryset)
+        context['myFilter'] = myFilter
+        context['task_groups'] = myFilter.qs
         #context['tasks'] = self.get_object().task_set.all()
-        context['task_groups'] = TaskGroup.objects.all()
+        #context['task_groups'] = TaskGroup.objects.all()
         return context
 
     def form_valid(self, form):
@@ -99,6 +118,18 @@ class ListDeleteView(DeleteView):
     model = TaskList
     template_name = "list_delete.html"
     success_url = reverse_lazy("tasks:lists")
+
+"""
+class GroupDeleteView(DeleteView):
+    model = TaskGroup
+    template_name = "group_delete.html"
+    success_url = reverse_lazy("tasks:groups")
+"""
+
+
+
+
+
 
 
 #Deprecated views.
