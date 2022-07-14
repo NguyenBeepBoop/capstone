@@ -48,13 +48,16 @@ class TaskListCreateView(CreateView):
         pk = self.kwargs.get('pk')
         if pk:
             queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+            viewtype = 1
         else:
             queryset = None
+            viewtype = 0
         
+        context['task_group_id'] = pk
         myFilter = ListFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
         context['task_lists'] = myFilter.qs
-        
+        context['type'] = viewtype
         return context
 
     
@@ -98,7 +101,7 @@ class TaskGroupCreateView(CreateView):
             queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
         else:
             queryset = None
-
+        
         myFilter = GroupFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
         context['task_groups'] = myFilter.qs
@@ -144,6 +147,17 @@ class ListDetailView(UpdateView):
         context['task_lists'] = TaskList.objects.all()
         return context
 
+class GroupDetailView(UpdateView):
+    model = TaskGroup
+    fields = '__all__'
+    template_name = "group_details.html"
+    success_url = reverse_lazy("tasks:groups")
+
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        context['task_groups'] = TaskGroup.objects.all()
+        return context
+
 class TaskDeleteView(DeleteView):
     model = Task
     template_name = "task_delete.html"
@@ -155,12 +169,12 @@ class ListDeleteView(DeleteView):
     template_name = "list_delete.html"
     success_url = reverse_lazy("tasks:lists")
 
-"""
+
 class GroupDeleteView(DeleteView):
     model = TaskGroup
     template_name = "group_delete.html"
     success_url = reverse_lazy("tasks:groups")
-"""
+
         
 class RemoveNotification(View):
     def delete(self, request, notification_pk, *args, **kwargs):

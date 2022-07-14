@@ -17,16 +17,25 @@
     <div class='container my-2'>
       <div class="row">
         <div class="col-lg-6">
-          {% for i in task_lists %}
-            <a class='text-decoration-none text-dark' href="{% url 'tasks:lists_list' i.id%}">
-                <div class="task-border">
-                    <div class="my-2 mx-3">
-                        {{i.name}}
-                        {{i.id}}
-                    </div>
-                </div>
-            </a>
-          {% endfor %}
+          <div class="'row-lg">
+            {% for i in task_lists %}
+              <a class='text-decoration-none text-dark' href="{% url 'tasks:lists_list' i.id%}">
+                  <div class="task-border">
+                      <div class="my-2 mx-3">
+                          {{i.name}}
+                          {{i.id}}
+                      </div>
+                  </div>
+              </a>
+            {% endfor %}
+          </div>
+          <div class='row-lg my-5'>
+            {% if type %}
+              <a class='btn btn-primary' href="{% url 'tasks:group_details' task_group_id%}">
+                  View Details
+              </a>
+            {% endif %}
+        </div>
         </div>
         <div class="col-lg-6">
           <form method="POST">
