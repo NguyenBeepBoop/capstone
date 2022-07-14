@@ -6,6 +6,7 @@ from tasks.views import *
 app_name='tasks'
 
 urlpatterns = [
+    path('', LoginView, name="home"),
     path('tasks/', login_required(TaskCreateView.as_view()), name="tasks"),
     re_path('tasks/(?P<pk>\d+)', login_required(TaskDetailView.as_view()), name="task_details"),
     path('lists/', login_required(TaskListCreateView.as_view()), name='lists'),
@@ -20,6 +21,10 @@ urlpatterns = [
 
     re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
     #path('groups_delete/(?P<pk>\d+)', GroupDeleteView.as_view(), name="group_delete"),
+    
+    re_path('groups_notify/(?P<pk>\d+)$', TaskGroupNotify, name="group_notify"),
+    re_path('group_members/(?P<pk>\d+)$', MembersListView, name="members_list"),
+    path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
 ]
 
 

@@ -1,6 +1,11 @@
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.views import View
+from .models import Notification, Task, TaskList, TaskGroup
+from .forms import NotificationGroupForm, TaskForm, TaskListForm
 from django.views.generic.detail import DetailView
-from django.urls import is_valid_path, reverse_lazy
+from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
@@ -51,11 +56,38 @@ class TaskListCreateView(CreateView):
         context['task_lists'] = myFilter.qs
         
         return context
+
+    
+@login_required
+def TaskGroupNotify(request, pk):
+    template = "task_group_notify.html"
+    taskgroup = TaskGroup.objects.get(pk=pk)
+    form = NotificationGroupForm
+    context = {
+        "taskgroup": taskgroup,
+        "form": form,
+    }
+    if request.method == 'POST':
+        form = NotificationGroupForm(request.POST)
+        if form.is_valid():
+            # leaving this for now until user group connection is made
+            pass
+            
+    return render(request, template, context)
+    
+@login_required
+def MembersListView(request, pk):
+    template = "task_list.html"
+    tasklists = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+    context = {
+        "tasklists": tasklists
+    }
+    return render(request, template, context)
     
         
 class TaskGroupCreateView(CreateView):
     model = TaskGroup
-    fields = '__all__'
+    fields = ['name', 'description']
     template_name = 'task_group_create.html'    
     success_url = reverse_lazy("tasks:groups")
     
@@ -129,41 +161,12 @@ class GroupDeleteView(DeleteView):
     template_name = "group_delete.html"
     success_url = reverse_lazy("tasks:groups")
 """
+        
+class RemoveNotification(View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
 
+        notification.seen = True
+        notification.save()
 
-
-
-
-
-
-#Deprecated views.
-"""
-@login_required
-def TaskDisplView(request, pk):
-    template = "task_list.html"
-    tasklists = TaskList.objects.get(pk=pk).task_set.all()
-    myFilter = TaskFilter(request.GET, queryset=tasklists)
-    tasklists = myFilter.qs
-    something = TaskList.objects.get(pk=pk)
-    context = {
-        "myFilter": myFilter,
-        "tasklists": tasklists,
-        "something": something,
-    }
-    return render(request, template, context)
-    
-@login_required
-def TaskListDisplView(request, pk):
-    template = "task_list.html"
-    taskgroups = TaskGroup.objects.get(pk=pk).tasklist_set.all()
-    #groups = list(TaskList.objects.get(pk=pk))
-    myFilter = ListFilter(request.GET, queryset=taskgroups)
-    taskgroups = myFilter.qs
-    
-    context = {
-        "myFilter": myFilter,
-        "tasklists": taskgroups,
-    }
-    print(context)
-    return render(request, template, context)    
-"""
+        return HttpResponse('Success', content_type='text/plain')
