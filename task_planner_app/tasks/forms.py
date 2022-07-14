@@ -32,8 +32,8 @@ class NotificationGroupForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super(NotificationGroupForm, self).__init__(*args, **kwargs) # Call to ModelForm constructor
-        self.fields['message'].widget.attrs['cols'] = 10
-        self.fields['message'].widget.attrs['rows'] = 10
+        self.fields['message'].widget.attrs['cols'] = 50
+        self.fields['message'].widget.attrs['rows'] = 5
         self.fields['users'].widget.attrs['style'] = 'width:150px;'
 
 class TagForm(forms.ModelForm):

@@ -1,10 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load custom_tags %}
 {% load static %}
 
 {% block title %}Edit My Profile{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/edit_profile.css' %}">
 <body style="background-color:#33475b">
   <div class="container">
     <div class="row">
@@ -14,8 +16,23 @@
             <div class="container">
                 <form method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ form|crispy }}
-  
+                    {{ form.first_name|as_crispy_field }}
+                    {{ form.last_name|as_crispy_field }}
+                    {{ form.username|as_crispy_field }}
+                    {{ form.email|as_crispy_field }}
+                    {{ form.date_of_birth|as_crispy_field }}
+                    {{ form.profile_image|as_crispy_field }}
+                    <label>Select Proficiencies</label>
+                    <div class="proficiencies-box">
+                      {% for prof in form.proficiencies %}
+                        <div onclick="this.querySelector('input[type=checkbox]').click()">
+                          <a>
+                          {{ prof}}
+                          </a>
+                        </div>
+                      {% endfor %}
+                    </div>
+                    <br>
                     <div class="row">
                       <div class="col">
                         <button type="submit" class="btn btn-primary btn-lg">Save changes</button>

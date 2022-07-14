@@ -51,7 +51,7 @@ class EditProfileForm(UserChangeForm):
 	username = forms.CharField(max_length=100)
 	proficiencies = forms.ModelMultipleChoiceField(
             queryset=Tags.objects.filter(status='Active'),
-            widget=Select2MultipleWidget(attrs={'class':'checkbox'}),
+            widget=forms.CheckboxSelectMultiple,
             required=False)
 	class Meta:
 		widgets = {
