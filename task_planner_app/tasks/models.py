@@ -79,10 +79,10 @@ class Membership(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     
     def __str__(self):
-        return self.user + " " + self.group
+        return self.user.username + " " + str(self.group)
     
 class Notification(models.Model):
-	# 1 Group Notification, 2 = Connection Request, 
+	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
 	notification_type = models.IntegerField()
 	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
 	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)

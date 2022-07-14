@@ -3,14 +3,14 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
 from .models import Notification, Task, TaskList, TaskGroup
-from .forms import NotificationGroupForm, TaskForm, TaskListForm
+from .forms import MembershipForm, NotificationGroupForm, TaskForm, TaskListForm
 from django.views.generic.detail import DetailView
 from django.urls import reverse_lazy
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 
 from .filters import ListFilter, TaskFilter, GroupFilter
-from .models import Task, TaskList, TaskGroup
+from .models import Task, TaskList, TaskGroup, Membership
 from .forms import TaskForm, TaskListForm
 
 # Create your views here.
@@ -69,6 +69,7 @@ def TaskGroupNotify(request, pk):
     context = {
         "taskgroup": taskgroup,
         "form": form,
+        'members': taskgroup.members.filter(status='Active'),
     }
     if request.method == 'POST':
         form = NotificationGroupForm(request.POST)
@@ -77,15 +78,27 @@ def TaskGroupNotify(request, pk):
             pass
             
     return render(request, template, context)
-    
+
 @login_required
-def MembersListView(request, pk):
-    template = "task_list.html"
-    tasklists = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+def TaskGroupMembersView(request, pk):
+    template = 'group_membership.html'
+    form = MembershipForm
+    taskgroup = TaskGroup.objects.get(pk=pk)
     context = {
-        "tasklists": tasklists
+        "taskgroup": taskgroup,
+        "form": form,
+        'members': taskgroup.membership_set.filter(status='Active'),
     }
+    if request.method == 'POST':
+        form = MembershipForm(request.POST)
+        if form.is_valid():
+            new_member = form.save(commit=False)
+            new_member.group = taskgroup
+            new_member.save()
+            #recevier = 
+            #Notification()
     return render(request, template, context)
+
     
         
 class TaskGroupCreateView(CreateView):
@@ -129,7 +142,7 @@ class TaskDetailView(UpdateView):
         context['tasks'] = Task.objects.all()
         return context
     
-    """def post(self, *args, **kwargs):
+    """def post(self, request, *args, **kwargs):
         obj = self.get_object()
         obj.name = "Copy of " + obj.name
         obj.pk = None
@@ -155,7 +168,8 @@ class GroupDetailView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
-        context['task_groups'] = TaskGroup.objects.all()
+        pk = self.kwargs.get('pk')
+        context['members'] = TaskGroup.objects.get(pk=pk).members
         return context
 
 class TaskDeleteView(DeleteView):
@@ -184,3 +198,15 @@ class RemoveNotification(View):
         notification.save()
 
         return HttpResponse('Success', content_type='text/plain')
+
+
+"""
+@login_required
+def MembersListView(request, pk):
+    template = "task_list.html"
+    tasklists = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+    context = {
+        "tasklists": tasklists
+    }
+    return render(request, template, context)
+"""

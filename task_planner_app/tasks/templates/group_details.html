@@ -16,6 +16,11 @@
         </div>
     </form>
     <a class='text-decoration-none text-dark' href="{% url 'tasks:group_delete' object.id %}">Delete</a>
+
+    <div>
+        {{members}}
+    </div>
+
 </body>
 
 {% endblock %}
