@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block title %}Create Task List{% endblock %}
+
+{% block content %}
+
+<body>
+
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <button type="submit" class="btn btn-primary btn-lg">Edit Group</button>
+        </div>
+    </form>
+    <a class='text-decoration-none text-dark' href="{% url 'tasks:group_delete' object.id %}">Delete</a>
+</body>
+
+{% endblock %}
