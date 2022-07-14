@@ -3,6 +3,7 @@
 {% load static %}
 
 {% block content %}
+
 {% include 'task_group_base.html' %}
 <style>
     h1 {
@@ -11,23 +12,23 @@
     }
     .container {
         padding: 0;
+        display: block;
         margin-left: 300px;
-        margin-right: 300px; 
+        margin-right: 300px;
         width: auto;
     }
 </style>
 <div class='container'>
-    <header>
-        <br>
-        <h1>Create Notification</h1>
-    </header>
-    <form method="POST">
-        {% csrf_token %}
-        {{form|crispy}}
-        <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary btn-lg">Send <i class="fa-solid fa-paper-plane"></i></button>
-        </div>
-    </form>
-</div>
-
+        <header>
+            <br>
+            <h1>Create Notification</h1>
+        </header>
+        <form method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <div>
+                <button type="submit" class="btn btn-primary btn-lg">Send <i class="fa-solid fa-paper-plane"></i></button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
