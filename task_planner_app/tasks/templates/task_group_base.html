@@ -2,25 +2,23 @@
 {% load static %}
 
 <link rel="stylesheet" type="text/css" href="{% static 'css/task_group_base.css' %}">
-<body>
-    <div class="sidebar">
-        <span><i class="fa-solid fa-user"></i> Owner </span>
-        <a href="#"> {% comment %} please add link to profile here {% endcomment %}
-            <img style="border-radius: 50%" src="{{ taskgroup.owner.profile_image.url}}" width="30"height='30'>
-            &nbsp@{{taskgroup.owner}}
-        </a>
-        <span><i class="fa-solid fa-person-military-pointing"></i> Moderators </span>
-        <span><i class="fa-solid fa-person-praying"></i> Members </span>
-    </div>
-    <div class="sidebar2">
-        <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1);'><i class="fa-solid fa-bolt"></i> Actions </span>
-        <a href="{% url 'tasks:group_notify' pk=taskgroup.pk %}"><i class="fa-solid fa-bullhorn"></i> Broadcast Notifications</a>
-        <a href="#"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
-        <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
-        <a href="#"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
-        <a href="#" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
-    </div>
-</body>
+<div class="sidebar">
+    <span><i class="fa-solid fa-user"></i> Owner </span>
+    <a href="#"> {% comment %} please add link to profile here {% endcomment %}
+        <img style="border-radius: 50%" src="{{ taskgroup.owner.profile_image.url}}" width="30"height='30'>
+        &nbsp@{{taskgroup.owner}}
+    </a>
+    <span><i class="fa-solid fa-person-military-pointing"></i> Moderators </span>
+    <span><i class="fa-solid fa-person-praying"></i> Members </span>
+</div>
+<div class="sidebar2">
+    <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1);'><i class="fa-solid fa-bolt"></i> Actions </span>
+    <a href="{% url 'tasks:group_notify' pk=taskgroup.pk %}"><i class="fa-solid fa-bullhorn"></i> Broadcast Notifications</a>
+    <a href="#"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
+    <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
+    <a href="#"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
+    <a href="#" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
+</div>
 
 <script type="text/javascript">
     const items = document.querySelectorAll('.sidebar2 a');
