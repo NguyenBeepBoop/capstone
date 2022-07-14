@@ -9,9 +9,17 @@ class TaskFilter(django_filters.FilterSet):
     order = django_filters.OrderingFilter(
         label='Sort by',
         fields=(
-            ('name', 'Name'),
+            ('id', 'id'),
+            ('name', 'name'),
+            ('deadline', 'deadline'),
+            ('priority', 'priority'),
+            ('date_created', 'date_created')
 
-        )
+        ),
+        field_labels={
+            'id': 'ID',
+        }
+    
     )
     class Meta:
         model = Task

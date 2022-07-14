@@ -25,19 +25,13 @@ class TaskCreateView(CreateView):
             queryset = None
             viewtype = 0 
 
+        context['task_list_id'] = pk
         myFilter = TaskFilter(self.request.GET, queryset=queryset)
         context['tasks'] = myFilter.qs
         context['myFilter'] = myFilter
         context['type'] = viewtype
         return context
     
-    '''def sorting(request):
-        sort= request.GET.get('sort_by', 'date')
-        slist= Task.objects.order_by(sort)
-        
-        context = {"tasks": slist}
-        return render(request, 'tasks/task_details.html', context)'''
-
 class TaskListCreateView(CreateView):
     model = TaskList
     form_class = TaskListForm
@@ -107,6 +101,16 @@ class TaskDetailView(UpdateView):
         obj.save()
         return redirect(self.success_url)"""
 
+class ListDetailView(UpdateView):
+    model = TaskList
+    fields = '__all__'
+    template_name = "list_details.html"
+    success_url = reverse_lazy("tasks:lists")
+    
+    def get_context_data(self, **kwargs):
+        context= super().get_context_data(**kwargs)
+        context['task_lists'] = TaskList.objects.all()
+        return context
 
 class TaskDeleteView(DeleteView):
     model = Task

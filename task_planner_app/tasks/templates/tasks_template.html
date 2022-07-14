@@ -30,7 +30,9 @@
                 </div>
                 <div class='row-lg my-5'>
                     {% if type %}
-                        {% include 'tasks_from_list.html' %}
+                        <a class='btn btn-primary' href="{% url 'tasks:list_details' task_list_id %}">
+                            View Details
+                        </a>
                     {% endif %}
                 </div>
             </div>

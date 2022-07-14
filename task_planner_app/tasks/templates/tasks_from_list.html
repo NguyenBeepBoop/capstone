@@ -1,5 +1,5 @@
 {% block test %}
-<a class='btn btn-primary' href="">
+<a class='btn btn-primary' href="{% url 'tasks:list_details' object.id %}">
     View Details
 </a>
 {% endblock %}

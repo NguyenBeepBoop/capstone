@@ -17,6 +17,8 @@ urlpatterns = [
 
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
+
+    re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
     #path('groups_delete/(?P<pk>\d+)', GroupDeleteView.as_view(), name="group_delete"),
 ]
 
