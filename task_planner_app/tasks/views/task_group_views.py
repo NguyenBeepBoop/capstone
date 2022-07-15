@@ -59,7 +59,7 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
         return context
         
 
-class GroupDeleteView(LoginRequiredMixin, DeleteView):
+class GroupDeleteView(OwnerPermissionMixin, LoginRequiredMixin, DeleteView):
     model = TaskGroup
     template_name = "group_delete.html"
     success_url = reverse_lazy("tasks:groups")

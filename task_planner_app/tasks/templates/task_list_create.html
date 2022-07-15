@@ -38,13 +38,6 @@
               </a>
             {% endfor %}
           </div>
-          <div class='row-lg my-5'>
-            {% if type %}
-              <a class='btn btn-primary' href="{% url 'tasks:group_details' task_group_id%}">
-                  View Details
-              </a>
-            {% endif %}
-        </div>
         </div>
         <div class="col-lg-6">
           <form method="POST">
