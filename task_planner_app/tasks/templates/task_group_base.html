@@ -11,14 +11,21 @@
         </a>
         <span><i class="fa-solid fa-person-military-pointing"></i> Moderators </span>
         <span><i class="fa-solid fa-person-praying"></i> Members </span>
+        {% for i in members%}
+            <a href="#">
+                <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
+                &nbsp@{{i.user}}
+            </a>
+        {% endfor %}
     </div>
     <div class="sidebar2">
         <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1);'><i class="fa-solid fa-bolt"></i> Actions </span>
         <a href="{% url 'tasks:group_notify' pk=taskgroup.pk %}"><i class="fa-solid fa-bullhorn"></i> Broadcast Notifications</a>
-        <a href="#"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
+        <a href="{% url 'tasks:members_list' pk=taskgroup.pk %}"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
         <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
         <a href="#"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
-        <a href="#" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
+        <a href="{% url 'tasks:group_details' pk=taskgroup.pk %}" style="color: grey;"><i class="fa-solid fa-gear"></i> Manage Group</a>
+        <a href="{% url 'tasks:group_delete' pk=taskgroup.pk %}" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
     </div>
 </body>
 

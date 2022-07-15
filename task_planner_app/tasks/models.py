@@ -77,12 +77,14 @@ class Membership(models.Model):
     status = models.CharField(max_length=15, choices=MEM_STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    class Meta:
+        unique_together = ('user', 'group',)
+        
     def __str__(self):
-        return self.user + " " + self.group
+        return self.user.username + " " + str(self.group)
     
 class Notification(models.Model):
-	# 1 Group Notification, 2 = Connection Request, 
+	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
 	notification_type = models.IntegerField()
 	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
 	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)
