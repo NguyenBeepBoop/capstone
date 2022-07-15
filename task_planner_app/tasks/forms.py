@@ -4,10 +4,13 @@ from django.utils import timezone
 from .models import Notification, Task, TaskList, Tags
 
 class TaskForm(forms.ModelForm):
-    
+    tags = forms.ModelMultipleChoiceField(
+            queryset=Tags.objects.filter(status='Active'),
+            widget=forms.CheckboxSelectMultiple,
+            required=False)
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'status', 'priority', 'task_list', 'assignee']
+        fields = ['name', 'description', 'deadline', 'status', 'priority', 'task_list', 'assignee', 'tags']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }

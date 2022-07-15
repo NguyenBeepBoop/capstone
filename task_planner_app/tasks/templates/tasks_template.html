@@ -5,6 +5,7 @@
 {% block title %}Create Tasks{% endblock %}
 
 {% block content %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
 <body>
     <div class='container my-2'>
       <div class="row">
@@ -28,6 +29,15 @@
               <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
             </div>
           </form>
+        </div>
+        <div class="tags-box">
+          {% for prof in form.tags %}
+              <div>
+              <a>
+              {{ prof}}
+              </a>
+            </div>
+          {% endfor %}
         </div>
       </div>
     </div>
