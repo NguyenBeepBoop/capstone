@@ -10,12 +10,22 @@
             &nbsp@{{taskgroup.owner}}
         </a>
         <span><i class="fa-solid fa-person-military-pointing"></i> Moderators </span>
+        {% for i in members%}
+            {% if i.user != taskgroup.owner and i.role == 'Moderator' %}
+                <a href="#">
+                    <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
+                    &nbsp@{{i.user}}
+                </a>
+            {% endif %}
+        {% endfor %}
         <span><i class="fa-solid fa-person-praying"></i> Members </span>
         {% for i in members%}
-            <a href="#">
-                <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
-                &nbsp@{{i.user}}
-            </a>
+            {% if i.user != taskgroup.owner and i.role == 'Member' %}
+                <a href="#">
+                    <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
+                    &nbsp@{{i.user}}
+                </a>
+            {% endif %}
         {% endfor %}
     </div>
     <div class="sidebar2">

@@ -13,3 +13,4 @@ django==3.2.13
 django-model-utils==4.2.0
 django-crispy-forms==1.14.0
 django-select2==7.10.0
+django-braces==1.15.0

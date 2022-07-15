@@ -62,7 +62,7 @@ class TaskList(models.Model):
         return self.name
 
 class TaskGroup(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(max_length=2000, null=True, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, 
                         on_delete=models.SET_NULL, null=True, blank=True)
