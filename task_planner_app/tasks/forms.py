@@ -2,6 +2,7 @@ from django import forms
 from datetime import datetime
 from django.utils import timezone
 from .models import Notification, Task, TaskList, Tags
+from users.models import User
 
 class TaskForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
@@ -44,3 +45,13 @@ class TagForm(forms.ModelForm):
     class Meta:
         model = Tags
         fields = '__all__'
+
+class MembershipForm(forms.Form):
+    ROLE_CHOICES = [
+         ('', '---------'),
+        ('Moderators', 'Moderators'),
+        ('Members', 'Members'),
+    ]
+    user = forms.ModelChoiceField(queryset=User.objects.all())
+    role = forms.ChoiceField(choices=ROLE_CHOICES)
+    message = forms.CharField(max_length=2048, widget=forms.Textarea)
