@@ -5,16 +5,25 @@
 {% block title %}Create Task List{% endblock %}
 
 {% block content %}
-
-<form method="GET">
-    {% csrf_token %}
-    {{ myFilter.form|crispy }}
-    <button type="submit" class="btn btn-primary"> Test</button>
-</form>
-  
-
+{% if type %}
+{% include 'task_group_base.html' %}
+{% endif %}
+<style>
+  .container {
+      padding: 0;
+      display: block;
+      margin-left: 300px;
+      margin-right: 300px;
+      width: auto;
+  }
+</style>
 <body>
-    <div class='container my-2'>
+  <div class='container my-2'>
+      <form method="GET">
+          {% csrf_token %}
+          {{ myFilter.form|crispy }}
+          <button type="submit" class="btn btn-primary"> Test</button>
+      </form>
       <div class="row">
         <div class="col-lg-6">
           <div class="'row-lg">

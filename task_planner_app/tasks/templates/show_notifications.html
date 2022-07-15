@@ -1,4 +1,5 @@
 {% load static %}
+{% load crispy_forms_tags %}
 
 <div class="dropdown">
 	<span class="badge bg-primary notification-badge fa-regular fa-bell" onclick="showNotifications()"> {%if notifications %} {{ notifications.count }}{% endif %}</span>
@@ -13,6 +14,20 @@
 				<div class="dropdown-item-parent">
 					<a href="">@{{ notification.sender }} sent you a connection request</a>
 					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
+					<div>
+					{{ notification.description }}
+					</div>
+				</div>
+			{% elif notification.notification_type == 3 %}
+				<div class="dropdown-item-parent">
+					<a href="">@{{ notification.sender }} sent you a group invite to {{ notification.group }} <br> {{ notification.description }}</a>
+					<a href="" class="dropdown-item accept" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-check"></i> Accept</a>
+					<a href="" class="dropdown-item decline" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-xmark"></i> Decline</a>
+					</div>
+					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
+					<div>
 				</div>
 			{% endif %}
 		{% endfor %}
@@ -20,3 +35,4 @@
 </div>
 
 <script type="text/javascript" src="{% static 'js/show_notifications.js' %}"></script>
+<script src="https://kit.fontawesome.com/54f931f71a.js" crossorigin="anonymous"></script>

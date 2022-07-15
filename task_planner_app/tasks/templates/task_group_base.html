@@ -24,7 +24,7 @@
         <a href="{% url 'tasks:members_list' pk=taskgroup.pk %}"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
         <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
         <a href="#"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
-        <a href="#" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
+        <a href="{% url 'tasks:group_delete' pk=taskgroup.pk %}" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
     </div>
 </body>
 

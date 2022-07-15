@@ -1,7 +1,10 @@
+from tokenize import group
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.views import View
+
+from users.models import User
 from .models import Notification, Task, TaskList, TaskGroup
 from .forms import MembershipForm, NotificationGroupForm, TaskForm, TaskListForm
 from django.views.generic.detail import DetailView
@@ -47,7 +50,10 @@ class TaskListCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get('pk')
         if pk:
+            taskgroup=TaskGroup.objects.get(pk=pk)
             queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
+            context['taskgroup'] = taskgroup
+            context['members'] = taskgroup.membership_set.filter(status='Active')
             viewtype = 1
         else:
             queryset = None
@@ -65,17 +71,26 @@ class TaskListCreateView(CreateView):
 def TaskGroupNotify(request, pk):
     template = "task_group_notify.html"
     taskgroup = TaskGroup.objects.get(pk=pk)
+    members = taskgroup.membership_set.filter(status='Active')
+    message = request.POST.get('message')
     form = NotificationGroupForm
+    print(members)
     context = {
         "taskgroup": taskgroup,
         "form": form,
-        'members': taskgroup.members.filter(status='Active'),
+        'members': members,
     }
     if request.method == 'POST':
         form = NotificationGroupForm(request.POST)
         if form.is_valid():
-            # leaving this for now until user group connection is made
-            pass
+            for member in members:
+                Notification.objects.get_or_create(
+                    notification_type=1,
+                    sender=request.user, 
+                    group=taskgroup, 
+                    receiver=member.user,
+                    description=message
+                )
             
     return render(request, template, context)
 
@@ -91,12 +106,19 @@ def TaskGroupMembersView(request, pk):
     }
     if request.method == 'POST':
         form = MembershipForm(request.POST)
+        receiver = User.objects.get(id=request.POST.get('user'))
+        message = request.POST.get('message')
         if form.is_valid():
             new_member = form.save(commit=False)
             new_member.group = taskgroup
             new_member.save()
-            #recevier = 
-            #Notification()
+            Notification.objects.get_or_create(
+                notification_type=3,
+                sender=request.user, 
+                group=taskgroup, 
+                receiver=receiver,
+                description=message
+            )
     return render(request, template, context)
 
     

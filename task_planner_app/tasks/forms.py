@@ -38,7 +38,7 @@ class NotificationGroupForm(forms.Form):
 
 
 class MembershipForm(forms.ModelForm):
-    
+    message = forms.CharField(max_length=2048, widget=forms.Textarea)
     class Meta:
         model = Membership
         fields = ['user', 'role']
