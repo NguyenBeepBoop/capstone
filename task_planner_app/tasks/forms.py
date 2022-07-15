@@ -1,7 +1,9 @@
 from django import forms
 from datetime import datetime
 from django.utils import timezone
-from .models import Notification, Task, TaskList, Membership
+
+from users.models import User
+from .models import ROLE_CHOICES, Notification, Task, TaskList, Membership
 
 
 class TaskForm(forms.ModelForm):
@@ -37,8 +39,12 @@ class NotificationGroupForm(forms.Form):
         self.fields['users'].widget.attrs['style'] = 'width:150px;'
 
 
-class MembershipForm(forms.ModelForm):
+class MembershipForm(forms.Form):
+    ROLE_CHOICES = [
+         ('', '---------'),
+        ('Moderators', 'Moderators'),
+        ('Members', 'Members'),
+    ]
+    user = forms.ModelChoiceField(queryset=User.objects.all())
+    role = forms.ChoiceField(choices=ROLE_CHOICES)
     message = forms.CharField(max_length=2048, widget=forms.Textarea)
-    class Meta:
-        model = Membership
-        fields = ['user', 'role']

@@ -21,13 +21,11 @@
 			{% elif notification.notification_type == 3 %}
 				<div class="dropdown-item-parent">
 					<a href="">@{{ notification.sender }} sent you a group invite to {{ notification.group }} <br> {{ notification.description }}</a>
-					<a href="" class="dropdown-item accept" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">
-						<i class="fa-regular fa-circle-check"></i> Accept</a>
-					<a href="" class="dropdown-item decline" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">
-						<i class="fa-regular fa-circle-xmark"></i> Decline</a>
-					</div>
+					<span class="dropdown-item-accept" onclick="removeNotification(`{% url 'tasks:notification_accept' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-check"></i> Accept</span>
+					<span class="dropdown-item-decline" onclick="removeNotification(`{% url 'tasks:notification_decline' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-xmark"></i> Decline</span>
 					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
-					<div>
 				</div>
 			{% endif %}
 		{% endfor %}

@@ -1,4 +1,4 @@
-from tokenize import group
+from django.contrib import messages
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -74,7 +74,6 @@ def TaskGroupNotify(request, pk):
     members = taskgroup.membership_set.filter(status='Active')
     message = request.POST.get('message')
     form = NotificationGroupForm
-    print(members)
     context = {
         "taskgroup": taskgroup,
         "form": form,
@@ -107,18 +106,30 @@ def TaskGroupMembersView(request, pk):
     if request.method == 'POST':
         form = MembershipForm(request.POST)
         receiver = User.objects.get(id=request.POST.get('user'))
-        message = request.POST.get('message')
+        desc = request.POST.get('message')
+        role = request.POST.get('role')
         if form.is_valid():
-            new_member = form.save(commit=False)
-            new_member.group = taskgroup
-            new_member.save()
-            Notification.objects.get_or_create(
+            membership = Membership.objects.get_or_create(
+                user=receiver,
+                group=taskgroup,
+            )
+            
+            if not membership[0].role: membership[0].role = role
+            membership[0].save()
+            
+            if membership[0].status == 'Active':
+                messages.info(request, f'{receiver} is already a member of this group')
+                return render(request, template, context)
+                
+            notification = Notification.objects.get_or_create(
                 notification_type=3,
                 sender=request.user, 
                 group=taskgroup, 
                 receiver=receiver,
-                description=message
             )
+            notification[0].description = desc
+            notification[0].seen = False
+            notification[0].save()
     return render(request, template, context)
 
     
@@ -218,6 +229,30 @@ class RemoveNotification(View):
 
         notification.seen = True
         notification.save()
+
+        return HttpResponse('Success', content_type='text/plain')
+
+class AcceptNotification(View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+
+        notification.seen = True
+        notification.save()
+        membership = Membership.objects.get(group=notification.group, user=notification.receiver)
+        print(membership)
+        membership.status = 'Active'
+        membership.save()
+
+        return HttpResponse('Success', content_type='text/plain')
+
+class DeclineNotification(View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+        
+        notification.seen = True
+        notification.save()
+        membership = Membership.objects.get(group=notification.group, user=notification.receiver)
+        membership.delete()
 
         return HttpResponse('Success', content_type='text/plain')
 
