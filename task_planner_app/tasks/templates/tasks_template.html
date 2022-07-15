@@ -40,21 +40,27 @@
             <div class="col-lg-6">
                 <form method="POST">
                     {% csrf_token %}
-                    {{ form|crispy }}
+                    {{ form.name|as_crispy_field }}
+                    {{ form.description|as_crispy_field }}
+                    {{ form.deadline|as_crispy_field }}
+                    {{ form.status|as_crispy_field }}
+                    {{ form.task_list|as_crispy_field }}
+                    {{ form.assignee|as_crispy_field }}
+                    <label>Select Tags</label>
+                    <div class="tags-box">
+                        {% for prof in form.tags %}
+                            <div>
+                            <a>
+                            {{ prof}}
+                            </a>
+                          </div>
+                        {% endfor %}
+                    </div>
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
                     </div>
                 </form>
             </div>
-        </div>
-        <div class="tags-box">
-          {% for prof in form.tags %}
-              <div>
-              <a>
-              {{ prof}}
-              </a>
-            </div>
-          {% endfor %}
         </div>
       </div>
     </div>
