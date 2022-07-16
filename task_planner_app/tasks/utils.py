@@ -25,7 +25,7 @@ class ViewPermissionsMixin(object):
 
     def dispatch(self, request, *args, **kwargs):
         if not self.has_permissions():
-            messages.info(request, 'You do not have sufficient permissions to view this page')
+            messages.error(request, 'You do not have sufficient permissions to view this page')
             return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return super(ViewPermissionsMixin, self).dispatch(
             request, *args, **kwargs)

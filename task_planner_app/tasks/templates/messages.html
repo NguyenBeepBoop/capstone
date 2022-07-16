@@ -1,3 +1,5 @@
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/messages.css' %}">
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}

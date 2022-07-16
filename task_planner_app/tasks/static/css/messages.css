@@ -1,14 +1,14 @@
 .messages {
-    position: relative;
+    position: fixed;
+    float: center;
     opacity: 1;
-    visibility: visible;
-    transform: translateX(0px);
-    transition: visibility 0s, opacity 250ms, transform 250ms;
+    z-index: 1;
+    width: 98%;
+    margin: auto;
+    animation: fadeOut 2s forwards;
+    animation-delay: 2s;
 }
-.messages.hide {
-    position: relative;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateX(-10px);
-    transition: visibility 0s 250ms, opacity 250ms, transform 250ms;
+@keyframes fadeOut {
+    from {opacity: 1;}
+    to {opacity: 0;}
 }

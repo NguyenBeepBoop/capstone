@@ -20,7 +20,7 @@ class TaskListCreateView(LoginRequiredMixin, CreateView):
         if pk:
             taskgroup=TaskGroup.objects.get(pk=pk)
             if not (user_is_member(request, taskgroup)):
-                messages.info(request, 'You must be a member of this group to access this page.')
+                messages.error(request, 'You must be a member of this group to access this page.')
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
         return super(TaskListCreateView, self).dispatch(request, *args, **kwargs)
 
