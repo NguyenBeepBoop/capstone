@@ -1,11 +1,8 @@
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Q
-<<<<<<< HEAD
-=======
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
->>>>>>> dde5881c049fd1065c8027bf70f956582811295a
 from tasks.models import Membership, TaskGroup
 
 def user_is_owner(request, group):
