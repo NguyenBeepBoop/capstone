@@ -18,7 +18,7 @@ class TaskListForm(forms.ModelForm):
 
     class Meta:
         model = TaskList
-        fields = '__all__'
+        fields = ['name', 'description', 'deadline']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
