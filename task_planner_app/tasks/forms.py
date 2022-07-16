@@ -46,4 +46,4 @@ class TagForm(forms.ModelForm):
 
 class MembershipForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
-    message = forms.CharField(max_length=2048, widget=forms.Textarea)
+    message = forms.CharField(max_length=2048, widget=forms.Textarea, required=False)

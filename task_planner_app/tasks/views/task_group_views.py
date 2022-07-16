@@ -162,7 +162,6 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
 
     def kick(request):
         if request.is_ajax():
-            print("YES")
             user_id = request.POST.get('user_id')
             user = User.objects.get(id=user_id)
             group_id = request.POST.get('group_id')
@@ -178,6 +177,21 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
                 description = f'@{request.user} has kicked you form the group. LATER BITCHH',
                 seen = False
             )
+            data = 'success'
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+        
+    def leave(request):
+        if request.is_ajax():
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            group_id = request.POST.get('group_id')
+            group = TaskGroup.objects.get(id=group_id)
+            
+            membership = Membership.objects.get(user=user, group=group)
+            membership.delete()
             data = 'success'
         else:
             data = 'fail'
