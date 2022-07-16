@@ -24,6 +24,9 @@ urlpatterns = [
     
     re_path('groups_notify/(?P<pk>\d+)$', TaskGroupNotifyView.as_view(), name="group_notify"),
     re_path('group_members/(?P<pk>\d+)$', TaskGroupMembersView.as_view(), name="members_list"),
+    re_path('group_members/promote', TaskGroupMembersView.promote, name="members_promote"),
+    re_path('group_members/demote', TaskGroupMembersView.demote, name="members_demote"),
+    re_path('group_members/kick', TaskGroupMembersView.kick, name="members_kick"),
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
     path('notification/accept/<int:notification_pk>', AcceptNotification.as_view(), name='notification_accept'),
     path('notification/decline/<int:notification_pk>', DeclineNotification.as_view(), name='notification_decline'),
