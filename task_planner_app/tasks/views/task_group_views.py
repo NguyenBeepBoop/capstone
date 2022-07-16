@@ -76,14 +76,13 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
         form = MembershipForm(request.POST)
         receiver = User.objects.get(id=request.POST.get('user'))
         desc = request.POST.get('message')
-        role = request.POST.get('role')
         if form.is_valid():
             membership = Membership.objects.get_or_create(
                 user=receiver,
                 group=taskgroup,
             )
             
-            if not membership[0].role: membership[0].role = role
+            if not membership[0].role: membership[0].role = 'Member'
             membership[0].save()
             
             if membership[0].status == 'Active':

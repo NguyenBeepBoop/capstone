@@ -40,11 +40,5 @@ class NotificationGroupForm(forms.Form):
 
 
 class MembershipForm(forms.Form):
-    ROLE_CHOICES = [
-         ('', '---------'),
-        ('Moderators', 'Moderators'),
-        ('Members', 'Members'),
-    ]
     user = forms.ModelChoiceField(queryset=User.objects.all())
-    role = forms.ChoiceField(choices=ROLE_CHOICES)
     message = forms.CharField(max_length=2048, widget=forms.Textarea)
