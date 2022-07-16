@@ -6,3 +6,10 @@
     margin-top: 5px;
     margin-bottom: 5px;
 }
+
+.container {
+    padding: 0;
+    margin-left: 300px;
+    margin-right: 300px; 
+    width: auto;
+}

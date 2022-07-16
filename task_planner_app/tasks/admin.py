@@ -4,3 +4,5 @@ from tasks.models import *
 admin.site.register(TaskGroup)
 admin.site.register(Notification)
 admin.site.register(Membership)
+admin.site.register(TaskList)
+admin.site.register(Task)
