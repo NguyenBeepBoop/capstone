@@ -21,12 +21,8 @@ class TaskGroupCreateView(LoginRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get('pk')
-        if pk:
-            queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
-        else:
-            queryset = None
-        
+        groups = Membership.objects.filter(user=self.request.user).values_list('group', flat=True)
+        queryset = TaskGroup.objects.filter(id__in=groups)
         myFilter = GroupFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
         context['task_groups'] = myFilter.qs
@@ -36,6 +32,7 @@ class TaskGroupCreateView(LoginRequiredMixin, CreateView):
         if super().form_valid(form):
             curr = form.save(commit=False)
             curr.owner = self.request.user
+            curr.list_group = curr
             curr.save()
             Membership.objects.get_or_create(
                 user=self.request.user,

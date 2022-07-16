@@ -58,7 +58,7 @@ def LoginView(request):
 
             if user:
                 login(request, user)
-                messages.success(request, "Logged in successfully")
+                messages.success(request, f"Welcome {user}")
                 return redirect('tasks:tasks')
 
     else:

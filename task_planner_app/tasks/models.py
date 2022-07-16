@@ -33,6 +33,7 @@ class Task(models.Model):
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
+    list_group = models.ForeignKey("TaskGroup", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
     status = models.CharField(
         max_length=15,
@@ -67,6 +68,7 @@ class TaskGroup(models.Model):
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, 
                         on_delete=models.SET_NULL, null=True, blank=True)
     members = models.ManyToManyField(settings.AUTH_USER_MODEL, through='Membership', related_name='groups')
+    list_group = models.ForeignKey('self', on_delete=models.CASCADE, null=True)
     def __str__(self):
         return self.name
 
@@ -82,7 +84,7 @@ class Membership(models.Model):
         
     def __str__(self):
         return self.user.username + " " + str(self.group)
-    
+
 class Notification(models.Model):
 	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
 	notification_type = models.IntegerField()

@@ -12,7 +12,7 @@ urlpatterns = [
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
     re_path('tasks?sort=(.*)', TaskCreateView.as_view(), name="task_sort"),
 
-    path('lists/', TaskListCreateView.as_view(), name='lists'),
+    #path('lists/', TaskListCreateView.as_view(), name='lists'),
     re_path('lists/(?P<pk>\d+)$', TaskCreateView.as_view(), name="lists_list"),
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
     re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
