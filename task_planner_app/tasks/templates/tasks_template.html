@@ -5,15 +5,27 @@
 {% block title %}Create Tasks{% endblock %}
 
 {% block content %}
-
-<form method="GET">
-    {% csrf_token %}
-    {{ myFilter.form|crispy }}
-    <button type="submit" class="btn btn-primary"> Test</button>
-</form>
+{% include 'task_group_base.html' %}
 
 <body>
     <div class='container my-2'>
+        <h1 style="position: aboslute; display: flex; justify-content: center;">
+        {{task_list}}
+        </h1>
+        <div class="accordion" id="accordionFilter">
+            <button class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Filters
+            </button>
+            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionFilter">
+                <div class="card-body">
+                    <form method="GET">
+                        {% csrf_token %}
+                        {{ myFilter.form|crispy }}
+                        <button type="submit" class="btn btn-primary"> Filter</button>
+                    </form>
+                </div>
+            </div>
+        </div>
         <div class="row">
             <div class="col-lg-6">
                 <div class='row-lg'>
@@ -29,11 +41,9 @@
                     {% endfor %}
                 </div>
                 <div class='row-lg my-5'>
-                    {% if type %}
-                        <a class='btn btn-primary' href="{% url 'tasks:list_details' task_list_id %}">
-                            View Details
-                        </a>
-                    {% endif %}
+                    <a class='btn btn-primary' href="{% url 'tasks:list_details' task_list.id %}">
+                        View Details
+                    </a>
                 </div>
             </div>
             <div class="col-lg-6">

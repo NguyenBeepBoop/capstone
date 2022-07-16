@@ -3,19 +3,27 @@
 {% load static %}
 
 {% block title %}Create Task List{% endblock %}
-
 {% block content %}
-
+{% include 'task_group_base.html' %}
+<style>
+    .container {
+        padding: 0;
+        margin-left: 400px;
+        margin-right: 400px; 
+        width: auto;
+    }
+</style>
 <body>
-
-    <form method="POST">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button type="submit" class="btn btn-primary btn-lg">Edit List</button>
-        </div>
-    </form>
-    <a class='text-decoration-none text-dark' href="{% url 'tasks:list_delete' object.id %}">Delete</a>
+   <div class="container">
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" class="btn btn-primary btn-lg">Edit List</button>
+            </div>
+        </form>
+        <a class='btn btn-danger btn-lg' href="{% url 'tasks:list_delete' object.id %}">Delete</a>
+    </div>
 </body>
 
 {% endblock %}

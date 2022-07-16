@@ -1,6 +1,8 @@
+import mimetypes
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views import View
@@ -21,12 +23,8 @@ class TaskGroupCreateView(LoginRequiredMixin, CreateView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pk = self.kwargs.get('pk')
-        if pk:
-            queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
-        else:
-            queryset = None
-        
+        groups = Membership.objects.filter(user=self.request.user, status='Active').values_list('group', flat=True)
+        queryset = TaskGroup.objects.filter(id__in=groups)
         myFilter = GroupFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
         context['task_groups'] = myFilter.qs
@@ -36,6 +34,7 @@ class TaskGroupCreateView(LoginRequiredMixin, CreateView):
         if super().form_valid(form):
             curr = form.save(commit=False)
             curr.owner = self.request.user
+            curr.list_group = curr
             curr.save()
             Membership.objects.get_or_create(
                 user=self.request.user,
@@ -54,8 +53,8 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
 
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
-        pk = self.kwargs.get('pk')
-        context['members'] = TaskGroup.objects.get(pk=pk).members
+        taskgroup = self.get_object()
+        context['members'] = taskgroup.membership_set.filter(status='Active')
         return context
         
 
@@ -94,6 +93,7 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
                 sender=request.user, 
                 group=taskgroup, 
                 receiver=receiver,
+                seen=False
             )
             notification[0].description = desc
             notification[0].seen = False
@@ -110,7 +110,80 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
             'form': self.form_class
         }
         return context
+        
+    def promote(request):
+        if request.is_ajax():
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            group_id = request.POST.get('group_id')
+            group = TaskGroup.objects.get(id=group_id)
+            
+            membership = Membership.objects.get(user=user, group=group)
+            membership.role = 'Moderator'
+            membership.save()
+            notification = Notification.objects.get_or_create(
+                notification_type = 1,
+                sender = request.user,
+                receiver = user,
+                group = group,
+                description = f'@{request.user} has promoted you to Moderator.',
+                seen = False
+            )
 
+            data = 'success'
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+        
+    def demote(request):
+        if request.is_ajax():
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            group_id = request.POST.get('group_id')
+            group = TaskGroup.objects.get(id=group_id)
+            
+            membership = Membership.objects.get(user=user, group=group)
+            membership.role = 'Member'
+            membership.save()
+            notification = Notification.objects.get_or_create(
+                notification_type = 1,
+                sender = request.user,
+                receiver = user,
+                group = group,
+                description = f'@{request.user} has demoted you to Member. YIKES!',
+                seen = False
+            )
+            data = 'success'
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+
+    def kick(request):
+        if request.is_ajax():
+            print("YES")
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            group_id = request.POST.get('group_id')
+            group = TaskGroup.objects.get(id=group_id)
+            
+            membership = Membership.objects.get(user=user, group=group)
+            membership.delete()
+            notification = Notification.objects.get_or_create(
+                notification_type = 1,
+                sender = request.user,
+                receiver = user,
+                group = group,
+                description = f'@{request.user} has kicked you form the group. LATER BITCHH',
+                seen = False
+            )
+            data = 'success'
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+        
 class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailView):
     model = TaskGroup
     template_name = "task_group_notify.html"
@@ -129,7 +202,8 @@ class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailVi
                         sender=request.user, 
                         group=taskgroup, 
                         receiver=member.user,
-                        description=message
+                        description=message,
+                        seen = False
                     )
                 
         return redirect(reverse_lazy('tasks:group_notify', kwargs={'pk': pk}))
