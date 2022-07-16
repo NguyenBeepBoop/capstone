@@ -1,5 +1,4 @@
 from django.contrib import messages
-from django.http import HttpResponseRedirect
 from braces.views import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
@@ -25,6 +24,7 @@ class TaskListCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
             curr = form.save(commit=False)
             curr.list_group = TaskGroup.objects.get(pk=pk)
             curr.save()
+            messages.success(self.request, f'Sucessfully created tasklist {curr.name}')
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -34,11 +34,11 @@ class TaskListCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
-        
+
         context['task_group_id'] = pk
         myFilter = ListFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
-        context['task_lists'] = myFilter.qs 
+        context['task_lists'] = myFilter.qs
         return context
 
 
@@ -52,7 +52,11 @@ class ListDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
-        context['task_lists'] = TaskList.objects.all()
+        tasklist = self.get_object()
+        
+        context['task_lists'] = tasklist
+        context['taskgroup'] = tasklist.list_group
+        context['members'] = tasklist.list_group.membership_set.filter(status='Active')
         return context
 
 

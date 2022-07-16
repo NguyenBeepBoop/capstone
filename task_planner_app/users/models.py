@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+from tasks.models import Tags
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -56,6 +58,7 @@ class User(AbstractBaseUser):
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_path, 
                                     null=True, blank=True, default=get_default_profile_image)
     hide_email = models.BooleanField(default=True)
+    proficiencies = models.ManyToManyField(Tags)
     
     objects = UserManager()
     

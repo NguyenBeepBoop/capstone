@@ -10,13 +10,16 @@
   .container {
       padding: 0;
       display: block;
-      margin-left: 300px;
-      margin-right: 300px;
+      margin-left: 400px;
+      margin-right: 400px;
       width: auto;
   }
 </style>
 <body>
   <div class='container my-2'>
+    <h1 style='postition: aboslute; display: flex; justify-content: center'>
+      Task Lists
+    </h1>
       <form method="GET">
           {% csrf_token %}
           {{ myFilter.form|crispy }}

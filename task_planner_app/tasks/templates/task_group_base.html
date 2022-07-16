@@ -29,13 +29,34 @@
         {% endfor %}
     </div>
     <div class="sidebar2">
-        <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1);'><i class="fa-solid fa-bolt"></i> Actions </span>
+        <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1); font-size: max(28px, 10px);'><i class="fa-solid fa-bolt"></i> {{taskgroup.name|truncatechars:20}}</span>
         <a href="{% url 'tasks:group_notify' pk=taskgroup.pk %}"><i class="fa-solid fa-bullhorn"></i> Broadcast Notifications</a>
         <a href="{% url 'tasks:members_list' pk=taskgroup.pk %}"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
         <a href="#"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
         <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
         <a href="{% url 'tasks:group_details' pk=taskgroup.pk %}" style="color: grey;"><i class="fa-solid fa-gear"></i> Manage Group</a>
+        <a href="#" style="color: orange;" data-toggle="modal" data-target="#leaveModal"><i class="fa-solid fa-arrow-right-from-bracket"></i> Leave Group</a>
         <a href="{% url 'tasks:group_delete' pk=taskgroup.pk %}" style="color: red;"><i class="fa-solid fa-trash"></i> Delete Group</a>
+    </div>
+    
+    <div class="leave-modal modal fade" id="leaveModal" tabindex="-1" role="dialog" aria-labelledby="leaveModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="leaveModalLabel">Are you sure you want to leave "{{ taskgroup }}"?</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body d-flex modal-footer justify-content-center">
+                <input hidden id='group-id' value="{{taskgroup.id}}">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="leave-btn" type="submit" class="btn btn-danger" value={{request.user.id}}><i class="fa-solid fa-arrow-right-from-bracket"></i> Leave</button>
+            </div>
+            <div class="d-flex modal-footer justify-content-center">
+            </div>
+          </div>
+        </div>
     </div>
 </body>
 

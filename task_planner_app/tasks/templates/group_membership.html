@@ -11,8 +11,8 @@
     }
     .container {
         padding: 0;
-        margin-left: 300px;
-        margin-right: 300px; 
+        margin-left: 400px;
+        margin-right: 400px; 
         width: auto;
     }
 </style>
@@ -23,9 +23,9 @@
   </header>
   <!-- Button trigger modal -->
   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
-    Add New Member
+    Add Member <i class="fa-solid fa-user-plus"></i>
   </button>
-  <div class='row'>&nbsp</div>
+  <div class='row'>&nbsp<input hidden id='group-id' value="{{taskgroup.id}}"></div>
   <table class="table">
     <thead>
       <tr>
@@ -34,20 +34,49 @@
         <th scope="col">Last Name</th>
         <th scope="col">Handle</th>
         <th scope="col">Date Joined</th>
+        <th scope="col">Role</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
     <tbody>
-      {% for member in members %}      
+      {% for member in members %}
         <tr>
-          <th scope="row">{{forloop.counter}}</th>
+          <th scope="row">{{forloop.counter}}
+            {% if member.user == taskgroup.owner %}
+              <i class="fa-solid fa-crown" style="color: gold;"></i>
+            {% endif %}
+          </th>
           <td>{{member.user.first_name}}</td>
           <td>{{member.user.last_name}}</td>
           <td>@{{member.user.username}}</td>
           <td>{{member.created_at}}</td>
+          <td>{{member.role}}</td>
           <td>
-            <button type="button" class="btn btn-secondary">Promote</button>
-            <button type="button" class="btn btn-secondary">Kick</button>
+            {% if request.user == taskgroup.owner %}
+              {% if member.user != request.user %}
+                {% if member.role == 'Moderator' %}
+                  <button id='demote-button-{{forloop.counter}}' type="button" class="demote btn btn-warning" value='{{member.user.id}}'>
+                    <i class="fa-solid fa-arrow-down"></i> Demote&nbsp
+                  </button>
+                {% else %}
+                  <button id='promote-button-{{forloop.counter}}' type="button" class="promote btn btn-info" value='{{member.user.id}}'>
+                    <i class="fa-solid fa-arrow-up"></i> Promote
+                  </button>
+                {% endif %}
+                <button id='kick-button-{{forloop.counter}}' type="button" class="kick btn btn-danger" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-user-slash"></i> Kick
+                </button>
+              {% endif %}
+            {% elif member.role != 'Moderator' %}
+              {% if member.user != request.user or member.user != taskgroup.owner %}
+                <button id='promote-button-{{forloop.counter}}' type="button" class="promote btn btn-info" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-arrow-down"></i> Promote
+                </button>
+                <button id='kick-button-{{forloop.counter}}' type="button" class="kick btn btn-danger" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-skull"></i> Kick
+                </button>
+              {% endif %}
+            {% endif %}
           </td>
         </tr>
       {% endfor %}
@@ -75,7 +104,7 @@
         </div>
         <div class="d-flex modal-footer justify-content-center">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-          <button type="submit" class="btn btn-primary" onclick="document.getElementById('sendbtn').click()">Send<i class="fa-solid fa-paper-plane"></i></button>
+          <button type="submit" class="btn btn-primary" onclick="document.getElementById('sendbtn').click()">Send <i class="fa-solid fa-paper-plane"></i></button>
         </div>
       </div>
     </div>
@@ -83,6 +112,5 @@
   
 </div>
 
+<script type="text/javascript" src="{% static 'js/group_membership.js' %}"></script>
 {% endblock %}
-
-<script type="text/javascript" src="{% static 'js/show_notifications.js' %}"></script>

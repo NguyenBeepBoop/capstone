@@ -1,6 +1,11 @@
 from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.db.models import Q
+<<<<<<< HEAD
+=======
+from django.shortcuts import redirect
+from django.urls import reverse_lazy
+>>>>>>> dde5881c049fd1065c8027bf70f956582811295a
 from tasks.models import Membership, TaskGroup
 
 def user_is_owner(request, group):
@@ -25,8 +30,7 @@ class ViewPermissionsMixin(object):
         # self.get_object() and self.request.user
         user = self.request.user
         group = self.get_object().list_group
-
-        queryset = Membership.objects.filter(user=user, group=group)
+        queryset = Membership.objects.filter(user=user, group=group, status='Active')
         if role:
             queryset = queryset.filter(role=role)
 
@@ -37,7 +41,10 @@ class ViewPermissionsMixin(object):
     def dispatch(self, request, *args, **kwargs):
         if not self.has_permissions():
             messages.error(request, 'You do not have sufficient permissions to view this page')
-            return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            if request.META.get('HTTP_REFERER') != request.path:
+                return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+            else:
+                return redirect(reverse_lazy('tasks:groups'))
         return super(ViewPermissionsMixin, self).dispatch(
             request, *args, **kwargs)
 

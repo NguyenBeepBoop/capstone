@@ -7,7 +7,7 @@
 		{% for notification in notifications %}
 			{% if notification.notification_type == 1 %}
 				<div class="dropdown-item-parent">
-					<a href="">@{{ notification.group }} has a new updates</a>
+					<a href="">@{{ notification.group }} has a new updates. <br> {{ notification.description }}</a>
 					<span class="dropdown-item-close" onclick="removeNotification(`{% url 'tasks:notification_delete' notification.pk %}`, `{{ request.path }}`)">&times;</span>
 				</div>
 			{% elif notification.notification_type == 2 %}
@@ -20,7 +20,14 @@
 				</div>
 			{% elif notification.notification_type == 3 %}
 				<div class="dropdown-item-parent">
-					<a href="">@{{ notification.sender }} sent you a group invite to {{ notification.group }} <br> {{ notification.description }}</a>
+					<a href="">
+						@{{ notification.sender }} sent you a group invite to {{ notification.group }} <br> 
+							{% if notification.description %}
+								{{ notification.description }}
+							{% else %}
+								<br>
+							{% endif %}
+					</a>
 					<span class="dropdown-item-accept" onclick="removeNotification(`{% url 'tasks:notification_accept' notification.pk %}`, `{{ request.path }}`)">
 						<i class="fa-regular fa-circle-check"></i> Accept</span>
 					<span class="dropdown-item-decline" onclick="removeNotification(`{% url 'tasks:notification_decline' notification.pk %}`, `{{ request.path }}`)">
