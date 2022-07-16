@@ -5,31 +5,57 @@
 {% block title %}Create Tasks{% endblock %}
 
 {% block content %}
+{% include 'task_group_base.html' %}
+
 <body>
     <div class='container my-2'>
-      <div class="row">
-        <div class="col-lg-6">
-          {% for i in tasks %}
-            <a class='text-decoration-none text-dark' href="{% url 'tasks:task_details' i.id%}">
-              <div class="task-border">
-                  <div class="my-2 mx-3">
-                      {{i.name}}
-                      {% if not i.deadline %}{{""}}{% else %}{{i.deadline}}{% endif %}
-                  </div>
-              </div>
-            </a>
-          {% endfor %}
-        </div>
-        <div class="col-lg-6">
-          <form method="POST">
-            {% csrf_token %}
-            {{ form|crispy }}
-            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-              <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
+        <h1 style="position: aboslute; display: flex; justify-content: center;">
+        {{task_list}}
+        </h1>
+        <div class="accordion" id="accordionFilter">
+            <button class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                Filters
+            </button>
+            <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionFilter">
+                <div class="card-body">
+                    <form method="GET">
+                        {% csrf_token %}
+                        {{ myFilter.form|crispy }}
+                        <button type="submit" class="btn btn-primary"> Filter</button>
+                    </form>
+                </div>
             </div>
-          </form>
         </div>
-      </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <div class='row-lg'>
+                    {% for i in tasks %}
+                    <a class='text-decoration-none text-dark' href="{% url 'tasks:task_details' i.id%}">
+                        <div class="task-border">
+                            <div class="my-2 mx-3">
+                                {{i.name}}
+                                {% if not i.deadline %}{{""}}{% else %}{{i.deadline}}{% endif %}
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+                <div class='row-lg my-5'>
+                    <a class='btn btn-primary' href="{% url 'tasks:list_details' task_list.id %}">
+                        View Details
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <form method="POST">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Create Task</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 {% endblock %}

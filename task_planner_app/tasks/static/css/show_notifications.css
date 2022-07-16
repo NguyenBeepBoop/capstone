@@ -23,7 +23,7 @@
 .dropdown-content {
 	position: absolute;
 	background-color: #f1f1f1;
-	min-width: 350px;
+	min-width: 380px;
 	box-shadow: 0px 8px 8px 0px rgba(0,0,0,0.2);
 	z-index: 1;
 	font-size: 0.9rem;
@@ -58,6 +58,39 @@
 
 .dropdown-item-close:hover {
 	color: rgb(180, 25, 25);
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.dropdown-item-accept {
+	position: absolute;
+	color: rgba(0, 128, 0, 0.76);
+	padding-left: 5px;
+	padding-right: 10px;
+	padding-bottom: 5px;
+	bottom: 0;
+	right: 0;
+}
+
+.dropdown-item-accept:hover {
+	color: rgb(1, 199, 1);
+	transition: 0.3s;
+	cursor: pointer;
+}
+
+.dropdown-item-decline {
+	position: absolute;
+	color: rgba(173, 5, 5, 0.829);
+	padding-left: 5px;
+	padding-right: 5px;
+	margin-right: 80px;
+	padding-bottom: 5px;
+	bottom: 0;
+	right: 0;
+}
+
+.dropdown-item-decline:hover {
+	color: red;
 	transition: 0.3s;
 	cursor: pointer;
 }

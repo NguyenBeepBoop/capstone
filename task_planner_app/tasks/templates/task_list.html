@@ -5,6 +5,14 @@
 {% block title %}Create Task List{% endblock %}
 
 {% block content %}
+
+<form method="GET">
+  {% csrf_token %}
+  {{ myFilter.form|crispy }}
+  <button type="submit" class="btn btn-primary"> Test</button>
+</form>
+
+
 <body>
     <div class='container my-2'>
       <div class="row">
@@ -19,5 +27,6 @@
         </div>
       </div>
     </div>
+    <a class='text-decoration-none text-dark' href="{% url 'tasks:list_delete' something.id %}">Delete</a>
 </body>
 {% endblock %}

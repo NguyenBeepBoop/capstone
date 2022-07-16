@@ -3,7 +3,6 @@
 {% load static %}
 
 {% block title %}Create Task List{% endblock %}
-
 {% block content %}
 {% include 'task_group_base.html' %}
 <style>
@@ -16,16 +15,15 @@
 </style>
 <body>
    <div class="container">
-       <form method="POST">
-           {% csrf_token %}
-           {{ form|crispy }}
-           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-               <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" class="btn btn-primary btn-lg">Edit List</button>
             </div>
         </form>
-        <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
+        <a class='btn btn-danger btn-lg' href="{% url 'tasks:list_delete' object.id %}">Delete</a>
     </div>
 </body>
 
 {% endblock %}
-

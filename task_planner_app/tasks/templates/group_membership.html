@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+{% include 'task_group_base.html' %}
+<style>
+    h1 {
+        font-family: Arial, Helvetica, sans-serif;
+        font-weight: bold;
+    }
+    .container {
+        padding: 0;
+        margin-left: 400px;
+        margin-right: 400px; 
+        width: auto;
+    }
+</style>
+<div class='container'>
+  <header>
+    <br>
+    <h1>Manage Members</h1>
+  </header>
+  <!-- Button trigger modal -->
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
+    Add Member <i class="fa-solid fa-user-plus"></i>
+  </button>
+  <div class='row'>&nbsp<input hidden id='group-id' value="{{taskgroup.id}}"></div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First Name</th>
+        <th scope="col">Last Name</th>
+        <th scope="col">Handle</th>
+        <th scope="col">Date Joined</th>
+        <th scope="col">Role</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for member in members %}
+        <tr>
+          <th scope="row">{{forloop.counter}}
+            {% if member.user == taskgroup.owner %}
+              <i class="fa-solid fa-crown" style="color: gold;"></i>
+            {% endif %}
+          </th>
+          <td>{{member.user.first_name}}</td>
+          <td>{{member.user.last_name}}</td>
+          <td>@{{member.user.username}}</td>
+          <td>{{member.created_at}}</td>
+          <td>{{member.role}}</td>
+          <td>
+            {% if request.user == taskgroup.owner %}
+              {% if member.user != request.user %}
+                {% if member.role == 'Moderator' %}
+                  <button id='demote-button-{{forloop.counter}}' type="button" class="demote btn btn-warning" value='{{member.user.id}}'>
+                    <i class="fa-solid fa-arrow-down"></i> Demote&nbsp
+                  </button>
+                {% else %}
+                  <button id='promote-button-{{forloop.counter}}' type="button" class="promote btn btn-info" value='{{member.user.id}}'>
+                    <i class="fa-solid fa-arrow-up"></i> Promote
+                  </button>
+                {% endif %}
+                <button id='kick-button-{{forloop.counter}}' type="button" class="kick btn btn-danger" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-user-slash"></i> Kick
+                </button>
+              {% endif %}
+            {% elif member.role != 'Moderator' %}
+              {% if member.user != request.user or member.user != taskgroup.owner %}
+                <button id='promote-button-{{forloop.counter}}' type="button" class="promote btn btn-info" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-arrow-down"></i> Promote
+                </button>
+                <button id='kick-button-{{forloop.counter}}' type="button" class="kick btn btn-danger" value='{{member.user.id}}'>
+                  <i class="fa-solid fa-skull"></i> Kick
+                </button>
+              {% endif %}
+            {% endif %}
+          </td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="inviteModalLabel">Send Member Invite</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form method="POST">
+            {% csrf_token %}
+            {{form|crispy}}
+            <div class="d-flex justify-content-center">
+              <button id='sendbtn' type="submit" class="btn btn-primary" hidden></button>
+            </div>
+          </form>
+        </div>
+        <div class="d-flex modal-footer justify-content-center">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary" onclick="document.getElementById('sendbtn').click()">Send <i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<script type="text/javascript" src="{% static 'js/group_membership.js' %}"></script>
+{% endblock %}

@@ -5,20 +5,40 @@
 {% block title %}Create Task List{% endblock %}
 
 {% block content %}
+{% include 'task_group_base.html' %}
+<style>
+  .container {
+      padding: 0;
+      display: block;
+      margin-left: 400px;
+      margin-right: 400px;
+      width: auto;
+  }
+</style>
 <body>
-    <div class='container my-2'>
+  <div class='container my-2'>
+    <h1 style='postition: aboslute; display: flex; justify-content: center'>
+      Task Lists
+    </h1>
+      <form method="GET">
+          {% csrf_token %}
+          {{ myFilter.form|crispy }}
+          <button type="submit" class="btn btn-primary"> Test</button>
+      </form>
       <div class="row">
         <div class="col-lg-6">
-          {% for i in task_lists %}
-            <a class='text-decoration-none text-dark' href="{% url 'tasks:lists_list' i.id%}">
-                <div class="task-border">
-                    <div class="my-2 mx-3">
-                        {{i.name}}
-                        {{i.id}}
-                    </div>
-                </div>
-            </a>
-          {% endfor %}
+          <div class="'row-lg">
+            {% for i in task_lists %}
+              <a class='text-decoration-none text-dark' href="{% url 'tasks:lists_list' i.id%}">
+                  <div class="task-border">
+                      <div class="my-2 mx-3">
+                          {{i.name}}
+                          {{i.id}}
+                      </div>
+                  </div>
+              </a>
+            {% endfor %}
+          </div>
         </div>
         <div class="col-lg-6">
           <form method="POST">
