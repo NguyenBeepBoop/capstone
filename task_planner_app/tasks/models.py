@@ -62,7 +62,7 @@ class TaskList(models.Model):
         return self.name
 
 class TaskGroup(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(max_length=2000, null=True, blank=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, 
                         on_delete=models.SET_NULL, null=True, blank=True)
@@ -77,12 +77,14 @@ class Membership(models.Model):
     status = models.CharField(max_length=15, choices=MEM_STATUS_CHOICES, default='Pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    
+    class Meta:
+        unique_together = ('user', 'group',)
+        
     def __str__(self):
-        return self.user + " " + self.group
+        return self.user.username + " " + str(self.group)
     
 class Notification(models.Model):
-	# 1 Group Notification, 2 = Connection Request, 
+	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
 	notification_type = models.IntegerField()
 	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
 	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)

@@ -11,13 +11,12 @@
   <link rel="stylesheet" type="text/css" href="{% static 'css/base.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
   <link rel="stylesheet" type="text/css" href="{% static 'css/show_notifications.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/messages.css' %}">
 </head>
 
 {% include 'navbar.html' %}
+{% include 'messages.html' %}
   <body>
     <div class="container-fluid">
-        {% include 'messages.html' %}
     </div>
     {% block content %}
 
