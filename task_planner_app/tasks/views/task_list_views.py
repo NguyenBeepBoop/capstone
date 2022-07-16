@@ -11,7 +11,7 @@ from tasks.models import TaskGroup, TaskList
 from tasks.utils import OwnerPermissionMixin, UserPermissionMixin, ModeratorPermissionMixin, user_is_member
 
 class TaskListCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
-    model = TaskList
+    model = TaskGroup
     form_class = TaskListForm
     template_name = "task_list_create.html"
     success_url = reverse_lazy("tasks:lists")
