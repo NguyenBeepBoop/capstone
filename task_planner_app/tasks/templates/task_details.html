@@ -16,13 +16,27 @@
 </style>
 <body>
    <div class="container">
-       <form method="POST">
+       <!-- <form method="POST">
            {% csrf_token %}
-           {{ form|crispy }}
+           {{ form.as_p }}
            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-               <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
+               <button type="submit" name="edit" class="btn btn-primary btn-lg">Edit Task</button>
             </div>
-        </form>
+        </form> -->
+        <form class="update" method="POST">
+            {% csrf_token %}
+            {{ forms.update.as_p }}
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" name="action" value="update" class="btn btn-primary btn-lg">Edit Task</button>
+             </div>
+         </form>
+        <form class="comment" method="POST">
+            {% csrf_token %}
+            {{ forms.comment.as_p }}
+            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                <button type="submit" name="action" value="comment" class="btn btn-primary btn-lg">Add comment</button>
+             </div>
+         </form>
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
     </div>
 </body>

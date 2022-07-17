@@ -69,9 +69,13 @@ def LoginView(request):
     return render(request, "login.html", context)
 
 @login_required
-def ProfileView(request):
-    context = {'user': request.user}
-    return render(request, 'profile_view.html', context)
+def ProfileView(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user 
+    args = {'user': user}
+    return render(request, 'profile_view.html', args)
 
 @login_required
 def EditProfileView(request):

@@ -1,5 +1,6 @@
 from django.db import models
 from django.conf import settings
+from users.models import User
 # Create your models here.
 
 
@@ -94,4 +95,13 @@ class Notification(models.Model):
 	description = models.TextField(max_length=2000, null=True, blank=True)
 	date = models.DateTimeField(auto_now_add=True)
 	seen = models.BooleanField(default=False)
+
+class Comment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.user.username
 	

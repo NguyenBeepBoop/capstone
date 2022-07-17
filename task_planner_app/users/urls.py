@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.urls import path 
+from django.conf.urls import url
 from . import views 
 from django.contrib.auth import views as auth_views
 from django.conf.urls.static import static
@@ -13,6 +14,7 @@ urlpatterns = [
     path('reset/<uidb64>/<token>', auth_views.PasswordResetConfirmView.as_view(template_name="password_reset_form.html"), name="password_reset_confirm"),
     path('reset_password_complete/', auth_views.PasswordResetCompleteView.as_view(template_name="password_reset_done.html"), name="password_reset_complete"),
     path('profile/', views.ProfileView, name='profile_view'),
+    url(r'^profile/(?P<pk>\d+)/$', views.ProfileView, name='profile_view_with_pk'),
     path('profile_edit/', views.EditProfileView, name='edit_profile'),
     ]
 if settings.DEBUG:

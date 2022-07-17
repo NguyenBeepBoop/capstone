@@ -1,12 +1,14 @@
+from xml.etree.ElementTree import Comment
 from django.contrib import messages
 from braces.views import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
-from tasks.forms import TaskForm
+from tasks.forms import TaskForm, EditTaskForm, CommentForm
 from tasks.models import Task, TaskGroup, TaskList
 from tasks.utils import UserPermissionMixin, user_is_member
+
 
 from users.models import User
 
@@ -46,7 +48,11 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
     template_name = "task_details.html"
-    
+    form_classes = {
+        'update': EditTaskForm,
+        'comment': CommentForm,
+    }
+
     def get_success_url(self):
         return reverse_lazy("tasks:lists_list", kwargs={'pk': self.get_object().task_list.id})
     
@@ -58,12 +64,33 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['members'] = taskgroup.membership_set.filter(status='Active')
         return context
     
-    """def post(self, request, *args, **kwargs):
-        obj = self.get_object()
-        obj.name = "Copy of " + obj.name
-        obj.pk = None
-        obj.save()
-        return redirect(self.success_url)"""
+    # def post(self, request, *args, **kwargs):
+    #     if request.method=='POST' and 'edit' in request.POST:
+    #         form = EditTaskForm(request.POST)
+    #         if form.is_valid():
+    #             name = request.POST['name']
+    #             name = request.POST['name']
+    #             name = request.POST['name']
+    #             name = request.POST['name']
+    #             name = request.POST['name']
+    #             name = request.POST['name']
+
+    #             ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
+    #     if request.method=='POST' and 'comment' in request.POST:
+            
+
+    # """def post(self, request, *args, **kwargs):
+    #     obj = self.get_object()
+    #     obj.name = "Copy of " + obj.name
+    #     obj.pk = None
+    #     obj.save()
+    #     return redirect(self.success_url)"""
+    # def comment(request):
+    #     if request.is_ajax():
+
+    #     else:
+
+    #     return HttpResponse(data, mimetype)
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):

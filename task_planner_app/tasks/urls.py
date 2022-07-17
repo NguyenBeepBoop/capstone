@@ -1,6 +1,7 @@
 from users.views import LoginView
 from django.urls import path, re_path
 from tasks.views import *
+from django.conf.urls import url
 
 app_name='tasks'
 

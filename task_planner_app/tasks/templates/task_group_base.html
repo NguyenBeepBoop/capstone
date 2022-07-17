@@ -5,14 +5,14 @@
 <body>
     <div class="sidebar">
         <span><i class="fa-solid fa-user"></i> Owner </span>
-        <a href="#"> {% comment %} please add link to profile here {% endcomment %}
+        <a href="{% url 'profile_view_with_pk' pk=taskgroup.owner.pk %}"> {% comment %} please add link to profile here {% endcomment %}
             <img style="border-radius: 50%" src="{{ taskgroup.owner.profile_image.url}}" width="30"height='30'>
             &nbsp@{{taskgroup.owner}}
         </a>
         <span><i class="fa-solid fa-person-military-pointing"></i> Moderators </span>
         {% for i in members%}
             {% if i.user != taskgroup.owner and i.role == 'Moderator' %}
-                <a href="#">
+                <a href="{% url 'profile_view_with_pk' pk=i.user.pk %}">
                     <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
                     &nbsp@{{i.user}}
                 </a>
@@ -21,7 +21,7 @@
         <span><i class="fa-solid fa-person-praying"></i> Members </span>
         {% for i in members%}
             {% if i.user != taskgroup.owner and i.role == 'Member' %}
-                <a href="#">
+                <a href="{% url 'profile_view_with_pk' pk=i.user.pk %}">
                     <img style="border-radius: 50%" src="{{i.user.profile_image.url}}" width="30"height='30'>
                     &nbsp@{{i.user}}
                 </a>
