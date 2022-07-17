@@ -16,9 +16,15 @@
         {% endif %}
       </div>
       <div class="col-lg-3">
+        {% if pk %}
         <p>
-          <a class='justify-content-right btn btn-secondary' href="{% url 'edit_profile' %}">Edit Profile</a>
+            <a class='justify-content-right btn btn-secondary' href="{% url 'edit_profile' %}">Add friend</a>
         </p>
+        {% else %}
+        <p>
+            <a class='justify-content-right btn btn-secondary' href="{% url 'edit_profile' %}">Edit Profile</a>
+        </p>
+        {% endif %}
       </div>
     </div>
     <p>Username: {{ user }}</p>
