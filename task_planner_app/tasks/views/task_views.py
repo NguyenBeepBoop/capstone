@@ -5,7 +5,7 @@ from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
-from tasks.forms import TaskForm, EditTaskForm, CommentForm
+from tasks.forms import TaskForm, CommentForm
 from tasks.models import Task, TaskGroup, TaskList, Comment
 from tasks.utils import UserPermissionMixin, user_is_member
 
@@ -61,7 +61,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
         context['comments'] = Comment.objects.all()
-        context['forms'] = {'edit': EditTaskForm(instance=task), 'comment': CommentForm}
+        context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
 
     def post(self, request, *args, **kwargs):

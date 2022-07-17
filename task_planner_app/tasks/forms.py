@@ -51,11 +51,3 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment 
         fields = ['content']
-
-class EditTaskForm(forms.ModelForm):
-    class Meta:
-        model = Task
-        fields = ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
-        widgets = {
-            'deadline': forms.DateInput(attrs={'type':'datetime-local'})
-        }
