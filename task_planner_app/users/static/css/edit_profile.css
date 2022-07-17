@@ -3,7 +3,7 @@ form label {
 font-weight:500
 }
 .container {
-    margin: auto;
+    margin: 0px;
 }
 .proficiencies-box {
     border: 0.1px solid rgba(128, 128, 128, 0.356);
