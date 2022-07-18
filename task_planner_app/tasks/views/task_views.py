@@ -33,6 +33,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         taskgroup = self.get_object().list_group
         tasks = self.get_object().task_set.all()
         myFilter = TaskFilter(self.request.GET, queryset=tasks)
+        context['members'] = taskgroup.membership_set.filter(status='Active')
         context['taskgroup'] = taskgroup
         context['myFilter'] = myFilter
         context['tasks'] = myFilter.qs
