@@ -6,40 +6,54 @@
 
 {% block content %}
 {% include 'task_group_base.html' %}
-<style>
-    .container {
-        padding: 0;
-        margin-left: 400px;
-        margin-right: 400px; 
-        width: auto;
-    }
-</style>
 <body>
+    <h1 style='postition: aboslute; display: flex; justify-content: center'>
+        Edit {{task.name}}
+    </h1>
    <div class="container">
-       {% comment %} <form method="POST">
-           {% csrf_token %}
-           {{ form.as_p }}
-           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-               <button type="submit" name="edit" class="btn btn-primary btn-lg">Edit Task</button>
-            </div>
-        </form> {% endcomment %}
-        {% for i in comments %}
-            <div>{{ i.content }}</div>
-        {% endfor %}
-        <form class="update" method="POST">
+        <div class='row'><form class="update" style="width:100%" method="POST">
             {% csrf_token %}
-            <div>{{ forms.edit }}</div>
-            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                <button id='edit' type="submit" class="btn btn-primary btn-lg">Edit Task</button>
+            <div class="row">
+                <div class="col-lg-6">
+                    <table>
+                        <tr><td><div>{{ forms.edit.name|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <table>
+                        <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.priority|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>    
+                    </table>
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
+                    </div>
+                </div>
             </div>
-         </form>
-        <form class="comment" method="POST">
-            {% csrf_token %}
-            {{ forms.comment }}
-            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Add comment</button>
-             </div>
-         </form>
+         </form></div>
+        
+        <div class='row'>
+            <div class='col-lg-6 task-border' style='height:400px;overflow-y:scroll;'>
+                {% for i in comments %}
+                <div class="task-border">
+                    <div>@{{ i.user }} {{ i.date|date:"d/m/Y" }} </div>
+                    <div>{{ i.content }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class='col-lg-6'>
+                <form class="comment" method="POST">
+                    {% csrf_token %}
+                    {{ forms.comment|crispy }}
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment</button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
     </div>
 </body>

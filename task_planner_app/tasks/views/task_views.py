@@ -57,12 +57,18 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         taskgroup = self.get_object().list_group
         pk = self.kwargs.get('pk')
         task = Task.objects.get(pk=pk)
-        context['tasks'] = Task.objects.all()
+        context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
         context['comments'] = Comment.objects.all()
         context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
+
+    def edit():
+        pass
+
+    def comment():
+        pass
 
     def post(self, request, *args, **kwargs):
 
@@ -77,33 +83,6 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
             form = TaskForm(request.POST, instance=task)
             form.save()
         return redirect(reverse_lazy('tasks:lists_list', kwargs={'pk': 1}))
-    # def post(self, request, *args, **kwargs):
-    #     if request.method=='POST' and 'edit' in request.POST:
-    #         form = EditTaskForm(request.POST)
-    #         if form.is_valid():
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-
-    #             ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
-    #     if request.method=='POST' and 'comment' in request.POST:
-            
-
-    # """def post(self, request, *args, **kwargs):
-    #     obj = self.get_object()
-    #     obj.name = "Copy of " + obj.name
-    #     obj.pk = None
-    #     obj.save()
-    #     return redirect(self.success_url)"""
-    # def comment(request):
-    #     if request.is_ajax():
-
-    #     else:
-
-    #     return HttpResponse(data, mimetype)
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
