@@ -75,12 +75,11 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         pass
 
     def post(self, request, *args, **kwargs):
-
+        pk = self.kwargs.get('pk')
         if "content" in request.POST:
             form = CommentForm(request.POST)
             obj = form.save(commit=False)
             obj.user = self.request.user
-            pk = self.kwargs.get('pk')
             obj.task = Task.objects.get(pk=pk)
             obj.save()
         else:
@@ -88,7 +87,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
             task = Task.objects.get(pk=pk)
             form = TaskForm(request.POST, instance=task)
             form.save()
-        return redirect(reverse_lazy('tasks:lists_list', kwargs={'pk': 1}))
+        return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': pk}))
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
