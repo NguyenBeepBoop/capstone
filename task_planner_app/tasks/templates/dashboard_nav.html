@@ -1,0 +1,41 @@
+{% load crispy_forms_tags %}
+{% load static %}
+
+
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard_nav.css' %}">
+<body>
+    <div class="sidebar">
+        <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1); font-size: max(28px, 10px);'>Welcome, {{ request.user }}</span>
+        <a href="#" style="color: navy;" data-toggle="modal" data-target="#createGroupModal"><i class="fa-solid fa-plus"></i> Create Group</a>
+        <a href="{% url 'tasks:dashboard_groups' %}" style="color: navy;"><i class="fa-solid fa-people-group"></i> My Groups</a>
+        <a href="{% url 'tasks:dashboard' %}" style="color: navy;"><i class="fa-solid fa-list-check"></i> My Tasks</a>
+    </div>
+    
+    <div class="create-group-modal modal fade" id="createGroupModal" tabindex="-1" role="dialog" aria-labelledby="createGroupModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header" style='position: aboslute; display: flex; justify-content: center;'>
+              <h5 class="modal-title" id="createGroupModalLabel">Create Task Group</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <form method="POST">
+                {% csrf_token %}
+                {{form|crispy}}
+                <div class="d-flex justify-content-center">
+                  <button id='createbtn' type="submit" class="btn btn-primary" hidden></button>
+                </div>
+              </form>
+            </div>
+            <div class="d-flex modal-footer justify-content-center">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary" onclick="document.getElementById('createbtn').click()">Create <i class="fa-solid fa-plus"></i></i></button>
+            </div>
+          </div>
+        </div>
+    </div>
+</body>
+
+<script type="text/javascript" src="{% static 'js/dashboard_nav.js' %}"></script>

@@ -52,6 +52,8 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'django_filters',
+    'corsheaders',
+    'rest_framework',
     # 'simple_history',
     # 'django_bootstrap_breadcrumbs',
 ]
@@ -71,6 +73,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'task_planner_app.urls'
@@ -206,3 +209,7 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
+
+CORS_ORIGIN_WHITELIST = [
+     'http://localhost:3000'
+]
