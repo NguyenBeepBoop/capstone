@@ -74,7 +74,7 @@ def ProfileView(request, pk=None):
         user = User.objects.get(pk=pk)
     else:
         user = request.user 
-    args = {'user': user}
+    args = {'user': user, 'pk': pk}
     return render(request, 'profile_view.html', args)
 
 @login_required

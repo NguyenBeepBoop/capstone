@@ -1,12 +1,12 @@
-from xml.etree.ElementTree import Comment
 from django.contrib import messages
 from braces.views import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
-from tasks.forms import TaskForm, EditTaskForm, CommentForm
-from tasks.models import Task, TaskGroup, TaskList
+from tasks.forms import TaskForm, CommentForm
+from tasks.models import Task, TaskGroup, TaskList, Comment
 from tasks.utils import UserPermissionMixin, user_is_member
 
 
@@ -52,10 +52,6 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
     fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
     template_name = "task_details.html"
-    form_classes = {
-        'update': EditTaskForm,
-        'comment': CommentForm,
-    }
 
     def get_success_url(self):
         return reverse_lazy("tasks:lists_list", kwargs={'pk': self.get_object().task_list.id})
@@ -63,38 +59,34 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object().list_group
-        context['tasks'] = Task.objects.all()
+        pk = self.kwargs.get('pk')
+        task = Task.objects.get(pk=pk)
+        context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
+        context['comments'] = Comment.objects.all()
+        context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
-    
-    # def post(self, request, *args, **kwargs):
-    #     if request.method=='POST' and 'edit' in request.POST:
-    #         form = EditTaskForm(request.POST)
-    #         if form.is_valid():
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
-    #             name = request.POST['name']
 
-    #             ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
-    #     if request.method=='POST' and 'comment' in request.POST:
-            
+    def edit():
+        pass
 
-    # """def post(self, request, *args, **kwargs):
-    #     obj = self.get_object()
-    #     obj.name = "Copy of " + obj.name
-    #     obj.pk = None
-    #     obj.save()
-    #     return redirect(self.success_url)"""
-    # def comment(request):
-    #     if request.is_ajax():
+    def comment():
+        pass
 
-    #     else:
+    def post(self, request, *args, **kwargs):
 
-    #     return HttpResponse(data, mimetype)
+        if "content" in request.POST:
+            form = CommentForm(request.POST)
+            obj = form.save(commit=False)
+            obj.user = self.request.user
+            obj.save()
+        else:
+            pk = self.kwargs.get('pk')
+            task = Task.objects.get(pk=pk)
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+        return redirect(reverse_lazy('tasks:lists_list', kwargs={'pk': 1}))
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):

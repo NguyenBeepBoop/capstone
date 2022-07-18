@@ -100,7 +100,7 @@ class Notification(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    task = models.ForeignKey('Task', on_delete=models.CASCADE)
+    #task = models.ForeignKey('Task', on_delete=models.CASCADE)
     content = models.TextField()
 
     def __str__(self):
