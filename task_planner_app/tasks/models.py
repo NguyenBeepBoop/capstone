@@ -1,5 +1,7 @@
+from functools import cached_property
 from django.db import models
 from django.conf import settings
+from tasks.const import TaskStatus, status_color
 # Create your models here.
 
 
@@ -32,6 +34,8 @@ TAGS_CHOICES = [
     ('Active', 'Active'),
     ('Inactive', 'Inactive'),
 ]
+
+
 class Task(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField(max_length=2000, blank=True, default='')
@@ -55,7 +59,24 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    @cached_property
+    def status_display(self):
+        _status = {
+            'status': TaskStatus(self.status).label,
+            'style': status_color[TaskStatus(self.status)]
+        }
+        return _status
+        
+    @cached_property
+    def priority_display(self):
+        _priority = {
+            'priority': TaskStatus(self.priority).label,
+            'style': status_color[TaskStatus(self.priority)]
+        }
+        return _priority
+        
+        
     class Meta:
         ordering = ['status', '-priority', models.F('deadline').asc(nulls_last=True)]
 

@@ -1,11 +1,9 @@
 import mimetypes
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from tasks.filters import GroupFilter

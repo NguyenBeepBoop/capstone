@@ -1,5 +1,5 @@
 from django import template
-from tasks.models import Notification
+from tasks.models import Membership, Notification
 
 register = template.Library()
 
@@ -30,3 +30,7 @@ def add_classes(value, arg):
             css_classes.append(a)
     # join back to single string
     return value.as_widget(attrs={'class': ' '.join(css_classes)})
+    
+@register.simple_tag
+def user_date_joined(group, user):
+    return Membership.objects.get(group=group, user=user, status='Active').created_at.strftime("%d %B, %Y")

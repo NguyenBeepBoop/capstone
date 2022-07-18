@@ -5,10 +5,8 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm
-from tasks.models import Task, TaskGroup, TaskList
+from tasks.models import Task, TaskList
 from tasks.utils import UserPermissionMixin
-
-from users.models import User
 
 # Create your views here.
 class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):

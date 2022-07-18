@@ -28,10 +28,15 @@ urlpatterns = [
     path('group_members/demote', TaskGroupMembersView.demote, name="members_demote"),
     path('group_members/kick', TaskGroupMembersView.kick, name="members_kick"),
     path('group_members/leave', TaskGroupMembersView.leave, name="members_leave"),
+    
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
     path('notification/accept/<int:notification_pk>', AcceptNotification.as_view(), name='notification_accept'),
     path('notification/decline/<int:notification_pk>', DeclineNotification.as_view(), name='notification_decline'),
-    path('tags/', TagCreateView.as_view(), name='tags')
+    
+    path('tags/', TagCreateView.as_view(), name='tags'),
+    
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('dashboard/groups', DashboardGroups.as_view(), name='dashboard_groups'),
 ]
 
 
