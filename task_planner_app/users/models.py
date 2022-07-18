@@ -2,6 +2,8 @@ from django.conf import settings
 from django.db import models
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+from tasks.models import Tags
 # Create your models here.
 
 class UserManager(BaseUserManager):
@@ -59,6 +61,7 @@ class User(AbstractBaseUser):
     hide_email = models.BooleanField(default=True)
     capacity = models.PositiveIntegerField(blank=True, null=True)
     workload = models.PositiveIntegerField(default=0)
+    proficiencies = models.ManyToManyField(Tags)
     
     objects = UserManager()
     

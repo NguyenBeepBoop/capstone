@@ -3,13 +3,18 @@ from datetime import datetime
 from django.utils import timezone
 
 from users.models import User
-from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership
+from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership, Tags
 
 
 class TaskForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+            queryset=Tags.objects.filter(status='Active'),
+            widget=forms.CheckboxSelectMultiple,
+            required=False)
+            
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority']
+        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority', 'tags']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
@@ -34,10 +39,15 @@ class NotificationGroupForm(forms.Form):
     
     def __init__(self, *args, **kwargs):
         super(NotificationGroupForm, self).__init__(*args, **kwargs) # Call to ModelForm constructor
-        self.fields['message'].widget.attrs['cols'] = 10
-        self.fields['message'].widget.attrs['rows'] = 10
+        self.fields['message'].widget.attrs['cols'] = 50
+        self.fields['message'].widget.attrs['rows'] = 5
         self.fields['users'].widget.attrs['style'] = 'width:150px;'
 
+class TagForm(forms.ModelForm):
+    
+    class Meta:
+        model = Tags
+        fields = '__all__'
 
 class MembershipForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())

@@ -21,7 +21,6 @@ class AcceptNotification(LoginRequiredMixin, View):
         notification.seen = True
         notification.save()
         membership = Membership.objects.get(group=notification.group, user=notification.receiver)
-        print(membership)
         membership.status = 'Active'
         membership.save()
 

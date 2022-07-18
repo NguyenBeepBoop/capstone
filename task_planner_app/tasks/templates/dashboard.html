@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% load custom_tags %}
+{% load static %}
+
+{% block content %}
+
+{% include 'dashboard_nav.html' %}
+<body>
+  <div class='container my-2'>
+    <h1 style="position: aboslute; display: flex; justify-content: center;">
+        Your Tasks
+    </h1>
+      
+    {% comment %} ACCORDIAN FILTER {% endcomment %}
+    <div class="accordion" id="accordionFilter">
+      <div class="col-lg-push-2">
+        <button class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+            Filters
+        </button>
+      </div>
+      <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionFilter">
+        <div class="card-body">
+          <form method="GET">
+            {% csrf_token %}
+            <div class="d-flex flex-row">
+              {% for field in filter.form %}
+                {% if forloop.counter == 1 %}
+                  <div class="flex-col">
+                    <div class="p-2">{{ field|as_crispy_field }}</div>
+                {% elif forloop.counter == 4 or forloop.counter == 6 %}
+                  </div>
+                  <div class="flex-col">
+                    <div class="p-2">{{ field|as_crispy_field }}</div>
+                {% elif forloop.counter != 3 %}
+                  <div class="p-2">{{ field|as_crispy_field }}</div>
+                {% endif %}
+              {% endfor %} 
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary"><i class="fa-solid fa-filter"></i> Filter</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <br>
+    {% comment %} <div class="js-accordion accordion" id="accordionTasks">
+      {% for task in tasks %}
+      <div class="card">
+        <div class="card-header" id="heading-{{forloop.counter}}">
+          <h2 class="mb-0">
+            <button class="accordion-label btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
+               {{task.name}}
+              <span class="float-right">
+                <span class="badge badge-{{ task.priority_display.style }}">
+                  {{ task.priority_display.priority }} 
+                </span>
+                <span class="badge badge-{{ task.status_display.style }}">
+                  {{ task.status_display.status}}
+                </span>
+              </span>
+            </button>
+          </h2>
+        </div>
+    
+        <div id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
+          <div class="card-body">
+            <p>Name: {{ task.name }}</p>
+            <p>Description: {{ task.description }}</p>
+            <p>Due: {{ task.deadline }}</p>
+            <p>Description: {{ task.description }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div> {% endcomment %}
+    
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Name</th>
+          <th scope="col">Task Group</th>
+          <th scope="col">Task List</th>
+          <th scope="col">Due Date</th>
+          <th scope="col">Priority</th>
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
+        </tr>
+      </thead>
+      <tbody class="accordion" id="accordionTasks">
+        {% for task in tasks %}
+          <tr class="accordion-label" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ task.name }}</td>
+            <td>{{ task.task_list.list_group }}</td>
+            <td>{{ task.task_list }}</td>
+            <td>
+            {% if task.deadline %}
+              {{ task.deadline }}
+            {% else %}
+              -
+            {% endif %}
+            </td>
+            <td>
+              <span class="badge badge-{{ task.priority_display.style }}">
+                {{ task.priority_display.priority }} 
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-{{ task.status_display.style }}">
+                {{ task.status_display.status }} 
+              </span>
+            </td>
+            <td>
+              <a href="{% url 'tasks:task_details' task.id%}"><i class="fa-solid fa-circle-info"></i></a>
+            </td>
+          </tr>
+          <tr id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
+              <td colspan='8' class="card-body">
+                <p>Name: {{ task.name }}</p>
+                <p>Description: {{ task.description }}</p>
+                <p>Due: {{ task.deadline }}</p>
+              </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    
+  </div>
+</body>
+
+<script type="text/javascript" src="{% static 'js/accordion.js' %}"></script>
+{% endblock %}

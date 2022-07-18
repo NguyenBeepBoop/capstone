@@ -1,11 +1,9 @@
 import mimetypes
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
-from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.views.generic import DetailView
 from tasks.filters import GroupFilter
@@ -15,41 +13,11 @@ from tasks.models import Membership, Notification, TaskGroup
 from tasks.utils import OwnerPermissionMixin, ModeratorPermissionMixin, UserPermissionMixin 
 from users.models import User
 
-class TaskGroupCreateView(LoginRequiredMixin, CreateView):
-    model = TaskGroup
-    fields = ['name', 'description']
-    template_name = 'task_group_create.html'    
-    success_url = reverse_lazy("tasks:groups")
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        groups = Membership.objects.filter(user=self.request.user, status='Active').values_list('group', flat=True)
-        queryset = TaskGroup.objects.filter(id__in=groups)
-        myFilter = GroupFilter(self.request.GET, queryset=queryset)
-        context['myFilter'] = myFilter
-        context['task_groups'] = myFilter.qs
-        return context
-
-    def form_valid(self, form):
-        if super().form_valid(form):
-            curr = form.save(commit=False)
-            curr.owner = self.request.user
-            curr.list_group = curr
-            curr.save()
-            Membership.objects.get_or_create(
-                user=self.request.user,
-                group=curr,
-                role='Moderator',
-                status='Active'
-            )
-        return redirect(self.success_url)
-
-
 class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
     model = TaskGroup
     fields = '__all__'
     template_name = "group_details.html"
-    success_url = reverse_lazy("tasks:groups")
+    success_url = reverse_lazy("tasks:dashboard_groups")
 
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -61,7 +29,7 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
 class GroupDeleteView(OwnerPermissionMixin, LoginRequiredMixin, DeleteView):
     model = TaskGroup
     template_name = "group_delete.html"
-    success_url = reverse_lazy("tasks:groups")
+    success_url = reverse_lazy("tasks:dashboard_groups")
         
 
 
@@ -162,7 +130,6 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
 
     def kick(request):
         if request.is_ajax():
-            print("YES")
             user_id = request.POST.get('user_id')
             user = User.objects.get(id=user_id)
             group_id = request.POST.get('group_id')
@@ -175,9 +142,24 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
                 sender = request.user,
                 receiver = user,
                 group = group,
-                description = f'@{request.user} has kicked you form the group. LATER BITCHH',
+                description = f'@{request.user} has kicked you form the group. LATERs',
                 seen = False
             )
+            data = 'success'
+        else:
+            data = 'fail'
+        mimetype = 'application/json'
+        return HttpResponse(data, mimetype)
+        
+    def leave(request):
+        if request.is_ajax():
+            user_id = request.POST.get('user_id')
+            user = User.objects.get(id=user_id)
+            group_id = request.POST.get('group_id')
+            group = TaskGroup.objects.get(id=group_id)
+            
+            membership = Membership.objects.get(user=user, group=group)
+            membership.delete()
             data = 'success'
         else:
             data = 'fail'

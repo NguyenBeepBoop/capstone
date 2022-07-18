@@ -19,19 +19,25 @@ urlpatterns = [
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
     re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
 
-    path('groups/', TaskGroupCreateView.as_view(), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListCreateView.as_view(), name="group_list"),
     re_path('groups_delete/(?P<pk>\d+)', GroupDeleteView.as_view(), name="group_delete"),
     re_path('group_details/(?P<pk>\d+)$', GroupDetailView.as_view(), name="group_details"),
     
     re_path('groups_notify/(?P<pk>\d+)$', TaskGroupNotifyView.as_view(), name="group_notify"),
     re_path('group_members/(?P<pk>\d+)$', TaskGroupMembersView.as_view(), name="members_list"),
-    re_path('group_members/promote', TaskGroupMembersView.promote, name="members_promote"),
-    re_path('group_members/demote', TaskGroupMembersView.demote, name="members_demote"),
-    re_path('group_members/kick', TaskGroupMembersView.kick, name="members_kick"),
+    path('group_members/promote', TaskGroupMembersView.promote, name="members_promote"),
+    path('group_members/demote', TaskGroupMembersView.demote, name="members_demote"),
+    path('group_members/kick', TaskGroupMembersView.kick, name="members_kick"),
+    path('group_members/leave', TaskGroupMembersView.leave, name="members_leave"),
+    
     path('notification/delete/<int:notification_pk>', RemoveNotification.as_view(), name='notification_delete'),
     path('notification/accept/<int:notification_pk>', AcceptNotification.as_view(), name='notification_accept'),
     path('notification/decline/<int:notification_pk>', DeclineNotification.as_view(), name='notification_decline'),
+    
+    path('tags/', TagCreateView.as_view(), name='tags'),
+    
+    path('dashboard/', Dashboard.as_view(), name='dashboard'),
+    path('groups/', DashboardGroups.as_view(), name='dashboard_groups'),
 ]
 
 
