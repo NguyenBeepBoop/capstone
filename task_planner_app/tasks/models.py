@@ -33,6 +33,7 @@ class Task(models.Model):
     description = models.TextField(max_length=2000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
+    estimation = models.PositiveIntegerField(blank=True, null=True)
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     list_group = models.ForeignKey("TaskGroup", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 

@@ -29,6 +29,10 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
             curr.task_list = task_list
             curr.list_group = task_list.list_group
             curr.save()
+            if curr.assignee and curr.estimation:
+                user = User.objects.get(id=curr.assignee.id)
+                user.workload += curr.estimation
+                user.save()
             messages.success(self.request, f'Sucessfully created task {curr.name}')
         return redirect(self.get_success_url())
 
