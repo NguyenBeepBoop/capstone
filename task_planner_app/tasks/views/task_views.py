@@ -28,12 +28,16 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
             curr = form.save(commit=False)
             curr.task_list = task_list
             curr.list_group = task_list.list_group
-            curr.save()
             if curr.assignee and curr.estimation:
                 user = User.objects.get(id=curr.assignee.id)
-                user.workload += curr.estimation
-                user.save()
-            messages.success(self.request, f'Sucessfully created task {curr.name}')
+                if user.capacity - (user.workload + curr.estimation) > 0:
+                    user.workload += curr.estimation
+                    user.save()
+                    messages.success(self.request, f'Sucessfully created task {curr.name}')
+                    curr.save()
+                else:
+                    messages.error(self.request, f'{user.username} does not have enough capacity')
+            
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -50,7 +54,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
 
 class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
+    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'estimation', 'priority']
     template_name = "task_details.html"
 
     def get_success_url(self):

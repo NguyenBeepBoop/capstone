@@ -56,7 +56,7 @@ class User(AbstractBaseUser):
     profile_image = models.ImageField(max_length=255, upload_to=get_profile_image_path, 
                                     null=True, blank=True, default=get_default_profile_image)
     hide_email = models.BooleanField(default=True)
-    capacity = models.PositiveIntegerField(blank=True, null=True)
+    capacity = models.PositiveIntegerField(default=0)
     workload = models.PositiveIntegerField(default=0)
     
     objects = UserManager()
