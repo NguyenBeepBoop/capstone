@@ -17,7 +17,6 @@ urlpatterns = [
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
     re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
 
-    path('groups/', TaskGroupCreateView.as_view(), name='groups'),
     re_path('groups/(?P<pk>\d+)$', TaskListCreateView.as_view(), name="group_list"),
     re_path('groups_delete/(?P<pk>\d+)', GroupDeleteView.as_view(), name="group_delete"),
     re_path('group_details/(?P<pk>\d+)$', GroupDetailView.as_view(), name="group_details"),
@@ -36,7 +35,7 @@ urlpatterns = [
     path('tags/', TagCreateView.as_view(), name='tags'),
     
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
-    path('dashboard/groups', DashboardGroups.as_view(), name='dashboard_groups'),
+    path('groups/', DashboardGroups.as_view(), name='dashboard_groups'),
 ]
 
 

@@ -44,47 +44,92 @@
       </div>
     </div>
     
-    {% comment %} task table{% endcomment %}
-    <table class="table table-striped table-hover">
+    <br>
+    {% comment %} <div class="js-accordion accordion" id="accordionTasks">
+      {% for task in tasks %}
+      <div class="card">
+        <div class="card-header" id="heading-{{forloop.counter}}">
+          <h2 class="mb-0">
+            <button class="accordion-label btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
+               {{task.name}}
+              <span class="float-right">
+                <span class="badge badge-{{ task.priority_display.style }}">
+                  {{ task.priority_display.priority }} 
+                </span>
+                <span class="badge badge-{{ task.status_display.style }}">
+                  {{ task.status_display.status}}
+                </span>
+              </span>
+            </button>
+          </h2>
+        </div>
+    
+        <div id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
+          <div class="card-body">
+            <p>Name: {{ task.name }}</p>
+            <p>Description: {{ task.description }}</p>
+            <p>Due: {{ task.deadline }}</p>
+            <p>Description: {{ task.description }}</p>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div> {% endcomment %}
+    
+    <table class="table table-hover">
       <thead>
         <tr>
           <th scope="col">#</th>
           <th scope="col">Name</th>
           <th scope="col">Task Group</th>
           <th scope="col">Task List</th>
-          <th scope="col">Due</th>
+          <th scope="col">Due Date</th>
           <th scope="col">Priority</th>
-          <th scope="col">Status</th> 
+          <th scope="col">Status</th>
+          <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody>
+      <tbody class="accordion" id="accordionTasks">
         {% for task in tasks %}
-          <div class="accordion" id="accordionTask-{{ forloop.counter }}">
-            <a href="#" type="button" data-toggle="collapse" data-target="#collapseOne-{{ forloop.counter }}" aria-expanded="true" aria-controls="collapseOne-{{ forloop.counter }}">
-              <tr>
-                <th scope="row">{{ forloop.counter }}</th>
-                <td>{{ task.name }}</td>
-                <td>{{ task.task_list.list_group }}</td>
-                <td>{{ task.task_list }}</td>
-                <td>{{ task.deadline }}</td>
-                <td>
-                  <span class="badge badge-{{ task.priority_display.style }}">
-                    {{ task.priority_display.priority }}
-                  </span>
-                </td>
-                <td>
-                  <span class="badge badge-{{ task.status_display.style }}">
-                    {{ task.status_display.status }}
-                  </span>
-                </td>
-              </tr>
-            </a>
-          </div>
+          <tr class="accordion-label" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
+            <th scope="row">{{ forloop.counter }}</th>
+            <td>{{ task.name }}</td>
+            <td>{{ task.task_list.list_group }}</td>
+            <td>{{ task.task_list }}</td>
+            <td>
+            {% if task.deadline %}
+              {{ task.deadline }}
+            {% else %}
+              -
+            {% endif %}
+            </td>
+            <td>
+              <span class="badge badge-{{ task.priority_display.style }}">
+                {{ task.priority_display.priority }} 
+              </span>
+            </td>
+            <td>
+              <span class="badge badge-{{ task.status_display.style }}">
+                {{ task.status_display.status }} 
+              </span>
+            </td>
+            <td>
+              <a href="{% url 'tasks:task_details' task.id%}"><i class="fa-solid fa-circle-info"></i></a>
+            </td>
+          </tr>
+          <tr id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
+              <td colspan='8' class="card-body">
+                <p>Name: {{ task.name }}</p>
+                <p>Description: {{ task.description }}</p>
+                <p>Due: {{ task.deadline }}</p>
+              </td>
+          </tr>
         {% endfor %}
       </tbody>
     </table>
-      
+    
   </div>
 </body>
 
+<script type="text/javascript" src="{% static 'js/accordion.js' %}"></script>
 {% endblock %}

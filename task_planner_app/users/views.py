@@ -12,7 +12,7 @@ def RegisterView(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
         messages.success(request, "You are already authenticated as " + str(user.email))
-        return redirect('tasks:groups')
+        return redirect('tasks:dashboard')
 
     context = {}
     if request.POST:
@@ -26,7 +26,7 @@ def RegisterView(request, *args, **kwargs):
             destination = kwargs.get("next")
             if destination:
                 return redirect(destination)
-            return redirect('tasks:groups')
+            return redirect('tasks:dashboard')
         else:
             context['form'] = form
 
@@ -47,7 +47,7 @@ def LoginView(request):
     context = {}
     user = request.user
     if user.is_authenticated:
-        return redirect('tasks:groups')
+        return redirect('tasks:dashboard')
 
     if request.POST:
         form = UserAuthenticationForm(request.POST)
@@ -59,7 +59,7 @@ def LoginView(request):
             if user:
                 login(request, user)
                 messages.success(request, "Logged in successfully")
-                return redirect('tasks:groups')
+                return redirect('tasks:dashboard')
 
     else:
         form = UserAuthenticationForm()

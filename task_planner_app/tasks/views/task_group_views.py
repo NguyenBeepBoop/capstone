@@ -13,41 +13,11 @@ from tasks.models import Membership, Notification, TaskGroup
 from tasks.utils import OwnerPermissionMixin, ModeratorPermissionMixin, UserPermissionMixin 
 from users.models import User
 
-class TaskGroupCreateView(LoginRequiredMixin, CreateView):
-    model = TaskGroup
-    fields = ['name', 'description']
-    template_name = 'task_group_create.html'    
-    success_url = reverse_lazy("tasks:groups")
-    
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        groups = Membership.objects.filter(user=self.request.user, status='Active').values_list('group', flat=True)
-        queryset = TaskGroup.objects.filter(id__in=groups)
-        myFilter = GroupFilter(self.request.GET, queryset=queryset)
-        context['myFilter'] = myFilter
-        context['task_groups'] = myFilter.qs
-        return context
-
-    def form_valid(self, form):
-        if super().form_valid(form):
-            curr = form.save(commit=False)
-            curr.owner = self.request.user
-            curr.list_group = curr
-            curr.save()
-            Membership.objects.get_or_create(
-                user=self.request.user,
-                group=curr,
-                role='Moderator',
-                status='Active'
-            )
-        return redirect(self.success_url)
-
-
 class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
     model = TaskGroup
     fields = '__all__'
     template_name = "group_details.html"
-    success_url = reverse_lazy("tasks:groups")
+    success_url = reverse_lazy("tasks:dashboard_groups")
 
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -59,7 +29,7 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
 class GroupDeleteView(OwnerPermissionMixin, LoginRequiredMixin, DeleteView):
     model = TaskGroup
     template_name = "group_delete.html"
-    success_url = reverse_lazy("tasks:groups")
+    success_url = reverse_lazy("tasks:dashboard_groups")
         
 
 
@@ -172,7 +142,7 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
                 sender = request.user,
                 receiver = user,
                 group = group,
-                description = f'@{request.user} has kicked you form the group. LATER BITCHH',
+                description = f'@{request.user} has kicked you form the group. LATERs',
                 seen = False
             )
             data = 'success'

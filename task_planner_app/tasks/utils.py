@@ -41,7 +41,7 @@ class ViewPermissionsMixin(object):
             if request.META.get('HTTP_REFERER') != request.path:
                 return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
             else:
-                return redirect(reverse_lazy('tasks:groups'))
+                return redirect(reverse_lazy('tasks:dashboard_groups'))
         return super(ViewPermissionsMixin, self).dispatch(
             request, *args, **kwargs)
 

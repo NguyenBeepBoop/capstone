@@ -30,5 +30,5 @@ $('#leave-btn').click(function(event) {
         group_id: $('#group-id')[0].value,
     }
     leaveUser(event, data);
-    window.location.replace("http://127.0.0.1:8000/groups/")
+    window.location.replace("http://127.0.0.1:8000/groups")
 })

@@ -45,7 +45,8 @@ class Dashboard(LoginRequiredMixin, CreateView):
         
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Task.objects.filter(assignee=self.request.user, status__in=['To do', 'In progress']).order_by('deadline')
+        groups = Membership.objects.filter(user=self.request.user, status='Active').values_list('group', flat=True)
+        tasks = Task.objects.filter(assignee=self.request.user, status__in=['To do', 'In progress'], list_group_id__in=groups).order_by('deadline')
         task_filter = TaskFilter(self.request.GET, queryset=tasks)
         context['tasks'] = task_filter.qs
         context['filter'] = task_filter
