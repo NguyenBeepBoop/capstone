@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
+from tasks.models import Tags
 
 from users.models import User
 
@@ -48,7 +49,10 @@ class UserAuthenticationForm(forms.ModelForm):
 class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
-	
+	proficiencies = forms.ModelMultipleChoiceField(
+            queryset=Tags.objects.filter(status='Active'),
+            widget=forms.CheckboxSelectMultiple,
+            required=False)
 	class Meta:
 		widgets = {
         'date_of_birth': forms.DateInput(attrs={'type':'date'})
@@ -62,4 +66,5 @@ class EditProfileForm(UserChangeForm):
 			'date_of_birth',
 			'capacity',
 			'profile_image',
+			'proficiencies',
 		]

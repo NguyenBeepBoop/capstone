@@ -1,6 +1,7 @@
+from django.utils.functional import cached_property
 from django.db import models
 from django.conf import settings
-from users.models import User
+from tasks.const import TaskStatus, status_color
 # Create your models here.
 
 
@@ -28,6 +29,13 @@ ROLE_CHOICES = [
     ('Moderator', 'Moderator'),
     ('Member', 'Member'),
 ]
+
+TAGS_CHOICES = [
+    ('Active', 'Active'),
+    ('Inactive', 'Inactive'),
+]
+
+
 class Task(models.Model):
     name = models.CharField(max_length=100) 
     description = models.TextField(max_length=2000, blank=True, default='')
@@ -37,6 +45,7 @@ class Task(models.Model):
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     list_group = models.ForeignKey("TaskGroup", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
+    tags = models.ManyToManyField("Tags")
     status = models.CharField(
         max_length=15,
         choices=STATUS_CHOICES,
@@ -51,7 +60,24 @@ class Task(models.Model):
 
     def __str__(self):
         return self.name
-
+    
+    @cached_property
+    def status_display(self):
+        _status = {
+            'status': TaskStatus(self.status).label,
+            'style': status_color[TaskStatus(self.status)]
+        }
+        return _status
+        
+    @cached_property
+    def priority_display(self):
+        _priority = {
+            'priority': TaskStatus(self.priority).label,
+            'style': status_color[TaskStatus(self.priority)]
+        }
+        return _priority
+        
+        
     class Meta:
         ordering = ['status', '-priority', models.F('deadline').asc(nulls_last=True)]
 
@@ -98,11 +124,19 @@ class Notification(models.Model):
 	seen = models.BooleanField(default=False)
 
 class Comment(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date = models.DateField(auto_now_add=True)
-    #task = models.ForeignKey('Task', on_delete=models.CASCADE)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True)
     content = models.TextField()
 
     def __str__(self):
         return self.user.username
 	
+	
+class Tags(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+    description = models.TextField(max_length=2000, null=True, blank=True)
+    status = models.CharField(max_length=15, choices=TAGS_CHOICES, default='Active')
+
+    def __str__(self):
+        return self.name

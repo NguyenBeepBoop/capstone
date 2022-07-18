@@ -7,9 +7,7 @@ from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm, CommentForm
 from tasks.models import Task, TaskGroup, TaskList, Comment
-from tasks.utils import UserPermissionMixin, user_is_member
-
-
+from tasks.utils import UserPermissionMixin
 from users.models import User
 
 # Create your views here.
@@ -45,6 +43,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         taskgroup = self.get_object().list_group
         tasks = self.get_object().task_set.all()
         myFilter = TaskFilter(self.request.GET, queryset=tasks)
+        context['members'] = taskgroup.membership_set.filter(status='Active')
         context['taskgroup'] = taskgroup
         context['myFilter'] = myFilter
         context['tasks'] = myFilter.qs
@@ -68,7 +67,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
-        context['comments'] = Comment.objects.all()
+        context['comments'] = Comment.objects.filter(task=task)
         context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
 
@@ -79,18 +78,19 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         pass
 
     def post(self, request, *args, **kwargs):
-
+        pk = self.kwargs.get('pk')
         if "content" in request.POST:
             form = CommentForm(request.POST)
             obj = form.save(commit=False)
             obj.user = self.request.user
+            obj.task = Task.objects.get(pk=pk)
             obj.save()
         else:
             pk = self.kwargs.get('pk')
             task = Task.objects.get(pk=pk)
             form = TaskForm(request.POST, instance=task)
             form.save()
-        return redirect(reverse_lazy('tasks:lists_list', kwargs={'pk': 1}))
+        return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': pk}))
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):

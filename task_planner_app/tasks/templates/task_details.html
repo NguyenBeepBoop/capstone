@@ -6,8 +6,10 @@
 
 {% block content %}
 {% include 'task_group_base.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
+
 <body>
-    <h1 style='postition: aboslute; display: flex; justify-content: center'>
+    <h1 style='display: flex; justify-content: center'>
         Edit {{task.name}}
     </h1>
    <div class="container">
@@ -18,16 +20,29 @@
                     <table>
                         <tr><td><div>{{ forms.edit.name|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
                     </table>
                 </div>
                 <div class="col-lg-6">
                     <table>
-                        <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.priority|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>    
+                        <tr><td>
+                        <label>Select Proficiencies</label>
+                            <div class="proficiencies-box">
+                                {% for prof in form.tags %}
+                                <div onclick="this.querySelector('input[type=checkbox]').click()">
+                                    <a>
+                                    {{ prof}}
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div> 
+                        </td></tr>
                     </table>
+                    <br>
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                         <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
                     </div>
@@ -49,7 +64,7 @@
                     {% csrf_token %}
                     {{ forms.comment|crispy }}
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment</button>
+                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </form>
             </div>
