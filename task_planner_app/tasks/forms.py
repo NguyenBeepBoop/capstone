@@ -7,9 +7,14 @@ from .models import ROLE_CHOICES, Notification, Tags, Task, TaskList, Membership
 
 
 class TaskForm(forms.ModelForm):
+    tags = forms.ModelMultipleChoiceField(
+            queryset=Tags.objects.filter(status='Active'),
+            widget=forms.CheckboxSelectMultiple,
+            required=False)
+            
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
+        fields = ['name', 'description', 'deadline', 'status', 'priority', 'assignee', 'tags']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }

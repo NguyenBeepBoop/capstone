@@ -6,6 +6,7 @@
 
 {% block content %}
 {% include 'task_group_base.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
 <style>
     .container {
         padding: 0;
@@ -18,7 +19,22 @@
    <div class="container">
        <form method="POST">
            {% csrf_token %}
-           {{ form|crispy }}
+           {{ form.name|as_crispy_field }}
+           {{ form.description|as_crispy_field }}
+           {{ form.deadline|as_crispy_field }}
+           {{ form.status|as_crispy_field }}
+           {{ form.priority|as_crispy_field }}
+           {{ form.assignee|as_crispy_field }}
+           <label>Select Proficiencies</label>
+           <div class="proficiencies-box">
+             {% for prof in form.tags %}
+               <div onclick="this.querySelector('input[type=checkbox]').click()">
+                 <a>
+                 {{ prof}}
+                 </a>
+               </div>
+             {% endfor %}
+           </div>
            <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
                <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
             </div>

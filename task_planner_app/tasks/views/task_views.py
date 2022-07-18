@@ -43,7 +43,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
 
 class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'priority']
+    form_class = TaskForm
     template_name = "task_details.html"
     
     def get_success_url(self):
