@@ -3,7 +3,7 @@ from datetime import datetime
 from django.utils import timezone
 
 from users.models import User
-from .models import ROLE_CHOICES, Notification, Tags, Task, TaskList, Membership
+from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership, Tags
 
 
 class TaskForm(forms.ModelForm):
@@ -14,7 +14,7 @@ class TaskForm(forms.ModelForm):
             
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'status', 'priority', 'assignee', 'tags']
+        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority', 'tags']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
@@ -52,3 +52,12 @@ class TagForm(forms.ModelForm):
 class MembershipForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
     message = forms.CharField(max_length=2048, widget=forms.Textarea, required=False)
+
+class CommentForm(forms.ModelForm):
+    content = forms.CharField(widget=forms.Textarea(attrs={
+        'rows':'4',
+    }))
+
+    class Meta:
+        model = Comment 
+        fields = ['content']

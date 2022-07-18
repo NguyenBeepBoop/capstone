@@ -5,10 +5,11 @@
 {% block title %}Delete Task Group{% endblock %}
 
 {% block content %}
-<form method="POST">
-    {% csrf_token %}
-    <p>delete "{{group}}"</p>
-    <input class="btn btn-danger" type="submit" value="Delete"/>
-</form>
-
+<div class='container'>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Are you sure you want to delete the task group "<strong>{{ taskgroup }}"</strong></p>
+        <input class="btn btn-danger" type="submit" value="Delete"/>
+    </form>
+</div>
 {% endblock %}

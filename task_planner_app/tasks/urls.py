@@ -1,6 +1,7 @@
 from users.views import LoginView
 from django.urls import path, re_path
 from tasks.views import *
+from django.conf.urls import url
 
 app_name='tasks'
 
@@ -11,6 +12,7 @@ urlpatterns = [
     re_path('tasks/(?P<pk>\d+)', TaskDetailView.as_view(), name="task_details"),
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
     re_path('tasks?sort=(.*)', TaskCreateView.as_view(), name="task_sort"),
+    path('tasks/edit', TaskDetailView.edit, name='edit_task'),
 
     # path('lists/', TaskListCreateView.as_view(), name='lists'),
     re_path('lists/(?P<pk>\d+)$', TaskCreateView.as_view(), name="lists_list"),

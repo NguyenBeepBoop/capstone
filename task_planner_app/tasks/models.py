@@ -1,4 +1,4 @@
-from functools import cached_property
+from django.utils.functional import cached_property
 from django.db import models
 from django.conf import settings
 from tasks.const import TaskStatus, status_color
@@ -41,6 +41,7 @@ class Task(models.Model):
     description = models.TextField(max_length=2000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
+    estimation = models.PositiveIntegerField(blank=True, null=True)
     task_list = models.ForeignKey("TaskList", on_delete=models.CASCADE, null=True, default='')
     list_group = models.ForeignKey("TaskGroup", on_delete=models.CASCADE, null=True, default='')
     assignee = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, blank=True) 
@@ -121,6 +122,16 @@ class Notification(models.Model):
 	description = models.TextField(max_length=2000, null=True, blank=True)
 	date = models.DateTimeField(auto_now_add=True)
 	seen = models.BooleanField(default=False)
+
+class Comment(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    date = models.DateField(auto_now_add=True)
+    task = models.ForeignKey('Task', on_delete=models.CASCADE, null=True)
+    content = models.TextField()
+
+    def __str__(self):
+        return self.user.username
+	
 	
 class Tags(models.Model):
     name = models.CharField(max_length=50, unique=True)

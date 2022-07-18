@@ -7,38 +7,69 @@
 {% block content %}
 {% include 'task_group_base.html' %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
-<style>
-    .container {
-        padding: 0;
-        margin-left: 400px;
-        margin-right: 400px; 
-        width: auto;
-    }
-</style>
+
 <body>
+    <h1 style='display: flex; justify-content: center'>
+        Edit {{task.name}}
+    </h1>
    <div class="container">
-       <form method="POST">
-           {% csrf_token %}
-           {{ form.name|as_crispy_field }}
-           {{ form.description|as_crispy_field }}
-           {{ form.deadline|as_crispy_field }}
-           {{ form.status|as_crispy_field }}
-           {{ form.priority|as_crispy_field }}
-           {{ form.assignee|as_crispy_field }}
-           <label>Select Proficiencies</label>
-           <div class="proficiencies-box">
-             {% for prof in form.tags %}
-               <div onclick="this.querySelector('input[type=checkbox]').click()">
-                 <a>
-                 {{ prof}}
-                 </a>
-               </div>
-             {% endfor %}
-           </div>
-           <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-               <button type="submit" class="btn btn-primary btn-lg">Clone Task</button>
+        <div class='row'><form class="update" style="width:100%" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-lg-6">
+                    <table>
+                        <tr><td><div>{{ forms.edit.name|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
+                    </table>
+                </div>
+                <div class="col-lg-6">
+                    <table>
+                        <tr><td><div>{{ forms.edit.priority|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>    
+                        <tr><td>
+                        <label>Select Proficiencies</label>
+                            <div class="proficiencies-box">
+                                {% for prof in form.tags %}
+                                <div onclick="this.querySelector('input[type=checkbox]').click()">
+                                    <a>
+                                    {{ prof}}
+                                    </a>
+                                </div>
+                                {% endfor %}
+                            </div> 
+                        </td></tr>
+                    </table>
+                    <br>
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
+                    </div>
+                </div>
             </div>
-        </form>
+         </form></div>
+        
+        <div class='row'>
+            <div class='col-lg-6 task-border' style='height:400px;overflow-y:scroll;'>
+                {% for i in comments %}
+                <div class="task-border">
+                    <div>@{{ i.user }} {{ i.date|date:"d/m/Y" }} </div>
+                    <div>{{ i.content }}</div>
+                </div>
+                {% endfor %}
+            </div>
+            <div class='col-lg-6'>
+                <form class="comment" method="POST">
+                    {% csrf_token %}
+                    {{ forms.comment|crispy }}
+                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                </form>
+            </div>
+
+        </div>
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
     </div>
 </body>

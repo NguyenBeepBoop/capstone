@@ -1,12 +1,14 @@
 from django.contrib import messages
 from braces.views import LoginRequiredMixin
+from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
-from tasks.forms import TaskForm
-from tasks.models import Task, TaskList
+from tasks.forms import TaskForm, CommentForm
+from tasks.models import Task, TaskGroup, TaskList, Comment
 from tasks.utils import UserPermissionMixin
+from users.models import User
 
 # Create your views here.
 class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
@@ -24,8 +26,16 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
             curr = form.save(commit=False)
             curr.task_list = task_list
             curr.list_group = task_list.list_group
-            curr.save()
-            messages.success(self.request, f'Sucessfully created task {curr.name}')
+            if curr.assignee and curr.estimation:
+                user = User.objects.get(id=curr.assignee.id)
+                if user.capacity - (user.workload + curr.estimation) > 0:
+                    user.workload += curr.estimation
+                    user.save()
+                    messages.success(self.request, f'Sucessfully created task {curr.name}')
+                    curr.save()
+                else:
+                    messages.error(self.request, f'{user.username} does not have enough capacity')
+            
         return redirect(self.get_success_url())
 
     def get_context_data(self, **kwargs):
@@ -43,26 +53,44 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
 
 class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
-    form_class = TaskForm
+    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'estimation', 'priority']
     template_name = "task_details.html"
-    
+
     def get_success_url(self):
         return reverse_lazy("tasks:lists_list", kwargs={'pk': self.get_object().task_list.id})
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object().list_group
-        context['tasks'] = Task.objects.all()
+        pk = self.kwargs.get('pk')
+        task = Task.objects.get(pk=pk)
+        context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
+        context['comments'] = Comment.objects.filter(task=task)
+        context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
-    
-    """def post(self, request, *args, **kwargs):
-        obj = self.get_object()
-        obj.name = "Copy of " + obj.name
-        obj.pk = None
-        obj.save()
-        return redirect(self.success_url)"""
+
+    def edit():
+        pass
+
+    def comment():
+        pass
+
+    def post(self, request, *args, **kwargs):
+        pk = self.kwargs.get('pk')
+        if "content" in request.POST:
+            form = CommentForm(request.POST)
+            obj = form.save(commit=False)
+            obj.user = self.request.user
+            obj.task = Task.objects.get(pk=pk)
+            obj.save()
+        else:
+            pk = self.kwargs.get('pk')
+            task = Task.objects.get(pk=pk)
+            form = TaskForm(request.POST, instance=task)
+            form.save()
+        return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': pk}))
         
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):

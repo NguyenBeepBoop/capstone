@@ -55,6 +55,7 @@
                     {{ form.status|as_crispy_field }}
                     {{ form.priority|as_crispy_field }}
                     {{ form.assignee|as_crispy_field }}
+                    {{ form.estimation|as_crispy_field}}
                     <label>Select Proficiencies</label>
                     <div class="proficiencies-box">
                       {% for prof in form.tags %}

@@ -7,6 +7,12 @@
     margin-bottom: 5px;
 }
 
+.container {
+    padding: 0;
+    margin-left: 340px;
+    margin-right: 270px; 
+    width: auto;
+}
 .proficiencies-box {
     border: 0.1px solid rgba(128, 128, 128, 0.356);
     height: 200px;

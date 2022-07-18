@@ -78,3 +78,4 @@ $('.kick').click(function(event) {
     kickUser(event, data);
     location.reload()
 })
+
