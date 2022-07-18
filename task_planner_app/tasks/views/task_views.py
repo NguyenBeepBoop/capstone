@@ -60,7 +60,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
-        context['comments'] = Comment.objects.all()
+        context['comments'] = Comment.objects.filter(task=task)
         context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
 
@@ -76,6 +76,8 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
             form = CommentForm(request.POST)
             obj = form.save(commit=False)
             obj.user = self.request.user
+            pk = self.kwargs.get('pk')
+            obj.task = Task.objects.get(pk=pk)
             obj.save()
         else:
             pk = self.kwargs.get('pk')
