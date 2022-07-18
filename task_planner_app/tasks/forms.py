@@ -9,7 +9,7 @@ from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Members
 class TaskForm(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'status', 'priority', 'assignee']
+        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }

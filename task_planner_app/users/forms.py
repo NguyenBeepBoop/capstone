@@ -60,5 +60,6 @@ class EditProfileForm(UserChangeForm):
 			'username',
 			'email',
 			'date_of_birth',
+			'workload',
 			'profile_image',
 		]
