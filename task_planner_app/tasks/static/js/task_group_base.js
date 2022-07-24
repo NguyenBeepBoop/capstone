@@ -1,12 +1,13 @@
-const items = document.querySelectorAll('.sidebar2 a');
-var path = window.location.href
-items .forEach(item => {
-    console.log(item.href)
-    console.log(path)
-    if(item.href === path) {
-        item.classList.add('active');
+$('#dropdown-btn').click(function(event) {
+    var dropdownContent = event.target.nextElementSibling;
+    if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+        localStorage.setItem('clicked', 'closed');
+    } else {
+        dropdownContent.style.display = "block";
+        localStorage.setItem('clicked', 'open');
     }
-});
+})
 
 function leaveUser(event, data) {
     var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
@@ -32,3 +33,4 @@ $('#leave-btn').click(function(event) {
     leaveUser(event, data);
     window.location.replace("http://127.0.0.1:8000/groups")
 })
+

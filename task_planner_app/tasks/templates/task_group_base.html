@@ -32,7 +32,12 @@
         <span style='border-bottom: 1px solid rgba(0, 0, 0, 0.1); font-size: max(28px, 10px);'><i class="fa-solid fa-bolt"></i> {{taskgroup.name|truncatechars:20}}</span>
         <a href="{% url 'tasks:group_notify' pk=taskgroup.pk %}"><i class="fa-solid fa-bullhorn"></i> Broadcast Notifications</a>
         <a href="{% url 'tasks:members_list' pk=taskgroup.pk %}"><i class="fa-solid fa-people-roof"></i> Manage Members</a>
-        <a href="#"><i class="fa-solid fa-folder"></i> Manage Task Lists</a>
+        <div href="#" id="dropdown-btn"><i class="fa fa-caret-down"></i> Manage Task List</i></div>
+        <div class="dropdown-container" id="dropdown-container">
+            {% for list in tasklists %}
+                <a href="{% url 'tasks:list_tasks' pk=list.pk %}">{{ list.name }}</a>
+            {% endfor %}
+        </div>
         <a href="{% url 'tasks:group_list' pk=taskgroup.pk %}"><i class="fa-solid fa-folder-plus"></i> Create Task List</a>
         <a href="{% url 'tasks:group_details' pk=taskgroup.pk %}" style="color: grey;"><i class="fa-solid fa-gear"></i> Manage Group</a>
         <a href="#" style="color: orange;" data-toggle="modal" data-target="#leaveModal"><i class="fa-solid fa-arrow-right-from-bracket"></i> Leave Group</a>
@@ -59,5 +64,19 @@
         </div>
     </div>
 </body>
-
+<script type="text/javascript">
+    var clicked = localStorage.getItem('clicked');
+    if (clicked == 'open') {
+        $('#dropdown-container')[0].style.display = "block";
+    } else {
+        $('#dropdown-container')[0].style.display = "none";
+    }
+    const items = document.querySelectorAll('.sidebar2 a');
+    var path = window.location.href
+    items .forEach(item => {
+        if(item.href === path) {
+            item.classList.add('active');
+        }
+    });
+</script>
 <script type="text/javascript" src="{% static 'js/task_group_base.js' %}"></script>

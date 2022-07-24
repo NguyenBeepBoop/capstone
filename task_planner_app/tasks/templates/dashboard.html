@@ -6,6 +6,7 @@
 {% block content %}
 
 {% include 'dashboard_nav.html' %}
+<link rel="stylesheet" type="text/css" href="{% static 'css/dashboard.css' %}">
 <body>
   <div class='container my-2'>
     <h1 style="position: aboslute; display: flex; justify-content: center;">
@@ -45,36 +46,6 @@
     </div>
     
     <br>
-    {% comment %} <div class="js-accordion accordion" id="accordionTasks">
-      {% for task in tasks %}
-      <div class="card">
-        <div class="card-header" id="heading-{{forloop.counter}}">
-          <h2 class="mb-0">
-            <button class="accordion-label btn btn-link btn-block text-left" type="button" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
-               {{task.name}}
-              <span class="float-right">
-                <span class="badge badge-{{ task.priority_display.style }}">
-                  {{ task.priority_display.priority }} 
-                </span>
-                <span class="badge badge-{{ task.status_display.style }}">
-                  {{ task.status_display.status}}
-                </span>
-              </span>
-            </button>
-          </h2>
-        </div>
-    
-        <div id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
-          <div class="card-body">
-            <p>Name: {{ task.name }}</p>
-            <p>Description: {{ task.description }}</p>
-            <p>Due: {{ task.deadline }}</p>
-            <p>Description: {{ task.description }}</p>
-          </div>
-        </div>
-      </div>
-      {% endfor %}
-    </div> {% endcomment %}
     
     <table class="table table-hover">
       <thead>
@@ -89,19 +60,19 @@
           <th scope="col">Action</th>
         </tr>
       </thead>
-      <tbody class="accordion" id="accordionTasks">
+      <tbody>
         {% for task in tasks %}
-          <tr class="accordion-label" data-toggle="collapse" data-target="#collapse-{{forloop.counter}}" aria-expanded="true" aria-controls="collapse-{{forloop.counter}}">
+          <tr href="" data-toggle="modal" data-target="#taskModal-{{ forloop.counter }}">
             <th scope="row">{{ forloop.counter }}</th>
             <td>{{ task.name }}</td>
             <td>{{ task.task_list.list_group }}</td>
             <td>{{ task.task_list }}</td>
             <td>
-            {% if task.deadline %}
-              {{ task.deadline }}
-            {% else %}
-              -
-            {% endif %}
+              {% if task.deadline %}
+                {{ task.deadline }}
+              {% else %}
+                -
+              {% endif %}
             </td>
             <td>
               <span class="badge badge-{{ task.priority_display.style }}">
@@ -117,19 +88,30 @@
               <a href="{% url 'tasks:task_details' task.id%}"><i class="fa-solid fa-circle-info"></i></a>
             </td>
           </tr>
-          <tr id="collapse-{{forloop.counter}}" class="accordion-content collapse collapsed" aria-labelledby="heading-{{forloop.counter}}" data-parent="#accordionTasks">
-              <td colspan='8' class="card-body">
-                <p>Name: {{ task.name }}</p>
-                <p>Description: {{ task.description }}</p>
-                <p>Due: {{ task.deadline }}</p>
-              </td>
-          </tr>
+          <div class="task-modal modal fade" id="taskModal-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header d-flex justify-content-center">
+                  <h5 class="modal-title" id="taskModalLabel">{{task.name}}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body d-flex justify-content-center">
+                  description: {{ task.description }}
+                </div>
+                <div class="d-flex modal-footer justify-content-center">
+                    <input hidden id='task-id' value="{{task.id}}">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button id="delete-btn" type="submit" class="btn btn-danger" value={{request.user.id}}><i class="fa-solid fa-trash"></i> Delete</button>
+                </div>
+              </div>
+            </div>
+          </div>
         {% endfor %}
       </tbody>
     </table>
     
   </div>
 </body>
-
-<script type="text/javascript" src="{% static 'js/accordion.js' %}"></script>
 {% endblock %}

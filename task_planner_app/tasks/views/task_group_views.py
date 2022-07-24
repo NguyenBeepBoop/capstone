@@ -22,6 +22,7 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
+        context['tasklists'] = taskgroup.tasklist_set.all()
         context['members'] = taskgroup.membership_set.filter(status='Active')
         return context
         
@@ -72,10 +73,12 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
         members = taskgroup.membership_set.filter(status='Active')
+        tasklists = taskgroup.tasklist_set.all()
         context = {
             "taskgroup": taskgroup,
             'members': members,
-            'form': self.form_class
+            'form': self.form_class,
+            'tasklists': tasklists,
         }
         return context
         
@@ -194,10 +197,12 @@ class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailVi
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
         members = taskgroup.membership_set.filter(status='Active')
+        tasklists = taskgroup.tasklist_set.all()
         context = {
             "taskgroup": taskgroup,
             'members': members,
-            'form': self.form_class
+            'form': self.form_class,
+            'tasklists': tasklists,
         }
         return context
         

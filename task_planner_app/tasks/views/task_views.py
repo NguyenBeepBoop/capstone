@@ -17,7 +17,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
     template_name = 'tasks_template.html'
     
     def get_success_url(self):
-        return reverse_lazy("tasks:lists_list", kwargs={'pk': self.kwargs.get('pk')})
+        return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.kwargs.get('pk')})
     
     def form_valid(self, form):
         pk = self.kwargs.get('pk')
@@ -44,6 +44,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         tasks = self.get_object().task_set.all()
         myFilter = TaskFilter(self.request.GET, queryset=tasks)
         context['members'] = taskgroup.membership_set.filter(status='Active')
+        context['tasklists'] = taskgroup.tasklist_set.all()
         context['taskgroup'] = taskgroup
         context['myFilter'] = myFilter
         context['tasks'] = myFilter.qs
@@ -57,7 +58,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     template_name = "task_details.html"
 
     def get_success_url(self):
-        return reverse_lazy("tasks:lists_list", kwargs={'pk': self.get_object().task_list.id})
+        return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.get_object().task_list.id})
     
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
@@ -67,6 +68,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
+        context['tasklists'] = taskgroup.tasklist_set.all()
         context['comments'] = Comment.objects.filter(task=task)
         context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
         return context
@@ -98,4 +100,4 @@ class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     template_name = "task_delete.html"
     
     def get_success_url(self):
-        return reverse_lazy("tasks:lists_list", kwargs={'pk': self.get_object().task_list.id})
+        return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.get_object().task_list.id})
