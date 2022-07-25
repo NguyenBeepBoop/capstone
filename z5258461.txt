@@ -121,11 +121,3 @@ Brent made an appearance to the class after his overseas trip. We helped set up 
 and explained sections of the project so he would understand the principles of our system as well as
 some technical details. We tasked him to then research from what we just explained and see if he can try
 implement a category tagging feature. 
-
-
-
-
-
-
-
-
