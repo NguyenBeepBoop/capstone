@@ -86,11 +86,41 @@ managed to resolve some UI and backend issues, most notably Google's email restr
 Newton and Nguyen. Joshua and I, managed to fix some css styling issues that arose with Bootstrap's
 auto-css for the Django crispy forms.
 
-On Sunday, the team made final changes and testing to the overall Ui/UX experience, including the ability
+On Sunday, the team made final changes and testing to the overall UI/UX experience, including the ability
 to view task details and specific lists and groups based on their primary key. Accessing, models based
 on their primary key took up some time, but Nguyen was able to resolve that issue. Newton worked on creating 
 user profile editing, which had an issue on image uploading, which was resolved by the rest of the team.
 All bugs found during the testing process was fixed.
+
+
+========== Week 5 ==========
+Tuesday was the first demo. All user stories assigned to sprint 1 were completed and successfully
+demonstrated to the tutor. Myself, Newton, Joshua and Nguyen attended the retrospective meeting immediately
+afterwards. The biggest issue brought up was the uncoordinated standup times that were at inconvenient times
+and had long durations late into the night. The idea was to start having regular standups at 9pm on Thursdays
+and Sundays, as well as a bigger standup on the Tuesday class time. We also briefly discussed how to set 
+out the tasks for the new sprint.
+
+Only sparse work like code cleanup and research was done for the rest of this week. 
+
+
+========== Week 6 ==========
+Not much work was done this week due to flexibility week but also due to my focus on other courses.
+
+On Friday, I started looking at some of the user stories, where part of the functionality was already 
+covered in sprint 1. This included but was not limited to, updating task details. I also starting looking
+at how to implement object deletions with Joshua so we could write the implementation in the next week.
+
+
+========== Week 7 ==========
+On Monday, Joshua submitted the retrospective A report but it did not contain the title page.
+
+Tuesday, we were informed by the tutor that the retro reports were not up to the formatting standards.
+So we had to make an urgent submission in lieu of our scrum master Joshua who was absent at the class.
+Brent made an appearance to the class after his overseas trip. We helped set up his work environment
+and explained sections of the project so he would understand the principles of our system as well as
+some technical details. We tasked him to then research from what we just explained and see if he can try
+implement a category tagging feature. 
 
 
 
