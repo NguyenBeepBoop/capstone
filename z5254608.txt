@@ -1,0 +1,39 @@
+Week 1
+
+Had a funeral to attend that overlapped with tutorial so I wasn't there for week 1. Group theorised a travel planning app that 
+utilised Google Places API but was struggling with HTML requests using the API. The feedback from the lecturer about our app was 
+not positive as they were uncertain on the feasibility of our project.
+
+Week 2
+
+After discussion with the team, we decided to drop out custom project due to its strictness, hence deciding the task management 
+project. It did take us quite a while to choose a project due to the fact that we dropped our custom project but there was also 
+no standout project from the standard list. After debating our advantages and disadvantages for each project we slowly narrowed it 
+down and decided on making a task planner app. A big decider on us going with the task planner app was being more confident with 
+adding useful novel features in comparison to other standard projects. The group decided which software tools to use, most likely 
+React/Django/Sqlite as the foundation for our code. Organised the frequency of standups (Everyday Tuesday, Thursday, 
+Saturday/Sunday). Nguyen created the backlogs (Sprint and cards) and discussed also the frequency of sprints and their time blocks.
+
+Week 3 
+
+Committed to our task planner app, we began storyboarding and theorising what novelties and other design features we would include
+in our task planner app. We ended up deciding on implementing a task auto scheduler where we schedule tasks based on available and
+preference. We also plan on integrating built in support system with fast look up to keywords to help users better understand 
+tasks with unfamiliar terminology. Most of the work we spent this week was on developing user stories and preparing for our report
+submission, however Darius also did an environment set up to properly prepare the rest of the group. 
+
+Week 4 & 5
+
+Largely absent due to an overseas trip.
+
+Week 6
+
+Group was mostly inactive due to other people's commitments as well as it being flex week.
+
+Week 7
+
+The other group members submitted their Retrospective A but were told they needed a title page and that it didn't meet the 
+standards. In the tutorial, I met up with Darius and Newton introduced me to the project as of this time so I began learning the 
+structure of it. I was tasked on adding Tags and Proficiencies for both Users and Tasks as well as cleaning up the formatting of 
+the code for the front end. Although I needed a lot of help, I still managed to contribute a lot towards my sections as well as 
+pointing out some key flaws that we fixed with our HTML code. 
