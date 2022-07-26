@@ -38,6 +38,7 @@ urlpatterns = [
     
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('groups/', DashboardGroups.as_view(), name='dashboard_groups'),
+    path('dashboard/get_help/', Dashboard.get_help, name='get_help'),
 ]
 
 

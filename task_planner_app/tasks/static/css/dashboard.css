@@ -3,3 +3,22 @@
     display: flex; 
     justify-content: center;
 }
+
+.modal {
+    width: 2000px;
+    height: 1200px;
+    position: absolute;
+    left: 50%;
+    top: 50%; 
+    margin-left: -1375px;
+    margin-top: -450px;
+}
+
+.task-modal .modal-content {
+    min-width: 1500px;
+    min-height: 800px;
+}
+
+.modal-footer {
+    margin-right: 250px;
+}
