@@ -2,6 +2,7 @@ from django.utils.functional import cached_property
 from django.db import models
 from django.conf import settings
 from tasks.const import TaskStatus, status_color
+#from users.models import FriendRequest
 # Create your models here.
 
 
@@ -115,13 +116,14 @@ class Membership(models.Model):
     
 class Notification(models.Model):
 	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
-	notification_type = models.IntegerField()
-	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
-	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)
-	group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
-	description = models.TextField(max_length=2000, null=True, blank=True)
-	date = models.DateTimeField(auto_now_add=True)
-	seen = models.BooleanField(default=False)
+    notification_type = models.IntegerField()
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
+    description = models.TextField(max_length=2000, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    seen = models.BooleanField(default=False)
+    #friend_request = models.ForeignKey(FriendRequest, on_delete=models.CASCADE, null=True, blank=True)
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)

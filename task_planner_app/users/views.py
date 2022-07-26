@@ -3,7 +3,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
+from django.dispatch import receiver
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
 from .models import User, FriendList, FriendRequest
@@ -12,6 +12,13 @@ from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileFor
 from django.contrib.auth.decorators import login_required
 from .utils import get_friend_request_or_false
 from .friend_request_status import FriendRequestStatus
+from braces.views import LoginRequiredMixin
+from django.shortcuts import render
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
     
 def RegisterView(request, *args, **kwargs):
     user = request.user
@@ -197,7 +204,7 @@ def accept_friend_request(request, *args, **kwargs):
 					# found the request. Now accept it  
                     friend_request.accept()
                     payload['response'] = "Friend request accepted."
-                else:
+                else:    
                     payload['response'] = "Something went wrong."
             else:
                 payload['response'] = "That is not your request to accept."
@@ -307,3 +314,74 @@ def friends_list_view(request, *args, **kwargs,):
 	else:		
 		return HttpResponse("You must be friends to view their friends list.")
 	return render(request, "friend_list.html", context)
+
+
+class AcceptFriendNotification(LoginRequiredMixin, View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+
+        notification.seen = True
+        notification.save()
+        receiver_friend_list = FriendList.objects.get(user=notification.receiver)
+        receiver_friend_list.add_friend(notification.sender)
+        sender_friend_list = FriendList.objects.get(user=notification.sender)
+        sender_friend_list.add_friend(notification.receiver)
+
+        friend_requests = FriendRequest.objects.get(sender=notification.sender, receiver=notification.receiver, is_active=True)
+        friend_requests.is_active = False
+        receiver_friend_list.save()
+        sender_friend_list.save()
+        friend_requests.save()
+        return HttpResponse('Success', content_type='text/plain')
+
+
+class DeclineFriendNotification(LoginRequiredMixin, View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+        
+        notification.seen = True
+        notification.save()
+
+        friend_requests = FriendRequest.objects.get(sender=notification.sender, receiver=notification.receiver, is_active=True)
+        friend_requests.is_active = False
+        friend_requests.save()
+        return HttpResponse('Success', content_type='text/plain')
+
+
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+
+data = {
+	"task":"chicken",
+	}
+
+#Opens up page as PDF
+class ViewPDF(View):
+	def get(self, request, *args, **kwargs):
+
+		pdf = render_to_pdf('pdf_template.html', data)
+		return HttpResponse(pdf, content_type='application/pdf')
+
+
+#Automaticly downloads to PDF file
+class DownloadPDF(View):
+	def get(self, request, *args, **kwargs):
+		
+		pdf = render_to_pdf('pdf_template.html', data)
+
+		response = HttpResponse(pdf, content_type='application/pdf')
+		filename = "Invoice_%s.pdf" %("12341231")
+		content = "attachment; filename='%s'" %(filename)
+		response['Content-Disposition'] = content
+		return response
+
+def index(request):
+	context = {}
+	return render(request, 'profile_view.html', context)

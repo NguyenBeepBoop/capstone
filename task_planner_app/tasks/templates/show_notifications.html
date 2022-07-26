@@ -17,6 +17,10 @@
 					<div>
 					{{ notification.description }}
 					</div>
+					<span class="dropdown-item-accept" onclick="removeNotification(`{% url 'notification_friend_accept' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-check"></i> Accept</span>
+					<span class="dropdown-item-decline" onclick="removeNotification(`{% url 'notification_friend_decline' notification.pk %}`, `{{ request.path }}`)">
+						<i class="fa-regular fa-circle-xmark"></i> Decline</span>
 				</div>
 			{% elif notification.notification_type == 3 %}
 				<div class="dropdown-item-parent">

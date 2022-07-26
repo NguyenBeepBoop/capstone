@@ -32,7 +32,7 @@
                         <tr><td>
                         <label>Select Proficiencies</label>
                             <div class="proficiencies-box">
-                                {% for prof in form.tags %}
+                                {% for prof in forms.edit.tags %}
                                 <div onclick="this.querySelector('input[type=checkbox]').click()">
                                     <a>
                                     {{ prof}}
