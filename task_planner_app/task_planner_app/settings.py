@@ -55,9 +55,7 @@ THIRD_PARTY_APPS = [
     'corsheaders',
     'rest_framework',
     'serpapi',
-    'rake_nltk',
     'django_bootstrap_breadcrumbs',
-    'pymemcache'
 ]
 
 LOCAL_APPS = [
