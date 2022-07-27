@@ -23,7 +23,6 @@
       <div id="collapseOne" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionFilter">
         <div class="card-body">
           <form method="GET">
-            {% csrf_token %}
             <div class="d-flex flex-row">
               {% for field in filter.form %}
                 {% if forloop.counter == 1 %}
@@ -89,7 +88,7 @@
             </td>
           </tr>
           <div class="task-modal modal fade" id="taskModal-{{ forloop.counter }}" tabindex="-1" role="dialog" aria-labelledby="taskModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
+            <div class="modal-dialog modal-xl" role="document">
               <div class="modal-content">
                 <div class="modal-header">
                   <h5 class="modal-title" id="taskModalLabel">{{task.name|capfirst}}</h5>
@@ -98,23 +97,31 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  <form request="POST">
+                  <form request="GET">
                     <div class="d-flex row">
-                      <div class="col-5">
-                      
-                        Description: {{ task.description }}<br>
+                      <div class="col-6">
+                        <p>
+                        Description: {{ task.description| safe | linebreaks }}
+                        </p><br>
                       </div>
                       <div class="col-6">
-                        <button id="help-btn" class="btn btn-primary" type="submit" value="{{task.id}}">Show Help Suggestions</button>
-                          
+                        <div class="accordion" id="accordionTask-{{task.id}}">
+                          <div class="col-lg-push-2">
+                            <button id="help-btn-{{task.id}}" class="help-btn btn btn-primary" value="{{task.id}}" class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapse-task-{{task.id}}" aria-expanded="true" aria-controls="collapse-task-{{task.id}}">
+                              <i class="fa-solid fa-circle-info"></i> Show Related Sources
+                            </button>
+                          </div>
+                          <div id="collapse-task-{{task.id}}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionTask-{{task.id}}">
+                            <div id="card-{{task.id}}" class="card-body">                  
+                            </div>
+                          </div>
+                        </div>   
                       </div>
                     </div>
                   </form>
                 </div>
                 <div class="d-flex modal-footer justify-content-center">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button id="delete-btn" type="submit" class="btn btn-danger" value={{request.user.id}}><i class="fa-solid fa-trash"></i> Delete</button>
-                  <input hidden id='task-id' value="{{task.id}}">
                 </div>
               </div>
             </div>
