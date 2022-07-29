@@ -1,8 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
+{% load django_bootstrap_breadcrumbs %}
 
-{% block title %}Create Task List{% endblock %}
+{% block breadcrumbs %}
+    {% breadcrumb "Groups" "tasks:dashboard_groups" %}
+    {% breadcrumb "Task Lists" "" %}
+{% endblock %}
 
 {% block content %}
 {% include 'task_group_base.html' %}
@@ -17,13 +21,14 @@
 </style>
 <body>
   <div class='container my-2'>
+    {% render_breadcrumbs %}
     <h1 style='postition: aboslute; display: flex; justify-content: center'>
       Task Lists
     </h1>
       <form method="GET">
           {% csrf_token %}
           {{ myFilter.form|crispy }}
-          <button type="submit" class="btn btn-primary"> Test</button>
+          <button type="submit" class="btn btn-primary">Filter</button>
       </form>
       <div class="row">
         <div class="col-lg-6">
