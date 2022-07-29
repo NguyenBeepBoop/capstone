@@ -5,6 +5,9 @@
 {% block title %}Create Task List{% endblock %}
 
 {% block content %}
+{% block breadcrumbs %}
+    {% breadcrumb "Dashboard" "tasks.dashboard" %}
+{% endblock %}
 
 <form method="GET">
   {% csrf_token %}

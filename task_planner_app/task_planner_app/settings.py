@@ -54,8 +54,8 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework',
-    # 'simple_history',
-    # 'django_bootstrap_breadcrumbs',
+    'serpapi',
+    'django_bootstrap_breadcrumbs',
 ]
 
 LOCAL_APPS = [
