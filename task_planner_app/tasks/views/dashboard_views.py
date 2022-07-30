@@ -65,3 +65,4 @@ class Dashboard(LoginRequiredMixin, CreateView):
                 status='Active'
             )
         return redirect(self.success_url)
+

@@ -8,7 +8,7 @@ from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
 from .models import User, FriendList, FriendRequest
 from tasks.models import Notification
-from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
+from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm, PDFForm
 from django.contrib.auth.decorators import login_required
 from .utils import get_friend_request_or_false
 from .friend_request_status import FriendRequestStatus
@@ -19,6 +19,9 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
     
 def RegisterView(request, *args, **kwargs):
     user = request.user
@@ -140,6 +143,7 @@ def ProfileView(request, pk=None):
 @login_required
 def EditProfileView(request):
     user = User.objects.get(pk=request.user.pk)
+    print(request.method)
     if request.method == 'POST':
         form = EditProfileForm(request.POST,request.FILES, instance=request.user)
 
@@ -358,26 +362,39 @@ def render_to_pdf(template_src, context_dict={}):
 	return None
 
 
-data = {
-	"task":"chicken",
-	}
+data = User.objects.all()
+
+users = {
+    "username":[],
+}
+
+for user in data:
+    users["username"].append(user.username)
 
 #Opens up page as PDF
 class ViewPDF(View):
-	def get(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+        form = PDFForm(request.POST)
+        if form.is_valid():
+            form = PDFForm() 
+            print(1)
+            return redirect('view_pdf')
+        print(1)
+        pdf = render_to_pdf('pdf_template.html', users)
+        return HttpResponse(pdf, content_type='application/pdf')
 
-		pdf = render_to_pdf('pdf_template.html', data)
-		return HttpResponse(pdf, content_type='application/pdf')
-
+    def post(self, request, *args, **kwargs):
+        pdf = render_to_pdf('pdf_template.html', users)
+        return HttpResponse(pdf, content_type='application/pdf')
 
 #Automaticly downloads to PDF file
 class DownloadPDF(View):
 	def get(self, request, *args, **kwargs):
 		
-		pdf = render_to_pdf('pdf_template.html', data)
+		pdf = render_to_pdf('pdf_template.html', users)
 
 		response = HttpResponse(pdf, content_type='application/pdf')
-		filename = "Invoice_%s.pdf" %("12341231")
+		filename = "Task Report" 
 		content = "attachment; filename='%s'" %(filename)
 		response['Content-Disposition'] = content
 		return response
@@ -385,3 +402,18 @@ class DownloadPDF(View):
 def index(request):
 	context = {}
 	return render(request, 'profile_view.html', context)
+
+
+def PDFView(request):
+    form = PDFForm 
+    return render(request, "PDFView.html", context={"form": form})
+
+# def PDF_view(request):
+#     buffer = io.BytesIO()
+#     # p = canvas.Canvas(buffer)
+#     # p.drawString(100,100, "hello World.")
+#     # p.showPage() 
+#     # p.save() 
+#     buffer.seek(0)
+#     response = FileResponse(buffer, as_attachment=True, filename='hello.pdf')
+#     return response

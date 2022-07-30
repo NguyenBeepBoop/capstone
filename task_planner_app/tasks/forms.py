@@ -2,8 +2,8 @@ from django import forms
 from datetime import datetime
 from django.utils import timezone
 
-from users.models import User
-from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership, Tags
+from users.models import User 
+from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership, Tags, TaskGroup
 
 
 class TaskForm(forms.ModelForm):

@@ -22,7 +22,7 @@
     <h1>Manage Members</h1>
   </header>
   <!-- Button trigger modal -->
-  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#inviteModal">
+  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#pdf-Modal">
     Add Member <i class="fa-solid fa-user-plus"></i>
   </button>
   <div class='row'>&nbsp<input hidden id='group-id' value="{{taskgroup.id}}"></div>
@@ -84,11 +84,11 @@
   </table>
   
   <!-- Modal -->
-  <div class="modal fade" id="inviteModal" tabindex="-1" role="dialog" aria-labelledby="inviteModalLabel" aria-hidden="true">
+  <div class="modal fade" id="pdf-Modal" tabindex="-1" role="dialog" aria-labelledby="pdfModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="inviteModalLabel">Send Member Invite</h5>
+          <h5 class="modal-title" id="pdfModalLabel">Add Member</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
