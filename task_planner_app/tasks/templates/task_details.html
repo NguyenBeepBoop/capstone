@@ -34,7 +34,7 @@
                             <div class="proficiencies-box">
                                 {% for prof in forms.edit.tags %}
                                 <div onclick="this.querySelector('input[type=checkbox]').click()">
-                                    <a>
+                                    <a onclick="this.querySelector('input[type=checkbox]').click()">
                                     {{ prof}}
                                     </a>
                                 </div>

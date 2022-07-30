@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-
 {% block title %}Create Tasks{% endblock %}
+
 
 {% block content %}
 {% include 'task_group_base.html' %}
@@ -10,7 +10,7 @@
 <body>
     <div class='container my-2'>
         <h1 style="position: aboslute; display: flex; justify-content: center;">
-        {{task_list}}
+            {{task_list}}
         </h1>
         <div class="accordion" id="accordionFilter">
             <button class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
@@ -60,7 +60,7 @@
                     <div class="proficiencies-box">
                       {% for prof in form.tags %}
                         <div onclick="this.querySelector('input[type=checkbox]').click()">
-                          <a>
+                          <a onclick="this.querySelector('input[type=checkbox]').click()">
                           {{ prof}}
                           </a>
                         </div>

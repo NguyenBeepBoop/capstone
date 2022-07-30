@@ -14,11 +14,11 @@ STATUS_CHOICES = [
 ]
 
 PRIORITY_CHOICES = [
-    ('Lowest', 'Lowest'),
-    ('Low', 'Low'),
-    ('Medium', 'Medium'),
-    ('High', 'High'),
-    ('Highest', 'Highest')
+    ('5', 'Lowest'),
+    ('4', 'Low'),
+    ('3', 'Medium'),
+    ('2', 'High'),
+    ('1', 'Highest')
 ]
 
 MEM_STATUS_CHOICES = [

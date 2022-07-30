@@ -22,7 +22,7 @@ font-weight:500
     -webkit-box-shadow: inset 0 0 6px rgba(0, 89, 255, 0.315); 
 }
 ::-webkit-scrollbar-track {
-    background: rgb(192, 190, 190);
+    background: rgba(192, 190, 190, 0);
   }
 .proficiencies-box div {
     border-top: 0.1px solid rgba(128, 128, 128, 0.281);

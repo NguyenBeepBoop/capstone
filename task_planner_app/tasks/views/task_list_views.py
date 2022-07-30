@@ -34,7 +34,7 @@ class TaskListCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         context['taskgroup'] = taskgroup
         print(self.request.GET)
         context['members'] = taskgroup.membership_set.filter(status='Active')
-
+        context['tasklists'] = taskgroup.tasklist_set.all()
         context['task_group_id'] = pk
         myFilter = ListFilter(self.request.GET, queryset=queryset)
         context['myFilter'] = myFilter
@@ -55,6 +55,7 @@ class ListDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         tasklist = self.get_object()
         
         context['task_lists'] = tasklist
+        context['tasklists'] = tasklist.list_group.tasklist_set.all()
         context['taskgroup'] = tasklist.list_group
         context['members'] = tasklist.list_group.membership_set.filter(status='Active')
         return context
