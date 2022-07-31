@@ -1,0 +1,260 @@
+[
+    {
+      "model": "tasks.tags",
+      "pk": 1,
+      "fields": {
+        "name": "Python",
+        "status": "Active"
+      }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 2,
+        "fields": {
+          "name": "C++",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 3,
+        "fields": {
+          "name": "C",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 4,
+        "fields": {
+          "name": "Java",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 5,
+        "fields": {
+          "name": "JavaScript",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 6,
+        "fields": {
+          "name": "TypeScript",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 7,
+        "fields": {
+          "name": "Django",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 8,
+        "fields": {
+          "name": "React",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 9,
+        "fields": {
+          "name": "HTML",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 10,
+        "fields": {
+          "name": "CSS",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 11,
+        "fields": {
+          "name": "Jquery",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 12,
+        "fields": {
+          "name": "Cleaning",
+          "status": "Active"
+        }
+    },
+
+        {
+        "model": "tasks.tags",
+        "pk": 13,
+        "fields": {
+          "name": "Painting",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 14,
+        "fields": {
+          "name": "Trades",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 15,
+        "fields": {
+          "name": "Construction",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 16,
+        "fields": {
+          "name": "Building",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 17,
+        "fields": {
+          "name": "Software",
+          "status": "Active"
+        }
+    },
+
+        {
+        "model": "tasks.tags",
+        "pk": 18,
+        "fields": {
+          "name": "Collection",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 19,
+        "fields": {
+          "name": "Fulfilment",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 20,
+        "fields": {
+          "name": "Electrical",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 21,
+        "fields": {
+          "name": "Mechanical",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 22,
+        "fields": {
+          "name": "Civil",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 23,
+        "fields": {
+          "name": "Chemistry",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 24,
+        "fields": {
+          "name": "OpenGl",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 25,
+        "fields": {
+          "name": "Unreal Engine",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 26,
+        "fields": {
+          "name": "Unity",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 27,
+        "fields": {
+          "name": "C#",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 28,
+        "fields": {
+          "name": "Back End",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 29,
+        "fields": {
+          "name": "Front End",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 30,
+        "fields": {
+          "name": "Administration",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 31,
+        "fields": {
+          "name": "Flask",
+          "status": "Active"
+        }
+    },
+    {
+        "model": "tasks.tags",
+        "pk": 32,
+        "fields": {
+          "name": "Networking",
+          "status": "Active"
+        }
+    }
+  ]

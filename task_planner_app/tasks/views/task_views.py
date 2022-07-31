@@ -53,6 +53,11 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
                     curr.save()
                 else:
                     messages.error(self.request, f'{user.username} does not have enough capacity')
+            elif curr.assignee and not curr.estimation:
+                messages.warning(self.request, "please allocate a completion estimation when also assigning a user.")
+            else:
+                messages.success(self.request, f'Sucessfully created task {curr.name}')
+                curr.save()
             
         return redirect(self.get_success_url())
 
