@@ -61,3 +61,100 @@ Had team standups since I was already done with my cards I was there to assist a
 in the event that their workload got too heavy. We were all pretty bad at front end development
 so our views are very basic for now and we plan to integrate react into our app at a later stage
 (the upcoming sprint).
+
+Week 5
+Tuesday 
+We had our first Progressive demo Newton, Darius, Joshua and I attended, all of our tasks were finished 
+within the sprint and we were able to successfully demo the work we had completed thus far. 
+We had an absent team member as they were on a overseas trip, this did not change the outcome of our 
+demo as he did not make any code contributions to the first sprint. 
+
+We had also immediately conducted our Retrospective A after our demo. In the retrospective we had 
+identified key issues in the first sprint including:
+- Inconsistently named files
+- Poorly ordered files and folders
+- Inconsistent programming styles
+- Poorly scheduled stand ups as we did not have allocated times
+
+Each present team member was then allocated a task to rectify these problems in the following 
+sprint. We had also decided to conduct sprint planning as well, we assigned team members with 
+tasks that each of us were comfortable with completing.
+
+Thursday
+Started work on integrating the notification system so that my team members could begin incorporating
+notifications to the pieces of work that they were undertaking. Some problems and considerations that
+I had come across when conducting research for the notification system consisted of:
+- Using a live notification system, which however resulted in us having to host a second server to handle
+  notifications
+- Using a non live (notifications are updated on page refresh) however we were able to keep to using a
+  single server which allowed for better simplicity.
+
+We conducted our standup today and also decided on specific days and times in which we would meet for standups.
+After consulting with my team members Darius, Newton and Joshua, we decided it would make most sense to 
+use a non live notification system so that other team members could easily and quickly integrate notifications
+into their features.
+
+Friday
+Finished off integrating the backend of the notification system and started working on a forntend ui for users 
+to interact with their notifications.
+
+Saturday
+Finished off the front end ui for the notification system and created some sidebars for the views of our task 
+group pages (task list creation, task creation). I had also began development on a view for moderators and 
+group owners to broadcast notifications to members of the group. In preparation for my work with permissions I 
+had added some dummy function and code for the permissions checking.
+
+Sunday
+Had our second stand up of the week where I would showcase the addition of the side bars to my team members. We 
+decided to further incorporate these side bars to all relevant views in our app. I spent the rest of the day 
+reviewing some of the changes I made.
+
+Week 6
+
+Monday 
+Pushed the changes I made to my branch and made a pull request for my team members to approve into the develop branch.
+
+Thurday 
+Began work on adding and attaching proficiencies for users, I added a tags model. 
+
+--------------------------
+Not much work was done for the rest of the week as it was flexibility week.
+
+Week 7
+
+Tuesday 
+Met up with Darius and Brent, during the tutorial. As Brent had not had his environment set up, I had guided him in 
+the tutorial on how to set up his environment for beginning code development when he went home. 
+
+Met up with my team members after uni and passed on my work with user proficiencies and task tagging to Brent. Guided 
+him through the basics of Django and we eventually got a base view and model working on his branch. Other team members
+also continued or began working on their allocated tasks.
+
+Thursday
+Brent had encountered a problem in creating the multiple select widget for his part of the tag assigning, I had then took
+over and created a widget in which he could use to copy over to the task creation view. Later during the day after our 
+standup, I began work on integrating the user permissions to the app. Darius was in the call with me at this time and 
+later also refined upon the system in which I was managing the permissions of the users. I during that time worked on 
+integrating the backend for how users would be able to connect to task groups. Later during the night I was also able to
+create a view in which members could be invited to task groups.
+
+Friday
+Continued on working with the feature to invite users to task groups, I eventually was then able to integrate accepting and
+declining notifications of invitations to task groups. 
+
+Started work on incorporating a dashboard view for users, this included an outline of their assigned tasks from all groups, 
+the task groups that they are a member of and a modal to create task groups. 
+
+Saturday
+Completed the dashboard and cleaned up all relevant views to allow for better flow and usability of app. Integrated modals
+for our filters to allow for easier readabiltiy and navigation. 
+
+Sunday
+Implemented a feature to allow for task group owners and moderators to promote, demote and kick users inside a group. We also
+during our standup agreed to implement permissions checking across all of our views to align with the permission restrictions 
+we had decided in our app design.
+
+Week 8
+Monday
+Had a meetup with our team members in preparation for our Progresssive demo on Tuesday. Darius and Joshua had both completed their 
+parts in incorporating delete views, 
