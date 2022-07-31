@@ -63,7 +63,12 @@
         {% for task in tasks %}
           <tr href="" data-toggle="modal" data-target="#taskModal-{{ forloop.counter }}">
             <th scope="row">{{ forloop.counter }}</th>
-            <td>{{ task.name }}</td>
+            <td>
+              {% if task.linked_tasks.all %}
+                <i class="fa-solid fa-link"></i>
+              {% endif %}
+              {{ task.name }}
+            </td>
             <td>{{ task.task_list.list_group }}</td>
             <td>{{ task.task_list }}</td>
             <td>
@@ -101,14 +106,29 @@
                     <div class="d-flex row">
                       <div class="col-6">
                         <p>
-                        Description: {{ task.description| safe | linebreaks }}
+                          Description: {{ task.description| safe | linebreaks }}
                         </p><br>
+                        {% if task.linked_tasks.all %}
+                          <p>
+                            Parent Tasks:
+                            <br>
+                            <ul class="list-group">
+                            {% for task in task.linked_tasks.all %}
+                              <a href="{% url 'tasks:task_details' task.id%}" class="list-group-item list-group-item-action">
+                                  {{task.list_group}} - {{task.task_list }} - {{ task.name }}
+                                  <i class="fa-solid fa-arrow-up-right-from-square float-right"></i>
+                              </a>
+                            {% endfor %}
+                            </ul>
+                          </p>
+                        {% endif %}
                       </div>
                       <div class="col-6">
                         <div class="accordion" id="accordionTask-{{task.id}}">
                           <div class="col-lg-push-2">
                             <button id="help-btn-{{task.id}}" class="help-btn btn btn-primary" value="{{task.id}}" class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapse-task-{{task.id}}" aria-expanded="true" aria-controls="collapse-task-{{task.id}}">
                               <i class="fa-solid fa-circle-info"></i> Show Related Sources
+                              <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             </button>
                           </div>
                           <div id="collapse-task-{{task.id}}" class="collapse hide" aria-labelledby="headingOne" data-parent="#accordionTask-{{task.id}}">

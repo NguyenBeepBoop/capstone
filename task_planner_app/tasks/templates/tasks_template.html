@@ -62,7 +62,18 @@
                     {{ form.status|as_crispy_field }}
                     {{ form.priority|as_crispy_field }}
                     {{ form.assignee|as_crispy_field }}
-                    {{ form.estimation|as_crispy_field}}
+                    {{ form.estimation|as_crispy_field }}
+                    <label>Link Parent Tasks</label>
+                    <div class="proficiencies-box">
+                      {% for task in form.linked_tasks %}
+                      <div onclick="this.querySelector('input[type=checkbox]').click()">
+                          <a onclick="this.querySelector('input[type=checkbox]').click()">
+                            {{ task }}
+                          </a>
+                        </div>
+                        
+                      {% endfor %}
+                    </div>
                     <label>Select Proficiencies
                         <span class="input-help">
                             <small id="selecthelp" class="form-text text-muted">
@@ -74,7 +85,7 @@
                       {% for prof in form.tags %}
                         <div onclick="this.querySelector('input[type=checkbox]').click()">
                           <a onclick="this.querySelector('input[type=checkbox]').click()">
-                          {{ prof}}
+                          {{ prof }}
                           </a>
                         </div>
                       {% endfor %}

@@ -37,7 +37,8 @@ TAGS_CHOICES = [
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100) 
+    name = models.CharField(max_length=100)
+    linked_tasks = models.ManyToManyField("self", through="TaskDependency", symmetrical = False, blank=True)
     description = models.TextField(max_length=2000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
@@ -140,3 +141,10 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+
+class TaskDependency(models.Model):
+    child_task = models.ForeignKey(Task, related_name="child_task", on_delete=models.CASCADE)
+    parent_task = models.ForeignKey(Task, related_name="parent_task", on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.parent_task + ": " + self.child_task

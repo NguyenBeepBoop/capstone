@@ -28,16 +28,36 @@
                         <tr><td><div>{{ forms.edit.name|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>
                     </table>
                 </div>
                 <div class="col-lg-6">
-                    <table>
+                    <table style="min-width: 400px">
+                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.priority|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>    
                         <tr><td>
-                        <label>Select Proficiencies</label>
+                        <label>Link Parent Tasks</label>
+                        <div class="proficiencies-box">
+                          {% for task in forms.edit.linked_tasks %}
+                          <div onclick="this.querySelector('input[type=checkbox]').click()">
+                              <a onclick="this.querySelector('input[type=checkbox]').click()">
+                                {{ task }}
+                              </a>
+                            </div>
+                            
+                          {% endfor %}
+                        </div>
+                        </td></tr>
+                        <tr><td>
+                        <label>
+                            Select Proficiencies
+                            <span class="input-help">
+                                <small id="selecthelp" class="form-text text-muted">
+                                    (The accuracy of help results depend on these tags) 
+                                </small>
+                              </span>
+                        </label>
                             <div class="proficiencies-box">
                                 {% for prof in forms.edit.tags %}
                                 <div onclick="this.querySelector('input[type=checkbox]').click()">
@@ -50,7 +70,7 @@
                         </td></tr>
                     </table>
                     <br>
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+                    <div class="d-flex justify-content-left mx-4 mb-3 mb-lg-4">
                         <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
                     </div>
                 </div>
