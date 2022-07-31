@@ -61,10 +61,11 @@
       </thead>
       <tbody>
         {% for task in tasks %}
+          {% get_child_tasks task as child_tasks %}
           <tr href="" data-toggle="modal" data-target="#taskModal-{{ forloop.counter }}">
             <th scope="row">{{ forloop.counter }}</th>
             <td>
-              {% if task.linked_tasks.all %}
+              {% if task.linked_tasks.all or child_tasks.all  %}
                 <i class="fa-solid fa-link"></i>
               {% endif %}
               {{ task.name }}
@@ -105,18 +106,33 @@
                   <form request="GET">
                     <div class="d-flex row">
                       <div class="col-6">
-                        <p>
-                          Description: {{ task.description| safe | linebreaks }}
-                        </p><br>
+                      
+                        <p><span class="font-weight-bold">Task Points: </span>{{ task.estimation }}</p>
+                        <p class="font-weight-bold">Description:</p>
+                          {{ task.description| safe | linebreaks }}
+                        </p>
                         {% if task.linked_tasks.all %}
                           <p>
-                            Parent Tasks:
-                            <br>
+                            <p class="font-weight-bold">Parent Tasks:</p>
                             <ul class="list-group">
                             {% for task in task.linked_tasks.all %}
                               <a href="{% url 'tasks:task_details' task.id%}" class="list-group-item list-group-item-action">
                                   {{task.list_group}} - {{task.task_list }} - {{ task.name }}
                                   <i class="fa-solid fa-arrow-up-right-from-square float-right"></i>
+                              </a>
+                            {% endfor %}
+                            </ul>
+                          </p>
+                        {% endif %}
+                        {% get_child_tasks task as child_tasks %}
+                        {% if child_tasks.all %}
+                          <p>
+                            <p class="font-weight-bold">Child Tasks:</p>
+                            <ul class="list-group">
+                            {% for taskdep in child_tasks.all %}
+                              <a href="{% url 'tasks:task_details' taskdep.child_task.id%}" class="list-group-item list-group-item-action">
+                                {{taskdep.child_task.list_group}} - {{taskdep.child_task.task_list }} - {{ taskdep.child_task.name }}
+                                <i class="fa-solid fa-arrow-up-right-from-square float-right"></i>
                               </a>
                             {% endfor %}
                             </ul>

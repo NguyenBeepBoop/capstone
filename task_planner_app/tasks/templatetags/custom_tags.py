@@ -1,5 +1,5 @@
 from django import template
-from tasks.models import Membership, Notification
+from tasks.models import Membership, Notification, TaskDependency
 
 register = template.Library()
 
@@ -34,3 +34,7 @@ def add_classes(value, arg):
 @register.simple_tag
 def user_date_joined(group, user):
     return Membership.objects.get(group=group, user=user, status='Active').created_at.strftime("%d %B, %Y")
+
+@register.simple_tag
+def get_child_tasks(task):
+    return TaskDependency.objects.filter(parent_task=task)

@@ -147,4 +147,4 @@ class TaskDependency(models.Model):
     parent_task = models.ForeignKey(Task, related_name="parent_task", on_delete=models.CASCADE)
     
     def __str__(self):
-        return self.parent_task + ": " + self.child_task
+        return self.parent_task.name + ": " + self.child_task.name
