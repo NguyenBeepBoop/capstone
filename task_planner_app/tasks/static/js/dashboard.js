@@ -1,3 +1,7 @@
+$(document).ready(function() {
+    $('.spinner-border').hide();
+});
+
 function getResults(event, data) {
     var csrftoken = document.querySelector('[name=csrfmiddlewaretoken]').value
     $.ajax({
@@ -9,6 +13,7 @@ function getResults(event, data) {
         dataType: 'json',
         cache: true,
         success: function(data) {
+            $('.spinner-border').hide();
             showResults(data)
         }
     });
@@ -20,6 +25,7 @@ $('.help-btn').click(function(event) {
     event.preventDefault();
     task_id = $(`#${btn_id}`)[0].value
     if ($(`#collapse-task-${task_id}`).hasClass("show") == false) {
+        $('.spinner-border').show();
         data = {
             task_id: task_id,
         }
