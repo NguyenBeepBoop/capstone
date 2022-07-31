@@ -10,7 +10,7 @@ from django.views.decorators.cache import cache_page
 from django.views.generic.edit import CreateView
 from tasks.filters import GroupFilter, TaskFilter
 from tasks.models import Membership, Task, TaskGroup
-from serpapi import GoogleSearch
+# from serpapi import GoogleSearch
 
 class DashboardGroups(LoginRequiredMixin, CreateView):
     model = TaskGroup

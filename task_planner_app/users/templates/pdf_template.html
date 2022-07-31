@@ -1,3 +1,5 @@
+{% load static %}
+
 <head>
     <style>
         @page {
@@ -9,15 +11,62 @@
             @frame content_frame {          /* Content Frame */
                 left: 50pt; width: 512pt; top: 90pt; height: 632pt;
             }
-            @frame footer_frame {           /* Another static Frame */
-                -pdf-frame-content: footer_content;
-                left: 50pt; width: 512pt; top: 772pt; height: 20pt;
-            }
+        }
+        body{
+        margin: 0;
+        padding: 0;
+        font-family: Arial;
+        
+        }
+        table,th,td{
+        width:300px;
+        margin: auto;
+        font-size:14px;
+        padding: 5px;
+        text-align: center;
+        border:1px solid #000;
+        border-collapse: collapse;
+        }
+        header{
+            font-size: 22px;
+        }
+        h1{
+        margin:0;
+        padding:0;
+        }
+        h2{
+        margin:0;
+        padding:0;
+        }
+        h3{
+        margin:0;
+        padding:0;
         }
     </style>
-    </head>
-    
+</head>
+<header class="page-header">
+    <img src="media/logo.png" height="140"  class="center">
+    <h1>Group: {{group}}</h1>   
+    <h2>Member: {{member}}</h2> 
+    <h3>Capacity: {{capacity}}</h3>
+</header>
     <body>
-        <td>{{username}}</td>
+        <table>
+            <tr>
+                <th>Task</th>
+                <th>Description</th>
+                <th>Deadline</th>
+                <th>Status</th>
+            </tr>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{task.name}}</td>
+                    <td>{{task.description}}</td>
+                    <td>{{task.deadline}}</td>
+                    <td>{{task.status}}</td>
+                </tr>
+            {% endfor %}      
+            </tr>
+        </table>
     </body>
     </html>

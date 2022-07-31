@@ -1,3 +1,4 @@
+from datetime import datetime
 import json
 from django.conf import settings
 from django.contrib import messages
@@ -7,7 +8,7 @@ from django.dispatch import receiver
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
 from .models import User, FriendList, FriendRequest
-from tasks.models import Notification
+from tasks.models import Notification, TaskGroup, TaskList, Task
 from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm, PDFForm
 from django.contrib.auth.decorators import login_required
 from .utils import get_friend_request_or_false
@@ -19,10 +20,7 @@ from django.http import HttpResponse
 from django.template.loader import get_template
 from django.views import View
 from xhtml2pdf import pisa
-import io
-from django.http import FileResponse
-from reportlab.pdfgen import canvas
-    
+
 def RegisterView(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
@@ -143,7 +141,7 @@ def ProfileView(request, pk=None):
 @login_required
 def EditProfileView(request):
     user = User.objects.get(pk=request.user.pk)
-    print(request.method)
+    print(request.POST)
     if request.method == 'POST':
         form = EditProfileForm(request.POST,request.FILES, instance=request.user)
 
@@ -362,28 +360,10 @@ def render_to_pdf(template_src, context_dict={}):
 	return None
 
 
-data = User.objects.all()
-
-users = {
-    "username":[],
-}
-
-for user in data:
-    users["username"].append(user.username)
-
 #Opens up page as PDF
 class ViewPDF(View):
     def get(self, request, *args, **kwargs):
-        form = PDFForm(request.POST)
-        if form.is_valid():
-            form = PDFForm() 
-            print(1)
-            return redirect('view_pdf')
-        print(1)
-        pdf = render_to_pdf('pdf_template.html', users)
-        return HttpResponse(pdf, content_type='application/pdf')
-
-    def post(self, request, *args, **kwargs):
+        print(request.GET)
         pdf = render_to_pdf('pdf_template.html', users)
         return HttpResponse(pdf, content_type='application/pdf')
 
@@ -403,17 +383,42 @@ def index(request):
 	context = {}
 	return render(request, 'profile_view.html', context)
 
+def days_between(d1,d2):
+    return abs((d2 - d1).days)
 
+@login_required
 def PDFView(request):
-    form = PDFForm 
-    return render(request, "PDFView.html", context={"form": form})
+    form = PDFForm()
+    if request.method == 'POST':
+        member = User.objects.get(pk=request.POST['user'])
+        data = {
+            "group" : TaskGroup.objects.get(pk=request.POST['group']),
+            "member" : member,
+            "tasks" :[],
+            "capacity" : member.capacity
+        }
+        for task in Task.objects.all():
+            if task.assignee == User.objects.get(pk=request.POST['user']):
+                to_date = datetime.strptime(request.POST['to_date'], '%Y-%m-%d')
+                from_date = datetime.strptime(request.POST['from_date'], '%Y-%m-%d')
+                if ((from_date.date() - to_date.date()).days) > 0:
+                    messages.error(request, 'Please select proper from and to dates.')
+                    context = {'form' : form}
+                    return render(request, 'PDFView.html', context)
+                if (task.deadline.date() - to_date.date()).days <= 0:
+                    if (task.deadline.date() - from_date.date()).days >=0:
+                        data["tasks"].append(task)
+                    else:
+                        messages.error(request, 'The member does not have any assigned tasks between selected dates')
+                        context = {'form' : form}
+                        return render(request, 'PDFView.html', context)
+                else:
+                    messages.error(request, 'The member does not have any assigned tasks between selected dates')
+                    context = {'form' : form}
+                    return render(request, 'PDFView.html', context)
 
-# def PDF_view(request):
-#     buffer = io.BytesIO()
-#     # p = canvas.Canvas(buffer)
-#     # p.drawString(100,100, "hello World.")
-#     # p.showPage() 
-#     # p.save() 
-#     buffer.seek(0)
-#     response = FileResponse(buffer, as_attachment=True, filename='hello.pdf')
-#     return response
+        pdf = render_to_pdf('pdf_template.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+    
+    context = {'form' : form}
+    return render(request, 'PDFView.html', context)

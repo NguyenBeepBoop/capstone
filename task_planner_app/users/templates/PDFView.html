@@ -35,12 +35,12 @@
                   <p>
                     Please select a group and task master in each corresponding dropdowns options between two selected dates to create a task report.
                   </p>
-                  <form action="pdf_view" method="GET">
+                  <form method="POST">
                     {% csrf_token %}
-                    {{form|crispy}}
+                    {{ form|crispy }}
                     <div class="d-flex justify-content-center">
                       <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <a type="submit" class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank">Create</a>
+                      <button type="submit" class="btn btn-info" target="_blank">Create PDF</button>
                     </div>
                   </form>
                 </div>

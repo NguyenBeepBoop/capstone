@@ -54,7 +54,7 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework',
-    'serpapi',
+    # 'serpapi',
     'django_bootstrap_breadcrumbs',
 ]
 

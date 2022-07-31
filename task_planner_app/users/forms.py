@@ -70,7 +70,13 @@ class EditProfileForm(UserChangeForm):
 		]
 		
 class PDFForm(forms.Form):
-    group = forms.ModelChoiceField(queryset=TaskGroup.objects.all())
-    user = forms.ModelChoiceField(queryset=User.objects.all())
-    from_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
-    to_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+	group = forms.ModelChoiceField(queryset=TaskGroup.objects.all())
+	user = forms.ModelChoiceField(queryset=User.objects.all())
+	from_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+	to_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+	class Meta:
+		widgets = {
+			'from_date': forms.DateInput(attrs={'type':'date'}),
+			'to_date': forms.DateInput(attrs={'type':'date'})
+		}
+	
