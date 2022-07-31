@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm, CommentForm
-from tasks.models import Task, TaskGroup, TaskList, Comment
+from tasks.models import Task, TaskDependency, TaskGroup, TaskList, Comment
 from tasks.utils import UserPermissionMixin
 from users.models import User
 
@@ -121,6 +121,15 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "task_delete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        task = Task.objects.get(pk=pk)
+        context['task'] = task
+        context['parent'] = TaskDependency.objects.filter(child_task=task)
+        context['child'] = TaskDependency.objects.filter(parent_task=task)
+        return context
     
     def get_success_url(self):
         return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.get_object().task_list.id})
