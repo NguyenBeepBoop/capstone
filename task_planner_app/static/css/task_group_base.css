@@ -1,0 +1,171 @@
+html, body{
+    height: 100%;
+    margin: 0;
+}
+
+.whole-page {
+    height: 100%;
+}
+
+.sidebar {
+    float: right;
+    min-width: 250px;
+    width: auto;
+    height: 90vh;
+    background-color: #ffffff;
+    position: absolute;
+    overflow: auto;
+    right: 0;
+    padding: 0;
+    margin-left: 1rem;
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+/* Sidebar links */
+.sidebar a {
+    display: block;
+    color: rgb(8, 172, 184);
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 18px;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-size: large;
+    font-stretch: expanded;
+    text-decoration: none;
+}
+
+.sidebar span {
+    display: block;
+    color: rgb(61, 60, 60);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: large;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+    background-color: rgba(85, 85, 85, 0);
+    color: violet;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+.sidebar2 {
+    width: 300px;
+    background-color: #ffffff;
+    position: absolute;
+    height: 90vh;
+    overflow: auto;
+    padding: 0;
+    margin-right: 1rem;
+    border-right: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+/* Sidebar links */
+.sidebar2 a {
+    display: block;
+    color: rgb(104, 58, 211);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    text-decoration: none;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: large;
+}
+
+.sidebar2 span {
+    display: block;
+    color: rgb(61, 60, 60);
+    padding-top: 8px;
+    padding-bottom: 8px;
+    text-align: center;
+    text-decoration: none;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: large;
+}
+
+.sidebar2 a.active {
+    background-color: rgba(185, 163, 236, 0.397);
+    color: rgb(104, 58, 211);
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+}
+
+/* Links on mouse-over */
+.sidebar2 a:hover:not(.active) {
+    text-decoration: underline;
+    -moz-border-radius-topleft: 10px;
+    -moz-border-radius-topright: 10px;
+    -moz-border-radius-bottomright: 10px;
+    -moz-border-radius-bottomleft: 10px;
+    -webkit-border-radius: 10px 10px 10px 10px;
+    border-radius: 10px 10px 10px 10px;
+}   
+
+.leave-modal {
+    position: fixed;
+    left: 50%;
+    top: 60%;
+    transform: translate(-50%, -50%);
+}
+  
+#dropdown-btn {
+    display: block;
+    color: rgb(104, 58, 211);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+    text-decoration: none;
+    font-family: "PT Sans", Calibri, Tahoma, sans-serif;
+    font-weight: 600;
+    font-size: large;
+}
+
+#dropdown-btn:hover:not(.active) {
+    cursor: pointer;
+    text-decoration: underline;
+} 
+
+.active {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+/* Dropdown container (hidden by default). Optional: add a lighter background color and some left padding to change the design of the dropdown content */
+.dropdown-container {
+    overflow: auto;
+    max-height: 200px;
+    display: none;
+    background-color: rgba(255, 255, 255, 0);
+    padding-left: 8px;
+    animation: growDown 500ms ease-in-out forwards;
+    transform-origin: top center;
+}
+
+@keyframes growDown {
+    0% {
+      transform: scaleY(0)
+    }
+    80% {
+      transform: scaleY(1.1)
+    }
+    100% {
+      transform: scaleY(1)
+    }
+  }

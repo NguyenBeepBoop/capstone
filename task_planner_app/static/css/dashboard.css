@@ -1,0 +1,10 @@
+.modal-header {
+    position: aboslute; 
+    display: flex; 
+    justify-content: center;
+}
+
+.modal-body{
+    height: 60vh;
+    overflow-y: auto;
+}
