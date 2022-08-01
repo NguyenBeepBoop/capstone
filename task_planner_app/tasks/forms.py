@@ -8,7 +8,7 @@ from .models import ROLE_CHOICES, Comment, Notification, Task, TaskGroup, TaskLi
 
 class TaskForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.filter(status='Active'),
+            queryset=Tags.objects.filter(status='Active').order_by('name'),
             widget=forms.CheckboxSelectMultiple,
             required=False)
             
