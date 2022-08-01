@@ -132,9 +132,9 @@ also continued or began working on their allocated tasks.
 
 Thursday
 We addressed issues that teams members were having in relation to the project in this standup ensuring everyone had
-enough support to continue working on their allocated parts. Later during the day after our 
-standup, I began work on integrating the user permissions to the app. Darius was in the call with me at this time and 
-later also refined upon the system in which I was managing the permissions of the users. I during that time worked on 
+enough support to continue working on their allocated parts. Later during the day after our standup, I began work
+on integrating the user permissions to the app. Darius was in the call with me at this time and later also refined
+and developed upon the system in which I was managing the permissions of the users. I during that time worked on 
 integrating the backend for how users would be able to connect to task groups. Later during the night I was also able to
 create a view in which members could be invited to task groups.
 
