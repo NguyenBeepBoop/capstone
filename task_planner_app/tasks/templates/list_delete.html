@@ -1,15 +1,18 @@
+
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Create Task List{% endblock %}
-
 {% block content %}
 <div class='container'>
+    <h1 style="text-align: center;"> Delete Task List </h1>
     <form method="POST">
         {% csrf_token %}
-        <p>Are you sure you want to delete the task list "<strong>{{ tasklist }}"</strong></p>
+        <p>Are you sure you want to delete the task list "<strong>{{ tasklist }}</strong>"?
+            <br>This will delete all of the tasks in the list.</p>
         <input class="btn btn-danger" type="submit" value="Delete"/>
+        <input class="btn btn-default" type="button" value="Go back" onclick="history.back()" 
+            style="background-color:#696969; color: aliceblue;"/>
     </form>
 </div>
 {% endblock %}
