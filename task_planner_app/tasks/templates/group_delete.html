@@ -10,9 +10,9 @@
         {% csrf_token %}
         <p>Are you sure you want to delete the task group "<strong>{{ taskgroup }}</strong>"?
             <br>This will delete all of the lists and tasks in the group.</p>
-        <input class="btn btn-danger" type="submit" value="Delete" style="position: absolute; left: 40%;"/>
+        <input class="btn btn-danger" type="submit" value="Delete"/>
         <input class="btn btn-default" type="button" value="Go back" onclick="history.back()" 
-            style="background-color:#696969; color: aliceblue; position: absolute; left: 50%;"/>
+            style="background-color:#696969; color: aliceblue;"/>
     </form>
 </div>
 {% endblock %}
