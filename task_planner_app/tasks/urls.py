@@ -14,7 +14,6 @@ urlpatterns = [
     re_path('tasks?sort=(.*)', TaskCreateView.as_view(), name="task_sort"),
     #re_path('tasks/(?P<pk>\d+)/link', TaskDetailView.link, name='link_tasks'),
     path('tasks/edit', TaskDetailView.edit, name='edit_task'),
-    path('tasks/text', text, name='text'),
 
     # path('lists/', TaskListCreateView.as_view(), name='lists'),
     re_path('lists/(?P<pk>\d+)$', TaskCreateView.as_view(), name="list_tasks"),

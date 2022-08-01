@@ -29,6 +29,12 @@
                         <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
+                        <tr><td> Recommended User(s):
+                        <br>
+                        {% for r in recommended %}
+                             {{ r }}<br>
+                        {% endfor %}
+                        <br></td></tr>
                         <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>
                     </table>
                 </div>
@@ -98,8 +104,6 @@
 
         </div>
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
-        <button id="priority-btn" class='btn btn-secondary btn-lg'>Text</button>
-        <input hidden id='task-id' value="{{task.id}}">
     </div>
 </body>
 <script type="text/javascript" src="{% static 'js/task_details.js' %}"></script>
