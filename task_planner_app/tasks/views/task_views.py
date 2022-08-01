@@ -38,26 +38,13 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.kwargs.get('pk')})
     
     def form_valid(self, form):
-        pk = self.kwargs.get('pk')
-        task_list = TaskList.objects.get(pk=pk)
+        task_list = self.get_object()
         if super().form_valid(form):
             curr = form.save(commit=False)
             curr.task_list = task_list
             curr.list_group = task_list.list_group
-            if curr.assignee and curr.estimation:
-                user = User.objects.get(id=curr.assignee.id)
-                if user.capacity - (user.workload + curr.estimation) > 0:
-                    user.workload += curr.estimation
-                    user.save()
-                    messages.success(self.request, f'Sucessfully created task {curr.name}')
-                    curr.save()
-                else:
-                    messages.error(self.request, f'{user.username} does not have enough capacity')
-            elif curr.assignee and not curr.estimation:
-                messages.warning(self.request, "please allocate a completion estimation when also assigning a user.")
-            else:
-                messages.success(self.request, f'Sucessfully created task {curr.name}')
-                curr.save()
+            messages.success(self.request, f'Sucessfully created task {curr.name}')
+            curr.save()
             
         return redirect(self.get_success_url())
 
@@ -106,19 +93,29 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         pass
 
     def post(self, request, *args, **kwargs):
-        pk = self.kwargs.get('pk')
+        task = self.get_object()
         if "content" in request.POST:
             form = CommentForm(request.POST)
             obj = form.save(commit=False)
             obj.user = self.request.user
-            obj.task = Task.objects.get(pk=pk)
+            obj.task = task
             obj.save()
         else:
-            pk = self.kwargs.get('pk')
-            task = Task.objects.get(pk=pk)
-            form = TaskForm(request.POST, instance=task)
-            form.save()
-        return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': pk}))
+            form = TaskForm(request.POST or None, instance=task)
+            if form.is_valid():
+                curr = form.save(commit=False)
+                curr.save()
+                if curr.status == "Complete":
+                    workload_list = Task.objects.filter(assignee=curr.assignee).\
+                        exclude(status="Complete").values_list('estimation', flat=True)
+                    workload_list = [x for x in workload_list if x is not None]
+                    workload = sum([int(i) for i in workload_list])
+                    curr.assignee.workload = workload
+                messages.success(self.request, f'Sucessfully created task {task.name}')
+            else:
+                messages.error(self.request, \
+                f'Form could not validate please make sure all relevant data has been entered.') 
+        return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': task.pk}))
     
     def link(request, pk):
         pass
@@ -126,7 +123,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "task_delete.html"
-
+        
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         pk = self.kwargs.get('pk')

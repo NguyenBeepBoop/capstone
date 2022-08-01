@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.db import models
 from django.conf import settings
@@ -77,6 +78,26 @@ class Task(models.Model):
             'style': status_color[TaskStatus(self.priority)]
         }
         return _priority
+        
+    def clean(self, *args, **kwargs):
+        if self.assignee and self.estimation and self.status != 'Complete':
+            workload_list = Task.objects.filter(assignee=self.assignee).exclude(status="Complete").values_list('estimation', flat=True)
+            workload_list = [x for x in workload_list if x is not None]
+            workload = sum([int(i) for i in workload_list])
+            if self.assignee.capacity - (workload + self.estimation) > 0:
+                self.assignee.workload = workload + self.estimation
+                self.assignee.save()
+            else:
+                raise ValidationError (f"{self.assignee} does not have enough capacity.", code='invalid')
+        elif self.assignee and not self.estimation:
+            raise ValidationError ("please provide a completion estimation when allocating an assignee.", code='invalid')
+            
+        super().clean(*args, **kwargs)
+        
+        
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
         
         
     class Meta:
