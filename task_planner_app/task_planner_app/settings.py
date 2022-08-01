@@ -213,3 +213,7 @@ MESSAGE_TAGS = {
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
 ]
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures'),
+]

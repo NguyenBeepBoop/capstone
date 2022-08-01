@@ -50,7 +50,7 @@ class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
 	proficiencies = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.filter(status='Active'),
+            queryset=Tags.objects.filter(status='Active').order_by('name'),
             widget=forms.CheckboxSelectMultiple,
             required=False)
 	class Meta:

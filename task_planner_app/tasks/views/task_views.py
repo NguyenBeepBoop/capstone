@@ -1,12 +1,13 @@
+from calendar import c
 from django.contrib import messages
 from braces.views import LoginRequiredMixin
 from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm, CommentForm
-from tasks.models import Task, TaskGroup, TaskList, Comment
+from tasks.models import Task, TaskDependency, TaskGroup, TaskList, Comment
 from tasks.utils import UserPermissionMixin
 from users.models import User
 
@@ -15,6 +16,23 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
     model = TaskList
     form_class = TaskForm
     template_name = 'tasks_template.html'
+    
+    def get(self, request, pk):
+        taskgroup = self.get_object().list_group
+        form = TaskForm()
+        form.fields['linked_tasks'].queryset = form.fields['linked_tasks'].queryset.filter(list_group=taskgroup)
+        tasks = self.get_object().task_set.all()
+        myFilter = TaskFilter(self.request.GET, queryset=tasks)
+        context = {
+            'form': form,
+            'members': taskgroup.membership_set.filter(status='Active'),
+            'tasklists': taskgroup.tasklist_set.all(),
+            'taskgroup': taskgroup,
+            'myFilter': myFilter,
+            'tasks': myFilter.qs,
+            'task_list': self.get_object(),
+        }
+        return render(request, self.template_name, context)
     
     def get_success_url(self):
         return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.kwargs.get('pk')})
@@ -35,6 +53,11 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
                     curr.save()
                 else:
                     messages.error(self.request, f'{user.username} does not have enough capacity')
+            elif curr.assignee and not curr.estimation:
+                messages.warning(self.request, "please allocate a completion estimation when also assigning a user.")
+            else:
+                messages.success(self.request, f'Sucessfully created task {curr.name}')
+                curr.save()
             
         return redirect(self.get_success_url())
 
@@ -54,7 +77,7 @@ class TaskCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
 
 class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
     model = Task
-    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'estimation', 'priority']
+    fields = ['name', 'description', 'deadline', 'status', 'assignee', 'estimation', 'priority', 'linked_tasks']
     template_name = "task_details.html"
 
     def get_success_url(self):
@@ -65,12 +88,15 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         taskgroup = self.get_object().list_group
         pk = self.kwargs.get('pk')
         task = Task.objects.get(pk=pk)
+        taskform = TaskForm(instance=task)
+        taskform.fields['linked_tasks'].queryset = \
+        taskform.fields['linked_tasks'].queryset.filter(list_group=taskgroup).exclude(id=pk)
         context['task'] = task
         context['taskgroup'] = taskgroup
         context['members'] = taskgroup.membership_set.filter(status='Active')
         context['tasklists'] = taskgroup.tasklist_set.all()
         context['comments'] = Comment.objects.filter(task=task)
-        context['forms'] = {'edit': TaskForm(instance=task), 'comment': CommentForm}
+        context['forms'] = {'edit': taskform, 'comment': CommentForm}
         return context
 
     def edit():
@@ -93,11 +119,22 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
             form = TaskForm(request.POST, instance=task)
             form.save()
         return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': pk}))
-        
+    
+    def link(request, pk):
+        pass
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Task
     template_name = "task_delete.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pk = self.kwargs.get('pk')
+        task = Task.objects.get(pk=pk)
+        context['task'] = task
+        context['parent'] = TaskDependency.objects.filter(child_task=task)
+        context['child'] = TaskDependency.objects.filter(parent_task=task)
+        return context
     
     def get_success_url(self):
         return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.get_object().task_list.id})

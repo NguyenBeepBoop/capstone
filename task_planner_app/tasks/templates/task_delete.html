@@ -8,9 +8,22 @@
 <div class='container'>
     <form method="POST">
         {% csrf_token %}
+        {% if parent %}
+            <p> This task has the following parent tasks: </p>
+            {% for each in parent %}
+                <p>{{each.parent_task}}</p>
+            {% endfor %}
+        {% endif %}
+        {% if child %}
+        <p> This task has the following children tasks: </p>
+            {% for each in child %}
+                <p>{{each.child_task}}</p>
+            {% endfor %}
+        {% endif %}
         <p>Are you sure you want to delete the task "<strong>{{ task }}"</strong></p>
         <input class="btn btn-danger" type="submit" value="Delete"/>
     </form>
+    
 </div>
 <!--<div class="modal-header">
         <h3 class="modal-title" >Delete Task</h3>

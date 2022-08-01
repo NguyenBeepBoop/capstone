@@ -47,3 +47,13 @@
     -webkit-border-radius: 2px 2px 2px 2px;
     border-radius: 2px 2px 2px 2px;
 }
+  
+#inputhelp{
+    font-size: x-small;
+    display: block;
+}
+  
+.input-help {
+    vertical-align: top;
+    display: inline-block;
+}
