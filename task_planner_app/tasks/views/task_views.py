@@ -7,7 +7,7 @@ from django.urls import reverse_lazy
 from django.views.generic.edit import CreateView, DeleteView, UpdateView
 from tasks.filters import TaskFilter
 from tasks.forms import TaskForm, CommentForm
-from tasks.models import Task, TaskDependency, TaskGroup, TaskList, Comment
+from tasks.models import Task, TaskDependency, TaskGroup, TaskList, Comment, Membership
 from tasks.utils import UserPermissionMixin
 from users.models import User
 
@@ -84,6 +84,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['tasklists'] = taskgroup.tasklist_set.all()
         context['comments'] = Comment.objects.filter(task=task)
         context['forms'] = {'edit': taskform, 'comment': CommentForm}
+        context['recommended'] = recommended(task)
         return context
 
     def edit():
@@ -117,8 +118,37 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
                 f'Form could not validate please make sure all relevant data has been entered.') 
         return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': task.pk}))
     
-    def link(request, pk):
-        pass
+
+def recommended(cur_task):
+    cur_tags = cur_task.tags.all()
+    taskgroup = cur_task.list_group
+    members = Membership.objects.all().filter(group=taskgroup)
+    member_priority = {}
+    for member in members:
+        if member.user.capacity > cur_task.estimation + member.user.workload:
+            member_priority[member.user.id] = 0
+            proficiencies = member.user.proficiencies.all()
+            for tag in cur_tags:
+                if tag in proficiencies:
+                    member_priority[member.user.id] += 1
+
+    tasks = Task.objects.all().filter(list_group=taskgroup)
+    for task in tasks:
+        tags = task.tags.all()
+        relativeness = 0
+        if task in cur_task.linked_tasks.all():
+            relativeness += 4*task.estimation
+        if task.assignee and task.status == "Complete":
+            for tag in tags:
+                if tag in cur_tags:
+                    relativeness += task.estimation
+            member_priority[task.assignee.id] += relativeness  
+    sorted_keys = sorted(member_priority, key=member_priority.get, reverse=True)
+    usernames = []
+    for user in sorted_keys[:3]:
+        usernames.append(User.objects.get(id=user).username)
+    print(usernames)
+    return usernames
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     model = Task
