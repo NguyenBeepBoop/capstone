@@ -32,8 +32,6 @@ class GroupDeleteView(OwnerPermissionMixin, LoginRequiredMixin, DeleteView):
     template_name = "group_delete.html"
     success_url = reverse_lazy("tasks:dashboard_groups")
         
-
-
 class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailView):
     model = TaskGroup
     template_name = 'group_membership.html'

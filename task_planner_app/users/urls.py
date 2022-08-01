@@ -22,6 +22,10 @@ urlpatterns = [
     path('friend_request_cancel/', views.cancel_friend_request, name='friend-request-cancel'),
     path('friend_request_decline/<friend_request_id>/', views.decline_friend_request, name='friend-request-decline'),
 	path('list/<user_id>', views.friends_list_view, name='list'),
+    path('notification/friend_accept/<int:notification_pk>', views.AcceptFriendNotification.as_view(), name='notification_friend_accept'),
+    path('notification/friend_decline/<int:notification_pk>', views.DeclineFriendNotification.as_view(), name='notification_friend_decline'),
+
+    path('pdf_page/', views.PDFView, name="view_pdf"),
     ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
