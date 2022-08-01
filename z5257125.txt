@@ -131,8 +131,8 @@ him through the basics of Django and we eventually got a base view and model wor
 also continued or began working on their allocated tasks.
 
 Thursday
-Brent had encountered a problem in creating the multiple select widget for his part of the tag assigning, I had then took
-over and created a widget in which he could use to copy over to the task creation view. Later during the day after our 
+We addressed issues that teams members were having in relation to the project in this standup ensuring everyone had
+enough support to continue working on their allocated parts. Later during the day after our 
 standup, I began work on integrating the user permissions to the app. Darius was in the call with me at this time and 
 later also refined upon the system in which I was managing the permissions of the users. I during that time worked on 
 integrating the backend for how users would be able to connect to task groups. Later during the night I was also able to
