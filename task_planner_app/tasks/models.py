@@ -71,13 +71,13 @@ class Task(models.Model):
         }
         return _status
         
-    # @cached_property
-    # def priority_display(self):
-    #     _priority = {
-    #         'priority': TaskStatus(self.priority).label,
-    #         'style': status_color[TaskStatus(self.priority)]
-    #     }
-    #     return _priority
+    @cached_property
+    def priority_display(self):
+        _priority = {
+            'priority': TaskStatus(self.priority).label,
+            'style': status_color[TaskStatus(self.priority)]
+        }
+        return _priority
         
         
     class Meta:

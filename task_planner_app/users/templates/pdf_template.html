@@ -45,7 +45,9 @@
     </style>
 </head>
 <header class="page-header">
-    <img src="media/logo.png" height="140"  class="center">
+    <div style="display: flex; justify-content:center; text-align: center;">
+        <img src="media/logo.png" height="140"  class="float-center">
+    </div>
     <h1>Group: {{group}}</h1>   
     <h2>Member: {{member}}</h2> 
     <h3>Capacity: {{capacity}}</h3>
@@ -57,6 +59,8 @@
                 <th>Description</th>
                 <th>Deadline</th>
                 <th>Status</th>
+                <th>Priority</th>
+                <th>Estimation</th>
             </tr>
             {% for task in tasks %}
                 <tr>
@@ -64,6 +68,12 @@
                     <td>{{task.description}}</td>
                     <td>{{task.deadline}}</td>
                     <td>{{task.status}}</td>
+                    <td>
+                    <span class="badge badge-{{ task.priority_display.style }}">
+                        {{ task.priority_display.priority }} 
+                    </span>
+                    </td>
+                    <td>{{task.estimation}}</td>
                 </tr>
             {% endfor %}      
             </tr>
