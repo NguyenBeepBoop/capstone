@@ -98,8 +98,12 @@
 
         </div>
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
+        <button id="priority-btn" class='btn btn-secondary btn-lg'>Text</button>
+        <input hidden id='task-id' value="{{task.id}}">
     </div>
 </body>
+<script type="text/javascript" src="{% static 'js/task_details.js' %}"></script>
 
 {% endblock %}
+
 
