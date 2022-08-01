@@ -87,12 +87,6 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
         context['recommended'] = recommended(task)
         return context
 
-    def edit():
-        pass
-
-    def comment():
-        pass
-
     def post(self, request, *args, **kwargs):
         task = self.get_object()
         if "content" in request.POST:
@@ -112,10 +106,11 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
                     workload_list = [x for x in workload_list if x is not None]
                     workload = sum([int(i) for i in workload_list])
                     curr.assignee.workload = workload
+                    curr.assignee.save()
                 messages.success(self.request, f'Sucessfully updated task {task.name}')
             else:
-                messages.error(self.request, \
-                f'Form could not validate please make sure all relevant data has been entered.') 
+                errors = form.errors.get_json_data()
+                messages.warning(self.request, errors['__all__'][0]['message']) 
         return redirect(reverse_lazy('tasks:task_details', kwargs={'pk': task.pk}))
     
 
@@ -147,7 +142,6 @@ def recommended(cur_task):
     usernames = []
     for user in sorted_keys[:3]:
         usernames.append(User.objects.get(id=user).username)
-    print(usernames)
     return usernames
 
 class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
@@ -164,4 +158,13 @@ class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
         return context
     
     def get_success_url(self):
-        return reverse_lazy("tasks:list_tasks", kwargs={'pk': self.get_object().task_list.id})
+        task = self.get_object()
+        workload_list = Task.objects.filter(assignee=task.assignee).\
+            exclude(status="Complete")
+        workload_list = workload_list.exclude(id=task.id)
+        workload_list = workload_list.values_list('estimation', flat=True)
+        workload_list = [x for x in workload_list if x is not None]
+        workload = sum([int(i) for i in workload_list])
+        task.assignee.workload = workload
+        task.assignee.save()
+        return reverse_lazy("tasks:list_tasks", kwargs={'pk': task.task_list.id})

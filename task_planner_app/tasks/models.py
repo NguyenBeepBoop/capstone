@@ -81,11 +81,12 @@ class Task(models.Model):
         
     def clean(self, *args, **kwargs):
         if self.assignee and self.estimation and self.status != 'Complete':
-            workload_list = Task.objects.filter(assignee=self.assignee).exclude(status="Complete").values_list('estimation', flat=True)
+            workload_list = Task.objects.filter(assignee=self.assignee).\
+                exclude(status="Complete").values_list('estimation', flat=True)
             workload_list = [x for x in workload_list if x is not None]
             workload = sum([int(i) for i in workload_list])
             if self.assignee.capacity - (workload + self.estimation) > 0:
-                self.assignee.workload = workload + self.estimation
+                self.assignee.workload = workload + self.estimation 
                 self.assignee.save()
             else:
                 raise ValidationError (f"{self.assignee} does not have enough capacity.", code='invalid')

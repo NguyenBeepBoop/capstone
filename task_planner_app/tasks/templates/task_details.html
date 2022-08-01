@@ -12,7 +12,18 @@
 {% block content %}
 {% include 'task_group_base.html' %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
-
+{% if forms.edit.non_field_errors %}
+    <div class="non-field-errors">
+      {% for err in forms.edit.non_field_errors %}
+        <p class="alert alert-warning" role="alert">{{ err }}</p>
+      {% endfor %}
+    </div>
+{% endif %}
+{% if form.errors %}
+    <div class="alert alert-warning">
+        {{ form.errors }}
+    </div>
+{% endif %}
 <body>
     <div class="container">
         <br>
@@ -77,7 +88,7 @@
                     </table>
                     <br>
                     <div class="d-flex justify-content-left mx-4 mb-3 mb-lg-4">
-                        <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
+                        <button type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
                     </div>
                 </div>
             </div>
@@ -97,7 +108,7 @@
                     {% csrf_token %}
                     {{ forms.comment|crispy }}
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
+                        <button type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </form>
             </div>
