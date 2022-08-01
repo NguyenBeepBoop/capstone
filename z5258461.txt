@@ -120,4 +120,47 @@ So we had to make an urgent submission in lieu of our scrum master Joshua who wa
 Brent made an appearance to the class after his overseas trip. We helped set up his work environment
 and explained sections of the project so he would understand the principles of our system as well as
 some technical details. We tasked him to then research from what we just explained and see if he can try
-implement a category tagging feature. 
+implement a category tagging feature. I kept working with Joshua later that night to finalise some of
+the code necessary for the deletion features.
+
+On Wednesday, Joshua and I continued to work on the deletion features, especially the task group deletion.
+This required us to finalise views and templates for creating and showing task groups as well as constructing
+links from groups to lists (which we had already previously completed from lists to tasks). By this time
+Nguyen had completed notifications without any issues and Newton had come down with an illness while overseas.
+He could not work on his user stories related to friends and other user-object connections.
+
+On Friday, the group made a decision to combine functionality to view task details and edit them in the same
+webpage. This would make things easier as it meant less buttons and urls to keep track of. Nguyen began
+working on promoting and demoting users from groups using AJAX requests.
+
+Saturday, I began working on the edit task page and decided to also add the task comments for better
+UI/UX. The main issue was Django only works well with 1 form per view, so I had to come up with a
+workaround, that utilises AJAX requests to handle multiple forms.
+
+On Sunday, I figured out that I can pass multiple forms through the context data to fix the issue I had on 
+Saturday. This meant the rest of the day, I spend with Joshua fixing styling and positioning HTML
+components. A cool advantage of forms is that I can preload a form with the data of a task so a user can
+view and edit from the same HTML components at the same time.
+
+
+========== Week 8 ==========
+Tuesday's class was the sprint 2 demonstration and retrospective B meeting. All were present and all
+user stories assigned to the sprint was completed and nicely demonstrated. Luckily we made the decision
+to assign the bulk of user stories to sprint 2, which meant sprint 3 could be for the more detailed and less
+brute-force stories. In  particular, the novel features.
+
+On Thursday, the 9pm standup meeting was held by all memebers excluding Brent who was absent to decided
+who would be assigned what task. We also discussed what exactly the novel features would be and what the
+related user stories would be. This led to a lot of deprecated jira issues and a more simplified sprint.
+
+
+========== Week 9 ==========
+I tested positive to COVID, Tuesday night so I could not contribute until the weekend and even then
+it was more of a consultancy role, helping Joshua with task dependencies and Brent with the 
+autoscheduling algorithms.
+
+
+========== Week 10 ==========
+On Monday, I helped Brent tie his autoscheduler ranking algorithm into the broader system. We decided
+to just display the top ranking users when attempting to assign a task. We also made final pull requests
+to prepare for the final demonstration on Tuesday.
