@@ -1,12 +1,10 @@
-import mimetypes
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic import DetailView
-from tasks.filters import GroupFilter
 from tasks.forms import MembershipForm, NotificationGroupForm
 
 from tasks.models import Membership, Notification, TaskGroup
@@ -72,10 +70,12 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
         taskgroup = self.get_object()
         members = taskgroup.membership_set.filter(status='Active')
         tasklists = taskgroup.tasklist_set.all()
+        form = MembershipForm()
+        form.fields['user'].queryset = User.objects.exclude(id=self.request.user.id)
         context = {
             "taskgroup": taskgroup,
             'members': members,
-            'form': self.form_class,
+            'form': form,
             'tasklists': tasklists,
         }
         return context

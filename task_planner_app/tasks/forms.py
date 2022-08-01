@@ -56,6 +56,12 @@ class TagForm(forms.ModelForm):
 class MembershipForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
     message = forms.CharField(max_length=2048, widget=forms.Textarea, required=False)
+    
+    class Meta:
+        fields = ['user', 'message']
+    
+    def __init__(self, *args, **kwargs):
+        super(MembershipForm, self).__init__(*args, **kwargs) 
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={

@@ -141,7 +141,6 @@ def ProfileView(request, pk=None):
 @login_required
 def EditProfileView(request):
     user = User.objects.get(pk=request.user.pk)
-    print(request.POST)
     if request.method == 'POST':
         form = EditProfileForm(request.POST,request.FILES, instance=request.user)
 
@@ -399,3 +398,6 @@ def PDFView(request):
     
     context = {'form' : form}
     return render(request, 'PDFView.html', context)
+
+def view_404(request, exception=None):
+    return redirect('tasks:dashboard')
