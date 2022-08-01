@@ -37,3 +37,18 @@ standards. In the tutorial, I met up with Darius and Newton introduced me to the
 structure of it. I was tasked on adding Tags and Proficiencies for both Users and Tasks as well as cleaning up the formatting of 
 the code for the front end. Although I needed a lot of help, I still managed to contribute a lot towards my sections as well as 
 pointing out some key flaws that we fixed with our HTML code. 
+
+Week 8
+
+Our group presented for Progressive Demo B and we begun preparation for Sprint 3. Sprint 3 was going to be the addition of our 
+novelty features, the dependency and autoscheduling system. The dependency system would relate tasks meaning we could assign 
+tasks that wouldn't begin until the parent task was completed. The majority of the group (Darius, Newton, Joshua and Nguyen)
+ended up working on various parts for the dependencies. In a group meeting, we discussed ideas and came up with implementations
+for each feature. Progress begun for these features but we ended the week with neither feature implemented.
+
+Week 9
+
+Whilst I created the algorithm to determine who was most fit for scheduling the rest of the group finished the dependencies. 
+With some help from Darius and Newtwon, our autoscheduler algorithm was fully implemented. It works by using a formula to find 
+users within the task group and give a score based on Tags of Completed Tasks, Related Completed Tasks and Profiencies. This 
+allows us to provide users who are best suited for the task. 
