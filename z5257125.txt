@@ -156,5 +156,5 @@ we had decided in our app design.
 
 Week 8
 Monday
-Had a meetup with our team members in preparation for our Progresssive demo on Tuesday. Darius and Joshua had both completed their 
-parts in incorporating delete views, 
+Had a meetup with our team members in preparation for our Progresssive demo on Tuesday. Everyone had completed their assigned 
+components and we only needed to perform minor tweaks and front end cleanup for the demo on Tuesday.
