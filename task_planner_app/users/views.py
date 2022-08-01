@@ -359,24 +359,9 @@ def render_to_pdf(template_src, context_dict={}):
 		return HttpResponse(result.getvalue(), content_type='application/pdf')
 	return None
 
-#Automaticly downloads to PDF file
-class DownloadPDF(View):
-	def get(self, request, *args, **kwargs):
-		
-		pdf = render_to_pdf('pdf_template.html', users)
-
-		response = HttpResponse(pdf, content_type='application/pdf')
-		filename = "Task Report" 
-		content = "attachment; filename='%s'" %(filename)
-		response['Content-Disposition'] = content
-		return response
-
 def index(request):
 	context = {}
 	return render(request, 'profile_view.html', context)
-
-def days_between(d1,d2):
-    return abs((d2 - d1).days)
 
 @login_required
 def PDFView(request):

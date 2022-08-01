@@ -26,7 +26,6 @@ urlpatterns = [
     path('notification/friend_decline/<int:notification_pk>', views.DeclineFriendNotification.as_view(), name='notification_friend_decline'),
 
     path('pdf_page/', views.PDFView, name="view_pdf"),
-    path('pdf_download/', views.DownloadPDF.as_view(), name="pdf_download"),
     ]
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
