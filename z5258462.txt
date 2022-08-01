@@ -22,4 +22,29 @@ We spent Tuesday lab allocating the tasks for sprint one, we already had the env
 
 Thursday, we created a basic task creation model with fields including [name, description, deadline, priority and status]. It also returned the name of the task, and deadlines. We will attempt to create a working frontend for this by Saturday and hopefully complete a task list and group view as well.
 
+Week 5
+On Tuesday, we performed out first coding demo, with all of the user stories in the first sprint were completed and demonstrated. Retrospective A was conducted after, with issues regarding the inability to hold standup meetings, due to conflicts in schedules and the inconsistent coding style. We have decided to allocate code cleanup to several members and determined and allocated standup times on Thursdays and Sundays. We concluded with a discussion on sprint 2 objectives.
+
+Week 6
+Due to this week being flexibility week, very light coding and cleanup was performed.
+
+Some user stories in Sprint 2 had been previously initialised, so I spent some time with Darius discussing how we can alter what functionalities were already present to match the requirements for the current user stories for the following weeks.
+
+Week 7
+I had submitted the Retrospective A report that was due on Monday, however, was informed that I had not included a title page, so there was a resubmission on Tuesday. I had asked Darius for some assistance with developing the deletion functions for the tasks, lists and groups, completing the code for both the tasks and lists, however, was not able to complete the group deletion at the time.
+
+On Wednesday, Darius and I finished off the code for the group deletion, and then began working on the views and templates for these functions. With this completed, we started working on linking the groups and lists together, with the link between lists and tasks previously completed.
+
+From Friday to Saturday, I was focused more on cleaning up the previous code and researching into the frontend development, learning how to apply positioning and other forms of styling. Then on Sunday, began working on the actual development with Darius.
+
+Week 8
+
+The lab on Tuesday was spent on demonstrating the work we performed throughout Sprint 2, following this a Retrospective B meeting. All members of the group were present, and all user stories assigned were completed and demonstrated. We concluded that the cleanup of the code was sufficient and that we had targetted the weakpoints that we indicated on in the retrospective A report previously.
+On Thursday, we conducted a standup, where we were to determine where the tasks would be delegated to, and concluded which novelty features we were going to implement.
+
+No further progress from me this week.
+
+Week 9
+This week, I was focused on the dependency function, linking tasks as either parents or children tasks. This was a bit of trouble so I had to ask Darius to assist me on setting it all up.
+
 
