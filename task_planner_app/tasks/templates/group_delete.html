@@ -2,14 +2,17 @@
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Delete Task Group{% endblock %}
-
 {% block content %}
 <div class='container'>
+    <h1 style="text-align: center;"> Delete Task Group </h1>
+    <br>
     <form method="POST">
         {% csrf_token %}
-        <p>Are you sure you want to delete the task group "<strong>{{ taskgroup }}"</strong></p>
-        <input class="btn btn-danger" type="submit" value="Delete"/>
+        <p>Are you sure you want to delete the task group "<strong>{{ taskgroup }}</strong>"?
+            <br>This will delete all of the lists and tasks in the group.</p>
+        <input class="btn btn-danger" type="submit" value="Delete" style="position: absolute; left: 40%;"/>
+        <input class="btn btn-default" type="button" value="Go back" onclick="history.back()" 
+            style="background-color:#696969; color: aliceblue; position: absolute; left: 50%;"/>
     </form>
 </div>
 {% endblock %}

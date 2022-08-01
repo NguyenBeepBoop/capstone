@@ -1,11 +1,11 @@
+TASK_DELETE
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
 
-{% block title %}Delete Task{% endblock %}
-
 {% block content %}
 <div class='container'>
+    <h1 style="text-align: center;"> Delete Task </h1>
     <form method="POST">
         {% csrf_token %}
         {% if parent %}
@@ -20,22 +20,11 @@
                 <p>{{each.child_task}}</p>
             {% endfor %}
         {% endif %}
-        <p>Are you sure you want to delete the task "<strong>{{ task }}"</strong></p>
-        <input class="btn btn-danger" type="submit" value="Delete"/>
+        <p>Are you sure you want to delete the task "<strong>{{ task }}</strong>"?</p>
+        <input class="btn btn-danger" type="submit" value="Delete" style="position: absolute; left: 40%;"/>
+        <input class="btn btn-default" type="button" value="Go back" onclick="history.back()" 
+            style="background-color:#696969; color: aliceblue; position: absolute; left: 50%;"/>
     </form>
     
 </div>
-<!--<div class="modal-header">
-        <h3 class="modal-title" >Delete Task</h3>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-    </div>
-    <div class="modal-body">
-        <p class="lead"> Are you sure you want to delete "<strong>{{ task }}"</strong></p>
-    </div>
-    <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-danger">Delete Task</button>
-    </div>--->
 {% endblock %}
