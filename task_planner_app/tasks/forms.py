@@ -1,7 +1,6 @@
 from django import forms
 from datetime import datetime
 from django.utils import timezone
-
 from users.models import User
 from .models import ROLE_CHOICES, Comment, Notification, Task, TaskGroup, TaskList, Membership, Tags
 

@@ -32,6 +32,7 @@ class TaskListCreateView(UserPermissionMixin, LoginRequiredMixin, CreateView):
         taskgroup = TaskGroup.objects.get(pk=pk)
         queryset = TaskGroup.objects.get(pk=pk).tasklist_set.all()
         context['taskgroup'] = taskgroup
+        print(self.request.GET)
         context['members'] = taskgroup.membership_set.filter(status='Active')
         context['tasklists'] = taskgroup.tasklist_set.all()
         context['task_group_id'] = pk

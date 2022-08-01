@@ -38,3 +38,8 @@ font-weight:500
     -webkit-border-radius: 2px 2px 2px 2px;
     border-radius: 2px 2px 2px 2px;
 }
+
+.table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+  }
