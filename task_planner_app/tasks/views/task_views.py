@@ -111,7 +111,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
                     workload_list = [x for x in workload_list if x is not None]
                     workload = sum([int(i) for i in workload_list])
                     curr.assignee.workload = workload
-                messages.success(self.request, f'Sucessfully created task {task.name}')
+                messages.success(self.request, f'Sucessfully updated task {task.name}')
             else:
                 messages.error(self.request, \
                 f'Form could not validate please make sure all relevant data has been entered.') 
