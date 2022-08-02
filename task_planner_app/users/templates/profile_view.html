@@ -17,6 +17,16 @@
       </div>
       <div class="col-lg-3">
         {% if pk != user.id %}
+			Assigned Tasks:
+			<br>
+			{% for task in tasks %}
+				{{task.id}} - {{ task.name }} - 
+				{% if task.deadline %}
+					{{task.deadline }}
+				{% else %}
+					No Deadline
+				{% endif %}
+			{% endfor %}
 
         {% else %}
         <p>

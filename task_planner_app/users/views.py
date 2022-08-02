@@ -88,8 +88,8 @@ def ProfileView(request, pk=None):
     else:
         account = request.user 
         pk = request.user.id
-
-    context = {'user': account, 'pk': pk}
+    tasks = Task.objects.filter(assignee=account, status__in=['To do', 'In progress']).order_by('deadline')
+    context = {'user': account, 'pk': pk, 'tasks': tasks}
 
     try:
         friend_list = FriendList.objects.get(user=account)
@@ -151,7 +151,8 @@ def EditProfileView(request):
         
     else:
         form = EditProfileForm(instance=request.user)
-        context = {'form': form}
+        tasks = Task.objects.filter(assignee=user, status__in=['To do', 'In progress']).order_by('deadline')
+        context = {'form': form, 'tasks': tasks}
         return render(request, 'edit_profile.html', context)
 
 def send_friend_request(request, *args, **kwargs):
