@@ -29,7 +29,7 @@ Create a virtual environment to install project dependencies and activate it:
 $ python3 -m venv .env 
 $ source .env/bin/activate
 ```
-You should now see a `**(.env)**` in front of your console path e.g.:
+You should now see a `(.env)` in front of your console path e.g.:
 ```console
 (.env) ~/capstone-project-3900-t11b-3-5/task_planner_app$
 ```
@@ -37,7 +37,7 @@ Install the project dependencies:
 ```console
 (.env) $ pip3 install -r requirements/requirements.txt
 ```
-Once `**pip3**` has finished installing, setup the app database and run the server:
+Once `pip3` has finished installing, setup the app database and run the server:
 ```console
 (.env) $ python3 manage.py migrate
 (.env) $ python3 manage.py loaddata fixtures/tags.json 
@@ -65,7 +65,7 @@ Then run the following:
 ```console
 $ sudo apt install python3.9-venv
 ```
-#### If you encounter an error related to `"No such file or directory:"` when trying to run `"python3 -m venv .env "`:
+#### If you encounter an error related to ` "No such file or directory:" ` when trying to run `$ python3 -m venv .env`:
 
  1. Kill the current console instance.
  2. cd back to the project directory.
