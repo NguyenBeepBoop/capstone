@@ -96,6 +96,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
             obj.task = task
             obj.save()
         else:
+            print(request.POST)
             form = TaskForm(request.POST or None, instance=task)
             if form.is_valid():
                 curr = form.save(commit=False)
@@ -107,6 +108,7 @@ class TaskDetailView(UserPermissionMixin, LoginRequiredMixin, UpdateView):
                     workload = sum([int(i) for i in workload_list])
                     curr.assignee.workload = workload
                     curr.assignee.save()
+                form.save()
                 messages.success(self.request, f'Sucessfully updated task {task.name}')
             else:
                 errors = form.errors.get_json_data()
@@ -159,12 +161,13 @@ class TaskDeleteView(UserPermissionMixin, LoginRequiredMixin, DeleteView):
     
     def get_success_url(self):
         task = self.get_object()
-        workload_list = Task.objects.filter(assignee=task.assignee).\
-            exclude(status="Complete")
-        workload_list = workload_list.exclude(id=task.id)
-        workload_list = workload_list.values_list('estimation', flat=True)
-        workload_list = [x for x in workload_list if x is not None]
-        workload = sum([int(i) for i in workload_list])
-        task.assignee.workload = workload
-        task.assignee.save()
+        if task.assignee:
+            workload_list = Task.objects.filter(assignee=task.assignee).\
+                exclude(status="Complete")
+            workload_list = workload_list.exclude(id=task.id)
+            workload_list = workload_list.values_list('estimation', flat=True)
+            workload_list = [x for x in workload_list if x is not None]
+            workload = sum([int(i) for i in workload_list])
+            task.assignee.workload = workload
+            task.assignee.save()
         return reverse_lazy("tasks:list_tasks", kwargs={'pk': task.task_list.id})

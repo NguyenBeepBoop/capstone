@@ -374,26 +374,26 @@ def PDFView(request):
             "tasks" :[],
             "capacity" : member.capacity
         }
-        for task in Task.objects.all():
+        to_date = datetime.strptime(request.POST['to_date'], '%Y-%m-%d')
+        from_date = datetime.strptime(request.POST['from_date'], '%Y-%m-%d')
+        print((from_date.date() - to_date.date()).days)
+        if ((from_date.date() - to_date.date()).days) > 0:
+            messages.error(request, 'Please select proper from and to dates.')
+            context = {'form' : form}
+            return render(request, 'PDFView.html', context)
+        for task in Task.objects.filter(list_group=data['group']):
             if task.assignee == User.objects.get(pk=request.POST['user']):
-                to_date = datetime.strptime(request.POST['to_date'], '%Y-%m-%d')
-                from_date = datetime.strptime(request.POST['from_date'], '%Y-%m-%d')
-                if ((from_date.date() - to_date.date()).days) > 0:
-                    messages.error(request, 'Please select proper from and to dates.')
-                    context = {'form' : form}
-                    return render(request, 'PDFView.html', context)
                 if (task.deadline.date() - to_date.date()).days <= 0:
                     if (task.deadline.date() - from_date.date()).days >=0:
                         data["tasks"].append(task)
-                    else:
-                        messages.error(request, 'The member does not have any assigned tasks between selected dates')
-                        context = {'form' : form}
-                        return render(request, 'PDFView.html', context)
                 else:
                     messages.error(request, 'The member does not have any assigned tasks between selected dates')
                     context = {'form' : form}
                     return render(request, 'PDFView.html', context)
-
+        print(data["tasks"])
+        if not data['tasks']:
+            messages.error(request, 'There are no valid tasks for the report')
+            return render(request, 'PDFView.html', {'form' : form})
         pdf = render_to_pdf('pdf_template.html', data)
         return HttpResponse(pdf, content_type='application/pdf')
     
