@@ -29,7 +29,7 @@ Create a virtual environment to install project dependencies and activate it:
 $ python3 -m venv .env 
 $ source .env/bin/activate
 ```
-You should now see a `(.env)` in front of your console path e.g.:
+You should now see a `(.env)` in front of your console path e.g.
 ```console
 (.env) ~/capstone-project-3900-t11b-3-5/task_planner_app$
 ```
