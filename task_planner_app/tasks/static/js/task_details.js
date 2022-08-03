@@ -39,21 +39,3 @@ $('#comment-button').click(function(event) {
     addComment(data);
     location.reload()
 })
-
-function getPriority(data) {
-    $.ajax({
-        url: "/tasks/text", 
-        type: "GET",
-        data: data,
-        dataType: 'json',
-    });
-}
-
-$('#priority-btn').click(function(event) {
-    event.preventDefault();
-    data = {
-        task_id: $("#task-id")[0].value,
-    }
-    console.log(data)
-    getPriority(data);
-})
