@@ -48,7 +48,7 @@ You should be able to access the app now on:
 [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ## Virtual Environment Error
-If you encounter the following error:
+**If you encounter the following error with "ensurepip":**
 ```
 The virtual environment was not created successfully because ensurepip is not
 available.  On Debian/Ubuntu systems, you need to install the python3-venv
@@ -65,3 +65,16 @@ Then run the following:
 ```console
 $ sudo apt install python3.9-venv
 ```
+**If you encounter an error related to "No such file or directory:" when trying to run "python3 -m venv .env ":**
+
+ 1. Kill the current console instance.
+ 2. cd back to the project directory.
+```console
+$ cd capstone-project-3900-t11b-3-5/task_planner_app/
+```
+3. Try to create the virtual environment and activate it again.	
+```console
+$ python3 -m venv .env
+$ source .env/bin/activate
+```
+
