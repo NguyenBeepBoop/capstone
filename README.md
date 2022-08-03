@@ -9,6 +9,7 @@
 **For Linux systems:**
 
 [How To Install Python 3.9](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/)
+
 **For Windows or Mac:**
 
 > **Note**: Use the respective download links for your operating system.
