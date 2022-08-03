@@ -174,7 +174,11 @@ class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailVi
     
     def post(self, request, pk, *args, **kwargs):
         taskgroup = TaskGroup.objects.get(pk=pk)
-        members = taskgroup.membership_set.filter(status='Active')
+        member_type = request.POST.get('users')
+        if member_type == "Moderators":
+            members = taskgroup.membership_set.filter(status='Active', role='Moderator')
+        else:
+            members = taskgroup.membership_set.filter(status='Active')
         message = request.POST.get('message')
         if request.method == 'POST':
             form = NotificationGroupForm(request.POST)
