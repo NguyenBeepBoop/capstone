@@ -52,8 +52,6 @@ THIRD_PARTY_APPS = [
     'widget_tweaks',
     'crispy_forms',
     'django_filters',
-    'corsheaders',
-    'rest_framework',
     'serpapi',
     'django_bootstrap_breadcrumbs',
 ]
@@ -73,7 +71,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'task_planner_app.urls'
@@ -157,8 +154,6 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
 }
 
-CORS_URLS_REGEX = r"/api/.*$"
-
 TOTAL_FORM_COUNT = 'TOTAL_FORMS'
 INITIAL_FORM_COUNT = 'INITIAL_FORMS'
 MIN_NUM_FORM_COUNT = 'MIN_NUM_FORMS'
@@ -211,10 +206,6 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert-warning',
     messages.ERROR: 'alert-danger',
 }
-
-CORS_ORIGIN_WHITELIST = [
-     'http://localhost:3000'
-]
 
 FIXTURE_DIRS = [
     os.path.join(BASE_DIR, 'fixtures'),
