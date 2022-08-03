@@ -42,6 +42,7 @@ Setup the Django database and run the server:
 (.env) $ python3 manage.py runserver 
 ```
 You should be able to access the app now on:
+
 [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ## Virtual Environment Error
