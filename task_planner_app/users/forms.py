@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django.contrib.auth import authenticate
-from tasks.models import Tags
+from tasks.models import Tags, TaskGroup
 
 from users.models import User
 
@@ -50,7 +50,7 @@ class EditProfileForm(UserChangeForm):
 	password = None
 	username = forms.CharField(max_length=100)
 	proficiencies = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.filter(status='Active'),
+            queryset=Tags.objects.filter(status='Active').order_by('name'),
             widget=forms.CheckboxSelectMultiple,
             required=False)
 	class Meta:
@@ -68,3 +68,15 @@ class EditProfileForm(UserChangeForm):
 			'profile_image',
 			'proficiencies',
 		]
+		
+class PDFForm(forms.Form):
+	group = forms.ModelChoiceField(queryset=TaskGroup.objects.all())
+	user = forms.ModelChoiceField(queryset=User.objects.all())
+	from_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+	to_date = forms.DateField(widget=forms.DateInput(attrs={'type':'date'}))
+	class Meta:
+		widgets = {
+			'from_date': forms.DateInput(attrs={'type':'date'}),
+			'to_date': forms.DateInput(attrs={'type':'date'})
+		}
+	

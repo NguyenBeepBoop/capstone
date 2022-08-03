@@ -1,18 +1,36 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-
-{% block title %}Create Task List{% endblock %}
+{% load django_bootstrap_breadcrumbs %}
+{% block breadcrumbs %}
+    {% breadcrumb "Groups" "tasks:dashboard_groups" %}
+    {% breadcrumb "Task Lists" "tasks:group_list" pk=taskgroup.id %}
+    {% breadcrumb "Tasks" "tasks:list_tasks" pk=task.task_list.id %}
+    {% breadcrumb "Task" "" %}
+{% endblock %}
 
 {% block content %}
 {% include 'task_group_base.html' %}
 <link rel="stylesheet" type="text/css" href="{% static 'css/task_template.css' %}">
-
+{% if forms.edit.non_field_errors %}
+    <div class="non-field-errors">
+      {% for err in forms.edit.non_field_errors %}
+        <p class="alert alert-warning" role="alert">{{ err }}</p>
+      {% endfor %}
+    </div>
+{% endif %}
+{% if form.errors %}
+    <div class="alert alert-warning">
+        {{ form.errors }}
+    </div>
+{% endif %}
 <body>
-    <h1 style='display: flex; justify-content: center'>
-        Edit {{task.name}}
-    </h1>
-   <div class="container">
+    <div class="container">
+        <br>
+        {% render_breadcrumbs %}
+        <h1 style='display: flex; justify-content: center'>
+            Edit {{task.name}}
+        </h1>
         <div class='row'><form class="update" style="width:100%" method="POST">
             {% csrf_token %}
             <div class="row">
@@ -21,20 +39,46 @@
                         <tr><td><div>{{ forms.edit.name|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.description|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.deadline|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
+                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
+                        <tr><td> Recommended User(s):
+                        <br>
+                        {% for r in recommended %}
+                             {{ r }}<br>
+                        {% endfor %}
+                        <br></td></tr>
+                        <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>
                     </table>
                 </div>
                 <div class="col-lg-6">
-                    <table>
+                    <table style="min-width: 400px">
+                        <tr><td><div>{{ forms.edit.status|as_crispy_field }}</div></td></tr>
                         <tr><td><div>{{ forms.edit.priority|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.assignee|as_crispy_field }}</div></td></tr>
-                        <tr><td><div>{{ forms.edit.estimation|as_crispy_field }}</div></td></tr>    
                         <tr><td>
-                        <label>Select Proficiencies</label>
+                        <label>Link Parent Tasks</label>
+                        <div class="proficiencies-box">
+                          {% for task in forms.edit.linked_tasks %}
+                          <div onclick="this.querySelector('input[type=checkbox]').click()">
+                              <a onclick="this.querySelector('input[type=checkbox]').click()">
+                                {{ task }}
+                              </a>
+                            </div>
+                            
+                          {% endfor %}
+                        </div>
+                        </td></tr>
+                        <tr><td>
+                        <label>
+                            Select Proficiencies
+                            <span class="input-help">
+                                <small id="selecthelp" class="form-text text-muted">
+                                    (The accuracy of help results depend on these tags) 
+                                </small>
+                              </span>
+                        </label>
                             <div class="proficiencies-box">
-                                {% for prof in form.tags %}
+                                {% for prof in forms.edit.tags %}
                                 <div onclick="this.querySelector('input[type=checkbox]').click()">
-                                    <a>
+                                    <a onclick="this.querySelector('input[type=checkbox]').click()">
                                     {{ prof}}
                                     </a>
                                 </div>
@@ -43,8 +87,8 @@
                         </td></tr>
                     </table>
                     <br>
-                    <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button id='edit' type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
+                    <div class="d-flex justify-content-left mx-4 mb-3 mb-lg-4">
+                        <button type="submit" class="btn btn-primary btn-lg">Save <i class="fa-solid fa-floppy-disk"></i></button>
                     </div>
                 </div>
             </div>
@@ -64,7 +108,7 @@
                     {% csrf_token %}
                     {{ forms.comment|crispy }}
                     <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-                        <button id='comment-button' type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
+                        <button type="submit" class="btn btn-primary btn-lg">Comment <i class="fa-solid fa-paper-plane"></i></button>
                     </div>
                 </form>
             </div>
@@ -73,6 +117,8 @@
         <a class='btn btn-danger btn-lg' href="{% url 'tasks:task_delete' object.id %}">Delete</a>
     </div>
 </body>
+<script type="text/javascript" src="{% static 'js/task_details.js' %}"></script>
 
 {% endblock %}
+
 

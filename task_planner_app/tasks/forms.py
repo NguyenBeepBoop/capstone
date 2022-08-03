@@ -1,20 +1,24 @@
 from django import forms
 from datetime import datetime
 from django.utils import timezone
-
 from users.models import User
-from .models import ROLE_CHOICES, Comment, Notification, Task, TaskList, Membership, Tags
+from .models import ROLE_CHOICES, Comment, Notification, Task, TaskGroup, TaskList, Membership, Tags
 
 
 class TaskForm(forms.ModelForm):
     tags = forms.ModelMultipleChoiceField(
-            queryset=Tags.objects.filter(status='Active'),
+            queryset=Tags.objects.filter(status='Active').order_by('name'),
             widget=forms.CheckboxSelectMultiple,
             required=False)
             
+    linked_tasks = forms.ModelMultipleChoiceField(
+        queryset=Task.objects.all(),
+        widget=forms.CheckboxSelectMultiple,
+        required=False)
+
     class Meta:
         model = Task
-        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority', 'tags']
+        fields = ['name', 'description', 'deadline', 'estimation', 'assignee', 'status', 'priority', 'tags', 'linked_tasks']
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
@@ -52,6 +56,12 @@ class TagForm(forms.ModelForm):
 class MembershipForm(forms.Form):
     user = forms.ModelChoiceField(queryset=User.objects.all())
     message = forms.CharField(max_length=2048, widget=forms.Textarea, required=False)
+    
+    class Meta:
+        fields = ['user', 'message']
+    
+    def __init__(self, *args, **kwargs):
+        super(MembershipForm, self).__init__(*args, **kwargs) 
 
 class CommentForm(forms.ModelForm):
     content = forms.CharField(widget=forms.Textarea(attrs={

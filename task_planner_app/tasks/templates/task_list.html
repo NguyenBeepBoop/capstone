@@ -1,15 +1,18 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% load static %}
-
+{% load bootstrap_breadcrumbs %}
 {% block title %}Create Task List{% endblock %}
 
 {% block content %}
+{% block breadcrumbs %}
+    {% breadcrumb "Dashboard" "tasks.dashboard" %}
+{% endblock %}
 
 <form method="GET">
   {% csrf_token %}
   {{ myFilter.form|crispy }}
-  <button type="submit" class="btn btn-primary"> Test</button>
+  <button type="submit" class="btn btn-primary">Filter</button>
 </form>
 
 

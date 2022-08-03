@@ -1,18 +1,26 @@
+from datetime import datetime
 import json
 from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.messages.views import SuccessMessageMixin
-from django.http import HttpResponse
+from django.dispatch import receiver
 from django.shortcuts import HttpResponseRedirect, redirect, render
 from django.views.generic import View
 from .models import User, FriendList, FriendRequest
-from tasks.models import Notification
-from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm
+from tasks.models import Notification, TaskGroup, TaskList, Task
+from users.forms import RegistrationForm, UserAuthenticationForm, EditProfileForm, PDFForm
 from django.contrib.auth.decorators import login_required
 from .utils import get_friend_request_or_false
 from .friend_request_status import FriendRequestStatus
-    
+from braces.views import LoginRequiredMixin
+from django.shortcuts import render
+from io import BytesIO
+from django.http import HttpResponse
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
+
 def RegisterView(request, *args, **kwargs):
     user = request.user
     if user.is_authenticated:
@@ -80,8 +88,8 @@ def ProfileView(request, pk=None):
     else:
         account = request.user 
         pk = request.user.id
-
-    context = {'user': account, 'pk': pk}
+    tasks = Task.objects.filter(assignee=account, status__in=['To do', 'In progress']).order_by('deadline')
+    context = {'user': account, 'pk': pk, 'tasks': tasks}
 
     try:
         friend_list = FriendList.objects.get(user=account)
@@ -143,7 +151,8 @@ def EditProfileView(request):
         
     else:
         form = EditProfileForm(instance=request.user)
-        context = {'form': form}
+        tasks = Task.objects.filter(assignee=user, status__in=['To do', 'In progress']).order_by('deadline')
+        context = {'form': form, 'tasks': tasks}
         return render(request, 'edit_profile.html', context)
 
 def send_friend_request(request, *args, **kwargs):
@@ -197,7 +206,7 @@ def accept_friend_request(request, *args, **kwargs):
 					# found the request. Now accept it  
                     friend_request.accept()
                     payload['response'] = "Friend request accepted."
-                else:
+                else:    
                     payload['response'] = "Something went wrong."
             else:
                 payload['response'] = "That is not your request to accept."
@@ -307,3 +316,89 @@ def friends_list_view(request, *args, **kwargs,):
 	else:		
 		return HttpResponse("You must be friends to view their friends list.")
 	return render(request, "friend_list.html", context)
+
+
+class AcceptFriendNotification(LoginRequiredMixin, View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+
+        notification.seen = True
+        notification.save()
+        receiver_friend_list = FriendList.objects.get(user=notification.receiver)
+        receiver_friend_list.add_friend(notification.sender)
+        sender_friend_list = FriendList.objects.get(user=notification.sender)
+        sender_friend_list.add_friend(notification.receiver)
+
+        friend_requests = FriendRequest.objects.get(sender=notification.sender, receiver=notification.receiver, is_active=True)
+        friend_requests.is_active = False
+        receiver_friend_list.save()
+        sender_friend_list.save()
+        friend_requests.save()
+        return HttpResponse('Success', content_type='text/plain')
+
+
+class DeclineFriendNotification(LoginRequiredMixin, View):
+    def delete(self, request, notification_pk, *args, **kwargs):
+        notification = Notification.objects.get(pk=notification_pk)
+        
+        notification.seen = True
+        notification.save()
+
+        friend_requests = FriendRequest.objects.get(sender=notification.sender, receiver=notification.receiver, is_active=True)
+        friend_requests.is_active = False
+        friend_requests.save()
+        return HttpResponse('Success', content_type='text/plain')
+
+
+def render_to_pdf(template_src, context_dict={}):
+	template = get_template(template_src)
+	html  = template.render(context_dict)
+	result = BytesIO()
+	pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+	if not pdf.err:
+		return HttpResponse(result.getvalue(), content_type='application/pdf')
+	return None
+
+def index(request):
+	context = {}
+	return render(request, 'profile_view.html', context)
+
+@login_required
+def PDFView(request):
+    form = PDFForm()
+    if request.method == 'POST':
+        member = User.objects.get(pk=request.POST['user'])
+        data = {
+            "group" : TaskGroup.objects.get(pk=request.POST['group']),
+            "member" : member,
+            "tasks" :[],
+            "capacity" : member.capacity
+        }
+        for task in Task.objects.all():
+            if task.assignee == User.objects.get(pk=request.POST['user']):
+                to_date = datetime.strptime(request.POST['to_date'], '%Y-%m-%d')
+                from_date = datetime.strptime(request.POST['from_date'], '%Y-%m-%d')
+                if ((from_date.date() - to_date.date()).days) > 0:
+                    messages.error(request, 'Please select proper from and to dates.')
+                    context = {'form' : form}
+                    return render(request, 'PDFView.html', context)
+                if (task.deadline.date() - to_date.date()).days <= 0:
+                    if (task.deadline.date() - from_date.date()).days >=0:
+                        data["tasks"].append(task)
+                    else:
+                        messages.error(request, 'The member does not have any assigned tasks between selected dates')
+                        context = {'form' : form}
+                        return render(request, 'PDFView.html', context)
+                else:
+                    messages.error(request, 'The member does not have any assigned tasks between selected dates')
+                    context = {'form' : form}
+                    return render(request, 'PDFView.html', context)
+
+        pdf = render_to_pdf('pdf_template.html', data)
+        return HttpResponse(pdf, content_type='application/pdf')
+    
+    context = {'form' : form}
+    return render(request, 'PDFView.html', context)
+
+def view_404(request, exception=None):
+    return redirect('tasks:dashboard')

@@ -27,7 +27,7 @@
                     <div class="proficiencies-box">
                       {% for prof in form.proficiencies %}
                         <div onclick="this.querySelector('input[type=checkbox]').click()">
-                          <a>
+                          <a onclick="this.querySelector('input[type=checkbox]').click()">
                           {{ prof}}
                           </a>
                         </div>

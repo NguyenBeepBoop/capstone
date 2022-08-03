@@ -1,7 +1,9 @@
+from django.forms import ValidationError
 from django.utils.functional import cached_property
 from django.db import models
 from django.conf import settings
 from tasks.const import TaskStatus, status_color
+#from users.models import FriendRequest
 # Create your models here.
 
 
@@ -13,11 +15,11 @@ STATUS_CHOICES = [
 ]
 
 PRIORITY_CHOICES = [
-    ('Lowest', 'Lowest'),
-    ('Low', 'Low'),
-    ('Medium', 'Medium'),
-    ('High', 'High'),
-    ('Highest', 'Highest')
+    ('5', 'Lowest'),
+    ('4', 'Low'),
+    ('3', 'Medium'),
+    ('2', 'High'),
+    ('1', 'Highest')
 ]
 
 MEM_STATUS_CHOICES = [
@@ -37,7 +39,8 @@ TAGS_CHOICES = [
 
 
 class Task(models.Model):
-    name = models.CharField(max_length=100) 
+    name = models.CharField(max_length=100)
+    linked_tasks = models.ManyToManyField("self", through="TaskDependency", symmetrical = False, blank=True)
     description = models.TextField(max_length=2000, blank=True, default='')
     date_created = models.DateTimeField(auto_now_add=True)
     deadline = models.DateTimeField(blank=True, null=True)
@@ -77,6 +80,27 @@ class Task(models.Model):
         }
         return _priority
         
+    def clean(self, *args, **kwargs):
+        if self.assignee and self.estimation and self.status != 'Complete':
+            workload_list = Task.objects.filter(assignee=self.assignee).\
+                exclude(status="Complete").values_list('estimation', flat=True)
+            workload_list = [x for x in workload_list if x is not None]
+            workload = sum([int(i) for i in workload_list])
+            if self.assignee.capacity - (workload + self.estimation) > 0:
+                self.assignee.workload = workload + self.estimation 
+                self.assignee.save()
+            else:
+                raise ValidationError (f"{self.assignee} does not have enough capacity.", code='invalid')
+        elif self.assignee and not self.estimation:
+            raise ValidationError ("please provide a completion estimation when allocating an assignee.", code='invalid')
+            
+        super().clean(*args, **kwargs)
+        
+        
+    def save(self, *args, **kwargs):
+        self.clean()
+        return super().save(*args, **kwargs)
+        
         
     class Meta:
         ordering = ['status', '-priority', models.F('deadline').asc(nulls_last=True)]
@@ -115,13 +139,14 @@ class Membership(models.Model):
     
 class Notification(models.Model):
 	# 1 Group Notification, 2 = Connection Request, 3 = group invite 
-	notification_type = models.IntegerField()
-	receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
-	sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)
-	group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
-	description = models.TextField(max_length=2000, null=True, blank=True)
-	date = models.DateTimeField(auto_now_add=True)
-	seen = models.BooleanField(default=False)
+    notification_type = models.IntegerField()
+    receiver = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_to', on_delete=models.CASCADE, null=True)
+    sender = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='notification_from', on_delete=models.CASCADE, null=True)
+    group = models.ForeignKey(TaskGroup, on_delete=models.CASCADE, related_name='+', blank=True, null=True)
+    description = models.TextField(max_length=2000, null=True, blank=True)
+    date = models.DateTimeField(auto_now_add=True)
+    seen = models.BooleanField(default=False)
+    #friend_request = models.ForeignKey(FriendRequest, on_delete=models.CASCADE, null=True, blank=True)
 
 class Comment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
@@ -140,3 +165,10 @@ class Tags(models.Model):
 
     def __str__(self):
         return self.name
+
+class TaskDependency(models.Model):
+    child_task = models.ForeignKey(Task, related_name="child_task", on_delete=models.CASCADE)
+    parent_task = models.ForeignKey(Task, related_name="parent_task", on_delete=models.CASCADE)
+    
+    def __str__(self):
+        return self.parent_task.name + ": " + self.child_task.name

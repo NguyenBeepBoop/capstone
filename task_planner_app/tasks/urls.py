@@ -8,14 +8,11 @@ app_name='tasks'
 urlpatterns = [
     path('', LoginView, name="home"),
 
-    # path('tasks/', TaskCreateView.as_view(), name="tasks"),
     re_path('tasks/(?P<pk>\d+)', TaskDetailView.as_view(), name="task_details"),
     re_path('tasks_delete/(?P<pk>\d+)', TaskDeleteView.as_view(), name="task_delete"),
     re_path('tasks?sort=(.*)', TaskCreateView.as_view(), name="task_sort"),
-    path('tasks/edit', TaskDetailView.edit, name='edit_task'),
 
-    # path('lists/', TaskListCreateView.as_view(), name='lists'),
-    re_path('lists/(?P<pk>\d+)$', TaskCreateView.as_view(), name="lists_list"),
+    re_path('lists/(?P<pk>\d+)$', TaskCreateView.as_view(), name="list_tasks"),
     re_path('lists_delete/(?P<pk>\d+)', ListDeleteView.as_view(), name="list_delete"),
     re_path('list_details/(?P<pk>\d+)$', ListDetailView.as_view(), name="list_details"),
 
@@ -38,6 +35,7 @@ urlpatterns = [
     
     path('dashboard/', Dashboard.as_view(), name='dashboard'),
     path('groups/', DashboardGroups.as_view(), name='dashboard_groups'),
+    path('dashboard/get_help/', get_help, name='get_help'),
 ]
 
 

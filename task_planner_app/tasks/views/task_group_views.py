@@ -1,12 +1,10 @@
-import mimetypes
 from braces.views import LoginRequiredMixin
 from django.contrib import messages
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.views.generic.edit import CreateView, UpdateView, DeleteView
+from django.views.generic.edit import UpdateView, DeleteView
 from django.views.generic import DetailView
-from tasks.filters import GroupFilter
 from tasks.forms import MembershipForm, NotificationGroupForm
 
 from tasks.models import Membership, Notification, TaskGroup
@@ -22,6 +20,7 @@ class GroupDetailView(OwnerPermissionMixin, LoginRequiredMixin, UpdateView):
     def get_context_data(self, **kwargs):
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
+        context['tasklists'] = taskgroup.tasklist_set.all()
         context['members'] = taskgroup.membership_set.filter(status='Active')
         return context
         
@@ -31,8 +30,6 @@ class GroupDeleteView(OwnerPermissionMixin, LoginRequiredMixin, DeleteView):
     template_name = "group_delete.html"
     success_url = reverse_lazy("tasks:dashboard_groups")
         
-
-
 class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailView):
     model = TaskGroup
     template_name = 'group_membership.html'
@@ -72,10 +69,14 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
         members = taskgroup.membership_set.filter(status='Active')
+        tasklists = taskgroup.tasklist_set.all()
+        form = MembershipForm()
+        form.fields['user'].queryset = User.objects.exclude(id=self.request.user.id)
         context = {
             "taskgroup": taskgroup,
             'members': members,
-            'form': self.form_class
+            'form': form,
+            'tasklists': tasklists,
         }
         return context
         
@@ -173,7 +174,11 @@ class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailVi
     
     def post(self, request, pk, *args, **kwargs):
         taskgroup = TaskGroup.objects.get(pk=pk)
-        members = taskgroup.membership_set.filter(status='Active')
+        member_type = request.POST.get('users')
+        if member_type == "Moderators":
+            members = taskgroup.membership_set.filter(status='Active', role='Moderator')
+        else:
+            members = taskgroup.membership_set.filter(status='Active')
         message = request.POST.get('message')
         if request.method == 'POST':
             form = NotificationGroupForm(request.POST)
@@ -194,10 +199,12 @@ class TaskGroupNotifyView(ModeratorPermissionMixin, LoginRequiredMixin, DetailVi
         context= super().get_context_data(**kwargs)
         taskgroup = self.get_object()
         members = taskgroup.membership_set.filter(status='Active')
+        tasklists = taskgroup.tasklist_set.all()
         context = {
             "taskgroup": taskgroup,
             'members': members,
-            'form': self.form_class
+            'form': self.form_class,
+            'tasklists': tasklists,
         }
         return context
         

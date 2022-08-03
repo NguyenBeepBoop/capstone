@@ -25,9 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^54o+g-li18n0t!+_gvc+_4hmx%-(78b(g0o5zdzyi^^jxyzs+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 AUTH_USER_MODEL = "users.User"
 
@@ -54,8 +54,8 @@ THIRD_PARTY_APPS = [
     'django_filters',
     'corsheaders',
     'rest_framework',
-    # 'simple_history',
-    # 'django_bootstrap_breadcrumbs',
+    'serpapi',
+    'django_bootstrap_breadcrumbs',
 ]
 
 LOCAL_APPS = [
@@ -174,15 +174,17 @@ DEFAULT_MAX_NUM = 200
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 
-STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'static'),
-    os.path.join(BASE_DIR, 'media')
-]
-
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static_cdn')
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+if DEBUG:
+    STATICFILES_DIRS = [
+            os.path.join(BASE_DIR, 'static'),
+            os.path.join(BASE_DIR, 'media')
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')
 # Default primary key field type
@@ -212,4 +214,8 @@ MESSAGE_TAGS = {
 
 CORS_ORIGIN_WHITELIST = [
      'http://localhost:3000'
+]
+
+FIXTURE_DIRS = [
+    os.path.join(BASE_DIR, 'fixtures'),
 ]
