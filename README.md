@@ -47,7 +47,7 @@ You should be able to access the app now on:
 
 [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## Virtual Environment Error
+## Virtual Environment Errors and How To Fix
 #### If you encounter the following error with "ensurepip":
 ```
 The virtual environment was not created successfully because ensurepip is not
