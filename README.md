@@ -2,15 +2,16 @@
 ## Pre-Installation Checklist
 |         Requirement       |Description                                                          |
 |---------------------------|---------------------------------------------------------------------|
-|Python                     |3.9.1 (at the very minimum), note we have not tested on python 3.10+ or 3.8.X |
-
+|Python                     |3.8.10, (versions 3.9.X+ is recommended)                             |
+|Python3-venv               |same version as your Python                                          |
+> **Note**:  We have not tested on Python 3.10+
 ### If you do not have python 3.9.X, I recommend following these:
 **For Linux systems:**
 
 [How To Install Python 3.9](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/)
-
 **For Windows or Mac:**
-> **Note**: Use the respective installer download links for your operating system.
+
+> **Note**: Use the respective download links for your operating system.
 
 [Download Python 3.9](https://www.python.org/downloads/release/python-390/)
 ## Setup
@@ -27,7 +28,7 @@ Create a virtual environment to install project dependencies and activate it:
 $ python3 -m venv .env 
 $ source .env/bin/activate
 ```
-You should now see a **(.env)** in front of your console path e.g.
+You should now see a **(.env)** in front of your console path e.g.:
 ```console
 (.env) ~/capstone-project-3900-t11b-3-5/task_planner_app$
 ```
@@ -35,7 +36,7 @@ Install the project dependencies:
 ```console
 (.env) $ pip3 install -r requirements/requirements.txt
 ```
-Setup the Django database and run the server:
+Once **pip3** has finished installing, setup the app database and run the server:
 ```console
 (.env) $ python3 manage.py migrate
 (.env) $ python3 manage.py loaddata fixtures/tags.json 
