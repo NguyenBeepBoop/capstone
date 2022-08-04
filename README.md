@@ -3,17 +3,17 @@
 # Table of Contents
 
 1. [Pre-Installation Checklist](#checklist)
-1. [Linux python install](#linux)
-2. [Windows python install](#windows)
+   1. [Linux python install](#linux)
+   2. [Windows python install](#windows)
 2. [Setup](#setup)
 3. [Virtual Environment Errors and How To Fix](#errors)
 4. [Using the App (Workflow and Use Cases)](#using-app)
-1. [Login and Register](#login-register)
-2. [Forgot your password?](#forgot-pass)
-3. [Your Profile](#login-register)
-4. [The Dashboard](#login-register)
-5. [Login and Register](#login-register)
-6. [Login and Register](#login-register)
+   1. [Login and Register](#login-register)
+   2. [Forgot your password?](#forgot-pass)
+5. [Your Profile](#login-register)
+6. [The Dashboard](#login-register)
+7. [Login and Register](#login-register)
+8. [Login and Register](#login-register)
 
 ## Pre-Installation Checklist <a name="checklist"></a>
 
