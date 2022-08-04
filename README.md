@@ -29,7 +29,7 @@
 
 **For Windows or Mac:** <a name="windows"></a>
 
-	> **Note**: Use the respective download links for your operating system.
+> **Note**: Use the respective download links for your operating system.
 
 [Download Python 3.9](https://www.python.org/downloads/release/python-390/)
 ## Setup <a name="setup"></a>
