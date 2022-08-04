@@ -106,8 +106,7 @@ In the event that you have forgotten your password, it can be recovered through 
 	#### Editing your profile
 	* http://127.0.0.1:8000/accounts/profile_edit/
 	
-	  You may edit details about yourself including Email, Username, First Name, Last Name, Capacity (amount of 
-	  workload you are willing to take), Proficiencies and Profile Picture.
+	You may edit details about yourself including Email, Username, First Name, Last Name, Capacity (amount of workload you are willing to take), Proficiencies and Profile Picture.
 
 
 
