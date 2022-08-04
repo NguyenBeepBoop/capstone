@@ -1,26 +1,36 @@
 # capstone-project-3900-t11b-3-5
 # Table of Contents
-1. [Pre-Installation Checklist](#Pre-Installation Checklist)
-2. [Example2](#example2)
-3. [Third Example](#third-example)
-4. [Fourth Example](#fourth-examplehttpwwwfourthexamplecom)
-## Pre-Installation Checklist
+1. [Pre-Installation Checklist](#checklist)
+	1. [Linux python install](#linux)
+	2. [Windows python install](#windows)
+2. [Setup](#setup)
+3. [Virtual Environment Errors and How To Fix](#errors)
+4. [Using the App (Workflow and Use Cases)](#using-app)
+	1. [Login and Register](#login-register)
+	2. [Forgot your password?](#forgot-pass)
+	3. [Your Profile](#login-register)
+	4. [The Dashboard](#login-register)
+	5. [Login and Register](#login-register)
+	6. [Login and Register](#login-register)
+
+## Pre-Installation Checklist <a name="checklist"></a>
+
 |         Requirement       |Description                                                          |
 |---------------------------|---------------------------------------------------------------------|
 |Python                     |3.8.10, (versions 3.9.X+ is recommended)                             |
 |Python3-venv               |same version as your Python                                          |
 > **Note**:  We have not tested on Python 3.10+
-### If you do not have python 3.9.X, I recommend following these:
-**For Linux systems:**
 
+### If you do not have python 3.9.X, I recommend following these:
+
+**For Linux systems:**  <a name="linux"></a>
 [How To Install Python 3.9](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/)
 
-**For Windows or Mac:**
-
+**For Windows or Mac:** <a name="windows"></a>
 > **Note**: Use the respective download links for your operating system.
 
 [Download Python 3.9](https://www.python.org/downloads/release/python-390/)
-## Setup
+## Setup <a name="setup"></a>
 
 Firstly, clone the repository and change to project directory:
 ```console
@@ -34,7 +44,7 @@ Create a virtual environment to install project dependencies and activate it:
 $ python3 -m venv .env 
 $ source .env/bin/activate
 ```
-You should now see a `(.env)` in front of your console path e.g.
+You should now see a **(.env)** in front of your console path e.g.:
 ```console
 (.env) ~/capstone-project-3900-t11b-3-5/task_planner_app$
 ```
@@ -42,18 +52,17 @@ Install the project dependencies:
 ```console
 (.env) $ pip3 install -r requirements/requirements.txt
 ```
-Once `pip3` has finished installing, setup the app database and run the server:
+Once `**pip3**` has finished installing, setup the app database and run the server:
 ```console
 (.env) $ python3 manage.py migrate
 (.env) $ python3 manage.py loaddata fixtures/tags.json 
 (.env) $ python3 manage.py runserver 
 ```
 You should be able to access the app now on:
-
 * [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
-## Virtual Environment Errors and How To Fix
-#### If you encounter the following error with "ensurepip":
+## Virtual Environment Errors and How To Fix  <a name="errors"></a>
+### If you encounter the following error with "ensurepip":
 ```
 The virtual environment was not created successfully because ensurepip is not
 available.  On Debian/Ubuntu systems, you need to install the python3-venv
@@ -70,7 +79,7 @@ Then run the following:
 ```console
 $ sudo apt install python3.9-venv
 ```
-#### If you encounter an error related to ` "No such file or directory:" ` when trying to run `$ python3 -m venv .env`:
+### If you encounter "No such file or directory:" when trying to run "python3 -m venv .env ":
 
  1. Kill the current console instance.
  2. cd back to the project directory.
@@ -82,7 +91,6 @@ $ cd capstone-project-3900-t11b-3-5/task_planner_app/
 $ python3 -m venv .env
 $ source .env/bin/activate
 ```
-
 ## Using the App (Workflow and Use Cases) <a name="using-app"></a>
 ### Register and Login <a name="login-register"></a>
 #### Overview
@@ -172,4 +180,3 @@ To see a more detailed view of your task click on the task in the table. This wi
 
 ### How to Create a Task <a name="task-create"></a>
 To create a task, you would firstly need to 
-
