@@ -24,9 +24,11 @@
 ### If you do not have python 3.9.X, I recommend following these:
 
 **For Linux systems:**  <a name="linux"></a>
+
 [How To Install Python 3.9](https://tecadmin.net/how-to-install-python-3-9-on-ubuntu-18-04/)
 
 **For Windows or Mac:** <a name="windows"></a>
+
 > **Note**: Use the respective download links for your operating system.
 
 [Download Python 3.9](https://www.python.org/downloads/release/python-390/)
