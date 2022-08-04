@@ -76,4 +76,15 @@ $ cd capstone-project-3900-t11b-3-5/task_planner_app/
 ```console
 $ python3 -m venv .env
 $ source .env/bin/activate
+```
+
+## Using the App (Workflow and Use Case)
+### Register and Login
+1. Firstly, create an account to access the app. 
+	* Here you are required to enter in an email, username, first name, last name and password. 
+	* Your date of birth is completely optional and you may update this once logged into the system.
+	* Upon successful registration you will be logged into the app.
+#### Register View
+![alt text](https://github.com/unsw-cse-comp3900-9900-22T2/capstone-project-3900-t11b-3-5/blob/[develop]/register.png?raw=true)
+
 
