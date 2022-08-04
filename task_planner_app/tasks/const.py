@@ -1,6 +1,7 @@
 from xml.dom.minidom import Text
 from django.db.models import TextChoices
 
+# Task status and priority options.
 STATUS_TODO = 'To do'
 STATUS_INPROG = 'In progress'
 STATUS_REV = 'Review'
@@ -12,6 +13,7 @@ STATUS_HIGH = '2'
 STATUS_HIGHEST = '1'
 
 class TaskStatus(TextChoices):
+    # Encapsulates statuses. 
     TODO = STATUS_TODO, 'To Do'
     IN_PROGRESS = STATUS_INPROG, 'In Progress'
     REVIEW = STATUS_REV, 'Under Review'
@@ -22,6 +24,7 @@ class TaskStatus(TextChoices):
     HIGH = STATUS_HIGH, 'High'
     HIGHEST = STATUS_HIGHEST, 'Highest'
 
+#Sets the colours for frontend
 status_color = {
     STATUS_TODO: 'info',
     STATUS_INPROG: 'primary',

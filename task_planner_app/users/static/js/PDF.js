@@ -13,10 +13,9 @@ function submitPDF(data) {
 
 $('#pdf').click(function(event) {
     event.preventDefault();
-    submitPDF();
     data = {
         group : $('#div_id_group')[0].value,
         user : $('div_id_user')[0].value,
-        
     }
+    submitPDF(data);
 })

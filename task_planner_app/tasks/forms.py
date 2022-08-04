@@ -1,11 +1,15 @@
+"""Class definitions for various Django forms related to tasks i.e. not users/accounts."""
 from django import forms
-from datetime import datetime
-from django.utils import timezone
 from users.models import User
-from .models import ROLE_CHOICES, Comment, Notification, Task, TaskGroup, TaskList, Membership, Tags
+from .models import Comment, Task, TaskList, Tags
 
 
 class TaskForm(forms.ModelForm):
+    """Configurble form for creating/updating tasks.
+
+    Inherits:
+        forms.ModelForm: gives access to Django pre-built form methods.
+    """
     tags = forms.ModelMultipleChoiceField(
             queryset=Tags.objects.filter(status='Active').order_by('name'),
             widget=forms.CheckboxSelectMultiple,
@@ -23,7 +27,13 @@ class TaskForm(forms.ModelForm):
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
 
+
 class TaskListForm(forms.ModelForm):
+    """Configurble form for creating/updating task lists.
+
+    Inherits:
+        forms.ModelForm: gives access to Django pre-built form methods.
+    """
 
     class Meta:
         model = TaskList
@@ -31,8 +41,14 @@ class TaskListForm(forms.ModelForm):
         widgets = {
             'deadline': forms.DateInput(attrs={'type':'datetime-local'})
         }
-        
+
+ 
 class NotificationGroupForm(forms.Form):
+    """Configurble form for creating/updating notifications.
+
+    Inherits:
+        forms.Form: gives access to Django pre-built form methods.
+    """
     ROLE_CHOICES = [
          ('', '---------'),
         ('Moderators', 'Moderators'),
@@ -47,13 +63,25 @@ class NotificationGroupForm(forms.Form):
         self.fields['message'].widget.attrs['rows'] = 5
         self.fields['users'].widget.attrs['style'] = 'width:150px;'
 
+
 class TagForm(forms.ModelForm):
-    
+    """Configurble form for creating tags.
+
+    Inherits:
+        forms.ModelForm: gives access to Django pre-built form methods.
+    """
+
     class Meta:
         model = Tags
         fields = '__all__'
 
+
 class MembershipForm(forms.Form):
+    """Configurble form for creating/updating user-group memberships.
+
+    Inherits:
+        forms.Form: gives access to Django pre-built form methods.
+    """
     user = forms.ModelChoiceField(queryset=User.objects.all())
     message = forms.CharField(max_length=2048, widget=forms.Textarea, required=False)
     
@@ -63,7 +91,13 @@ class MembershipForm(forms.Form):
     def __init__(self, *args, **kwargs):
         super(MembershipForm, self).__init__(*args, **kwargs) 
 
+
 class CommentForm(forms.ModelForm):
+    """Configurble form for creating task comments.
+
+    Inherits:
+        forms.ModelForm: gives access to Django pre-built form methods.
+    """
     content = forms.CharField(widget=forms.Textarea(attrs={
         'rows':'4',
     }))

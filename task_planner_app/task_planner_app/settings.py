@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-^54o+g-li18n0t!+_gvc+_4hmx%-(78b(g0o5zdzyi^^jxyzs+'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
@@ -172,14 +172,8 @@ DEFAULT_MAX_NUM = 200
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 
-if DEBUG:
-    STATICFILES_DIRS = [
-            os.path.join(BASE_DIR, 'static'),
-            os.path.join(BASE_DIR, 'media')
-    ]
-else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'static')
-    MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TEMP = os.path.join(BASE_DIR, 'media_cdn/temp')
 # Default primary key field type
