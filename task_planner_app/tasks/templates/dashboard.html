@@ -109,8 +109,9 @@
                       
                         <p><span class="font-weight-bold">Task Points: </span>{{ task.estimation }}</p>
                         <p class="font-weight-bold">Description:</p>
-                          {{ task.description| safe | linebreaks }}
-                        </p>
+                        <div class="description">
+                          {{ task.description|safe|linebreaks }}
+                        </div>
                         {% if task.linked_tasks.all %}
                           <p>
                             <p class="font-weight-bold">Parent Tasks:</p>
@@ -138,8 +139,22 @@
                             </ul>
                           </p>
                         {% endif %}
+                        {% get_task_comments task as task_comments %}
+                        {% if task_comments.all %}
+                          <p>
+                            <p class="font-weight-bold">Comments:</p>
+                              <div class='task-border' style='height:400px; width:500px; overflow-y:scroll;'>
+                                {% for i in task_comments.all %}
+                                  <div class="task-border">
+                                    <div>@{{ i.user.name }} {{ i.date|date:"d/m/Y" }} </div>
+                                    <div>{{ i.content }}</div>
+                                  </div>
+                                {% endfor %}
+                            </div>
+                          </p>
+                        {% endif %}
                       </div>
-                      <div class="col-6">
+                      <div class="container-sm col-6">
                         <div class="accordion" id="accordionTask-{{task.id}}">
                           <div class="col-lg-push-2">
                             <button id="help-btn-{{task.id}}" class="help-btn btn btn-primary" value="{{task.id}}" class="btn btn-primary text-left" type="button" data-toggle="collapse" data-target="#collapse-task-{{task.id}}" aria-expanded="true" aria-controls="collapse-task-{{task.id}}">

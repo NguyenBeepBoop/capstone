@@ -8,3 +8,8 @@
     height: 60vh;
     overflow-y: auto;
 }
+
+.description  {
+    word-break: break-word; 
+    width: 500px;
+}
