@@ -19,7 +19,8 @@
 |---------------------------|---------------------------------------------------------------------|
 |Python                     |3.8.10, (versions 3.9.X+ is recommended)                             |
 |Python3-venv               |same version as your Python                                          |
-	> **Note**:  We have not tested on Python 3.10+
+
+> **Note**:  We have not tested on Python 3.10+
 
 ### If you do not have python 3.9.X, I recommend following these:
 
