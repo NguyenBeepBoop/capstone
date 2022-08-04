@@ -1,4 +1,6 @@
+"""Enumerates statuses for friend requests."""
 from enum import Enum 
+
 
 class FriendRequestStatus(Enum):
     NO_REQUEST_SENT = -1
