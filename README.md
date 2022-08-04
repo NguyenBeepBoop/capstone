@@ -107,6 +107,17 @@ In the event that you have forgotten your password, it can be recovered through 
 	* http://127.0.0.1:8000/accounts/profile_edit/
 	
 	You may edit details about yourself including Email, Username, First Name, Last Name, Capacity (amount of workload you are willing to take), Proficiencies and Profile Picture.
+	
+### The Dashboard
+* http://127.0.0.1:8000/dashboard/
+* http://127.0.0.1:8000/groups/
 
+The Dashboard has been designed to maximise your productivity only showing relevant information such as your assigned Task(s) and TaskGroup(s). You will find core features and functionalities required for tasking including:
+* Task List View (including filters and sorting)
+* Integrated Task Support System
+* Dependent Workflow  (Task Dependencies and Links)
+* Performance Report Generation
+* Task Group List View (including filters and sorting)
+* Task Group Creation, Deletion and Management
 
 
