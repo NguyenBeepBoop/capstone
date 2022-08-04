@@ -45,7 +45,7 @@ Once `pip3` has finished installing, setup the app database and run the server:
 ```
 You should be able to access the app now on:
 
-[http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+* [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
 
 ## Virtual Environment Errors and How To Fix
 #### If you encounter the following error with "ensurepip":
