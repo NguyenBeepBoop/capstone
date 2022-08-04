@@ -1,6 +1,7 @@
 from django.contrib import admin
 from tasks.models import *
-# Register your models here.
+
+# Register Django models to the admin page.
 admin.site.register(Task)
 admin.site.register(TaskList)
 admin.site.register(TaskGroup)

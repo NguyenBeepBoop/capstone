@@ -1,12 +1,18 @@
+"""Classes to configure object filters by properties."""
 from django.forms import DateInput
-import django_filters
-from .models import STATUS_CHOICES, PRIORITY_CHOICES, Task, TaskGroup, TaskList
+from django_filters import FilterSet, DateFilter, ChoiceFilter, OrderingFilter
+from .models import STATUS_CHOICES, Task, TaskGroup, TaskList
 
-class TaskFilter(django_filters.FilterSet):
-    deadline = django_filters.DateFilter(widget=DateInput(attrs={'type': 'date'}))
-    status = django_filters.ChoiceFilter(choices=STATUS_CHOICES)
 
-    order = django_filters.OrderingFilter(
+class TaskFilter(FilterSet):
+    """Filter class for tasks by related properties.
+    
+    Inherits:
+        FilterSet: gives access to Django pre-built filter methods.
+    """
+    deadline = DateFilter(widget=DateInput(attrs={'type': 'date'}))
+    status = ChoiceFilter(choices=STATUS_CHOICES)
+    order = OrderingFilter(
         label='Sort by',
         fields=(
             ('id', 'id'),
@@ -24,7 +30,6 @@ class TaskFilter(django_filters.FilterSet):
     class Meta:
         model = Task
         fields = {
-            #'id': ['exact'],
             'name': ['icontains'],
             'description': ['icontains'],
             'assignee': ['exact'],
@@ -33,17 +38,27 @@ class TaskFilter(django_filters.FilterSet):
         }
         
 
-class ListFilter(django_filters.FilterSet):
-
+class ListFilter(FilterSet):
+    """Filter class for task lists by related properties.
+    
+    Inherits:
+        FilterSet: gives access to Django pre-built filter methods.
+    """
     class Meta:
         model = TaskList
         fields = {
             'name': ['icontains'],
         }
 
-class GroupFilter(django_filters.FilterSet):
-        class Meta:
-            model = TaskGroup
-            fields = {
-                'name': ['icontains'],
-            }
+
+class GroupFilter(FilterSet):
+    """Filter class for task groups by related properties.
+    
+    Inherits:
+        FilterSet: gives access to Django pre-built filter methods.
+    """
+    class Meta:
+        model = TaskGroup
+        fields = {
+            'name': ['icontains'],
+        }
