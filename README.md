@@ -36,21 +36,20 @@
 
 > **Note**: Use the respective download links for your operating system.
 
-
 ## Setup <a name="setup"></a>
 
 Firstly, clone the repository and change to project directory:
 
 ```bash
-$ git clone git@github.com:unsw-cse-comp3900-9900-22T2/capstone-project-3900-t11b-3-5.git
-$ cd capstone-project-3900-t11b-3-5/task_planner_app/
+git clone git@github.com:unsw-cse-comp3900-9900-22T2/capstone-project-3900-t11b-3-5.git
+cd capstone-project-3900-t11b-3-5/task_planner_app/
 ```
 
 Create a virtual environment to install project dependencies and activate it:
 > **Note**: Make sure you are in the directory "capstone-project-3900-t11b-3-5/task_planner_app/"
 
 ```bash
-$ python3 -m venv .env 
+python3 -m venv .env 
 source .env/bin/activate
 ```
 
@@ -98,7 +97,7 @@ Failing command: ['/home/nguyen/capstone-project-3900-t11b-3-5/task_planner_app/
 Then run the following:
 
 ```bash
-$ sudo apt install python3.9-venv
+sudo apt install python3.9-venv
 ```
 
 ### If you encounter "No such file or directory:" when trying to run "python3 -m venv .env "
@@ -107,14 +106,14 @@ $ sudo apt install python3.9-venv
  2. cd back to the project directory.
 
 ```bash
-$ cd capstone-project-3900-t11b-3-5/task_planner_app/
+cd capstone-project-3900-t11b-3-5/task_planner_app/
 ```
 
 3. Try to create the virtual environment and activate it again.
 
 ```bash
-$ python3 -m venv .env
-$ source .env/bin/activate
+python3 -m venv .env
+source .env/bin/activate
 ```
 
 ## Using the App (Workflow and Use Cases) <a name="using-app"></a>
@@ -139,7 +138,6 @@ You may also access the app via the login page:
 ![Login View](images/login.png)
 
 ### Forgot your password? <a name="forgot-pass"></a>
-
 
 In the event that you have forgotten your password, it can be recovered through our password recovery:
 
