@@ -249,6 +249,7 @@ To see a more detailed view of your task click on the task in the table. This wi
 
 You can easily access the Task Groups you are a member in via the "My Groups" tab on the Dashboard view of the app.
 Here you can view core information about the groups including:
+
 * Group Name
 * Group Description
 * Date Joined
@@ -270,17 +271,19 @@ Here you can view core information about the groups including:
 ![Create List](images/create_list.png)
 
 3. Create a Task, providing the following information:
-	* Name
-	* Description
-	* Deadline
-	* Status
-	* Priority
-	* Assignee
-	* Task Estimation Points
-	* Related Tasks
-	* Related Tags
+
+* Name
+* Description
+* Deadline
+* Status
+* Priority
+* Assignee
+* Task Estimation Points
+* Related Tasks
+* Related Tags
 
 #### How to Edit a Task <a name="task-edit"></a>
+
 Editing a task can be completed by either clicking on the edit button found in the Dashboard - My Tasks page, or by clicking on the existing task in the Tasks page.
 
 On this Edit page, users can edit any field in the task model, whilst also having access to the Assignee Recommendation and Comment sections.
@@ -288,24 +291,31 @@ On this Edit page, users can edit any field in the task model, whilst also havin
 ![Edit Task](images/edit_task.png)
 
 ### Task Groups
-As an owner of a Task Group, you have the ability to manage the roles of other members in the group.
+
+As an owner of a Task Group, you have the ability to manage the roles of other members in the group as well as invite members that are in the web-app to their Task Group.
 
 After accessing a particular group, there will be a sidebar which allows users with certain permissions to:
 1. <a name="notifications">Broadcast Notifications (Moderators only)</a>
-2. Manage Members (Moderators only) 
+2. Manage Members (Moderators only)
 3. Manage Task List (All Members)
-	* View a list of Task Lists in the Task Group.
+   * View a list of Task Lists in the Task Group.
 4. Create Task List (All Members)
-5.  Manage Group (Moderators only)
-	* Can edit Task Group fields and select which users will remain as members.
+5. Manage Group (Moderators only)
+   * Can edit Task Group fields and select which users will remain as members.
 6. Leave Group (All Members)
 7. Delete Group (Owner only)
 
+#### Managing your members
+
+A dedicated view has been created for Task Group Owners and Moderators to be able to manage members within their authority.Moderators have the ability to promote Members to also become Moderators
 ![Manage Members](images/member_management.png)
 
 ### Friends
+
 #### Sending Friend Requests
-Users can access the profile of other users. This will provide the same <a name="profile">profile view</a> illustrated previously, however, will include the ability to send a friend request. If a request is already pending, the button will be replaced to say 'Cancel Friend Request'. 
+
+Users can access the profile of other users. This will provide the same <a name="profile">profile view</a> illustrated previously, however, will include the ability to send a friend request. If a request is already pending, the button will be replaced to say 'Cancel Friend Request'.
 
 #### Viewing User Friends
+
 Once a friendship has been established, you are given permission to view which users are friends with the profile you are viewing.
