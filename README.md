@@ -229,6 +229,8 @@ Listed below are some notifications that a user may recieve from their Task Grou
 
 ![User Connection Notification](images/user_connection_notification.png)
 
+<div style="page-break-after: always;"></div>
+
 ### The Dashboard <a name="dashboard"></a>
 
 The Dashboard has been designed with purpose to maximise your productivity, only showing relevant information such as your assigned Task(s) and TaskGroup(s). You will find core features and functionalities required for tasking including:
@@ -259,6 +261,8 @@ Your assigned tasks can be easily viewed and accessed via the "My Tasks" tab on 
 ![Dashboard Tasks View](images/dashboard.png)
 
  > **Note**:  You may also edit your tasks details by clicking on the pen icon in the action column of the table.
+
+<div style="page-break-after: always;"></div>
 
 To see a more detailed view of your task click on the task in the table. This will open a pop up window which displays more details about your task including:
 
@@ -312,6 +316,8 @@ Here you can view core information about the groups including:
 * Task Estimation Points
 * Related Tasks
 * Related Tags
+
+![Create Task](images/create_task.png)
 
 > **Note**: When assigning a user to a Task you must also supply an Estimation. This is to prevent users from being overloaded with Tasks as we will protect users from going over their desired capacity.
 
