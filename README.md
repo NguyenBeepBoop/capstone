@@ -17,10 +17,15 @@
 
 ## Pre-Installation Checklist <a name="checklist"></a>
 
-| Requirement  | Description                              |
-| ------------ | ---------------------------------------- |
-| Python       | 3.8.10, (versions 3.9.X+ is recommended) |
-| Python3-venv | same version as your Python              |
+| Requirement  | Description                                                                                                         |
+| ------------ | ------------------------------------------------------------------------------------------------------------------- |
+| Windows      | Developed and Tested on Windows 10 and 11                                                                           |
+| MacOS        | Developed and Tested on BigSur                                                                                      |
+| Linux        | Tested on Ubuntu                                                                                                    |
+| Git          | [How to install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)                                 |
+| Python 3     | 3.8.10, (versions 3.9.X+ is recommended)                                                                            |
+| Pip 3        | [How to install Pip](https://pip.pypa.io/en/stable/installation/)                                                   |
+| Python3-venv | [How to install venv](https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/) |
 
 > **Note**:  We have not tested on Python 3.10+
 
