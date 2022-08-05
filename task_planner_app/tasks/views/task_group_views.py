@@ -208,7 +208,7 @@ class TaskGroupMembersView(ModeratorPermissionMixin, LoginRequiredMixin, DetailV
                 sender = request.user,
                 receiver = user,
                 group = group,
-                description = f'@{request.user} has kicked you form the group. LATERs',
+                description = f'@{request.user} has kicked you from the group. LATERs',
                 seen = False
             )
             data = 'success'

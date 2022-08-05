@@ -13,16 +13,22 @@
    2. [Forgot your password?](#forgot-pass)
    3. [Your Profile](#login-register)
    4. [The Dashboard](#login-register)
+      1. [Dashboard Tasks](#dashboard-tasks)
    5. [Login and Register](#login-register)
    6. [Login and Register](#login-register)
    7. [
 
 ## Pre-Installation Checklist <a name="checklist"></a>
 
-| Requirement  | Description                              |
-| ------------ | ---------------------------------------- |
-| Python       | 3.8.10, (versions 3.9.X+ is recommended) |
-| Python3-venv | same version as your Python              |
+| Requirement  | Description                                                                         |
+| ------------ | ----------------------------------------------------------------------------------- |
+| Windows      | Developed and Tested on Windows 10 and 11                                           |
+| MacOS        | Developed and Tested on MacOS Monterey                                              |
+| Linux        | Tested on Ubuntu                                                                    |
+| Python       | 3.8.10, (versions 3.9.X+ is recommended)                                            |
+| Git          | [How to install Git](https://git-scm.com/book/en/v2/Getting-Started-Installing-Git) |
+| Pip3         | [How to install Pip](https://pip.pypa.io/en/stable/installation/)                   |
+| Python3-venv | [How to install python-venv](https://docs.python.org/3/library/venv.html)           |
 
 > **Note**:  We have not tested on Python 3.10+
 
@@ -118,6 +124,8 @@ python3 -m venv .env
 source .env/bin/activate
 ```
 
+<div style="page-break-after: always;"></div>
+
 ## Using the App (Workflow and Use Cases) <a name="using-app"></a>
 
 ### Register and Login <a name="login-register"></a>
@@ -138,6 +146,8 @@ You may also access the app via the login page:
 
 ![Register View](images/register.png)
 ![Login View](images/login.png)
+
+<div style="page-break-after: always;"></div>
 
 ### Forgot your password? <a name="forgot-pass"></a>
 
@@ -177,6 +187,9 @@ In the event that you have forgotten your password, it can be recovered through 
 * Profile Picture
 
 ![Edit Profile](images/edit_profile.png)
+
+<div style="page-break-after: always;"></div>
+
 ### Notifications <a name="notifications"></a>
 
 Notifications have been created for users to easily access and respond to relevant notifications from both Users and TaskGroups. You can access and manage your notifications via the bell icon on the top right of the navbar.
@@ -184,7 +197,7 @@ Some core functionalities in our app that leverages this system includes:
 
 1. Task Group Notification Broadcasts'
 
-![Notification Broadcast](images/notification_broadcast.png)
+![Notification Broadcast](images/broadcast_notification.png)
 
 2. Task Group Membership Notifications
 
@@ -193,16 +206,21 @@ Some core functionalities in our app that leverages this system includes:
 * Demotion of Members
 * Kicking of Members
 
-![Membership Notification](images/membership_notification.png)
+Listed below are some notifications that a user may recieve from their Task Group:
 
-3. User connections invitations
+![Task Group Invite](images/notification_group_invite.png)
+![Task Group Promotion](images/notification_group_promote.png)
+![Task Group Demotion](images/notification_group_demote.png)
+![Task Group Kick](images/notification_kick.png)
+
+1. User connections invitations
 
 ![User Connection Notification](images/user_connection_notification.png)
 
 
 ### The Dashboard <a name="dashboard"></a>
 
-The Dashboard has been designed with purpose to maximise your productivity only showing relevant information such as your assigned Task(s) and TaskGroup(s). You will find core features and functionalities required for tasking including:
+The Dashboard has been designed with purpose to maximise your productivity, only showing relevant information such as your assigned Task(s) and TaskGroup(s). You will find core features and functionalities required for tasking including:
 
 1. Task List View (Including filters and sorting.)
 2. Integrated Task Support System
@@ -211,7 +229,7 @@ The Dashboard has been designed with purpose to maximise your productivity only 
 5. Task Group List View (Including filters and sorting.)
 6. Task Group Creation, Deletion and Access
 
-#### Viewing Tasks in the Dashboard
+#### Viewing Tasks in the Dashboard <a name="dashboard-tasks"></a>
 
 * <http://127.0.0.1:8000/dashboard/>
 
@@ -241,7 +259,7 @@ To see a more detailed view of your task click on the task in the table. This wi
 * Task Comments
 * Task Help Results
 
-![Dashboard Tasks Detailed View](images/task_support_comments_and_dependency.png)
+![Dashboard Tasks Detailed View](images/task_support_comments_and_dependency.png) 
 
 #### Viewing Groups in the Dashboard
 
@@ -258,7 +276,9 @@ Here you can view core information about the groups including:
 
 > **Note**: You may also view more details of the group, and to delete or leave a group depending on your permissions, through the action column of the table.
 
-### How to Create a Task <a name="task-create"></a>
+### Creating and Managing Tasks <a name="task-manage-create"></a>
+
+#### How to Create a Task
 
 1. Create a Task Group by navigating to the Dashboard and clicking "Create Group".
     * A modal form will then be presented, where you can enter in a Name(required) and Description for your Task Group.
@@ -282,6 +302,8 @@ Here you can view core information about the groups including:
 * Related Tasks
 * Related Tags
 
+> **Note**: When assigning a user to a Task you must also supply an Estimation. This is to prevent users from being overloaded with Tasks as we will protect users from going over their desired capacity.
+
 #### How to Edit a Task <a name="task-edit"></a>
 
 Editing a task can be completed by either clicking on the edit button found in the Dashboard - My Tasks page, or by clicking on the existing task in the Tasks page.
@@ -290,12 +312,28 @@ On this Edit page, users can edit any field in the task model, whilst also havin
 
 ![Edit Task](images/edit_task.png)
 
-### Task Groups
+#### Task Relations
+
+Task relations are created when a user has added a Parent Task to a Task. To allow for easier access of these relations we have designed the task dashboard to indicate if tasks have relations. You may also access the details of the related task via the link in the detail view of the task. 
+
+> **Note**: See [Viewing Tasks in the Dashboard](#dashboard-tasks) for an example.
+
+#### How to use the Task Help System
+
+The Task Help System relies on appropriate naming of the task, as well as appropriate selection of proficiencies required for a task. To successfully use the Help System:
+
+1. Provide an appropriate name for the task detailing what needs to be done.
+2. Select from the proficiencies list, related topics that are required to complete the task.
+3. On the Detail View of the task in the Dashboard select "Show Related Sources" for a list of related resources on completing your task.
+
+> **Note**: See [Viewing Tasks in the Dashboard](#dashboard-tasks) for an example of search results.
+
+### Managing Task Groups
 
 As an owner of a Task Group, you have the ability to manage the roles of other members in the group as well as invite members that are in the web-app to their Task Group.
 
 After accessing a particular group, there will be a sidebar which allows users with certain permissions to:
-1. <a name="notifications">Broadcast Notifications (Moderators only)</a>
+1. Broadcast Notifications (Moderators only)
 2. Manage Members (Moderators only)
 3. Manage Task List (All Members)
    * View a list of Task Lists in the Task Group.
@@ -305,17 +343,57 @@ After accessing a particular group, there will be a sidebar which allows users w
 6. Leave Group (All Members)
 7. Delete Group (Owner only)
 
+![Task Group Sidebar](images/group_sidebar.png)
+
 #### Managing your members
 
-A dedicated view has been created for Task Group Owners and Moderators to be able to manage members within their authority.Moderators have the ability to promote Members to also become Moderators
-![Manage Members](images/member_management.png)
+Task Groups will generally have 3 tiers of permissions Owner, Moderator and Members. You can view members that are part of your Task Group using the right sidebar. A Member's profile may also be accessed via the sidebar, here you will be able to view their details including Capacity, Workload and assigned Tasks. Additionally, a dedicated view has been created for Task Group Owners and Moderators to manage members within their authority. 
 
-### Friends
+In the Manage Members view, users with Moderator permissions and above have the ability to:
+
+* Invite Users within the app to the group
+  * You may optionally send a message in your invite to the user.
+* Promote Members
+* Demote Members
+* Kick Members
+  
+![Members list](images/members_list.png)
+![Manage Members](images/member_management.png)
+![Membership Notification](images/membership_notification.png)
+
+Notifications will be sent to users where their membership has been updated or when they have been kicked from a Task Group.
+
+
+#### Sending Notifications to your Task Group
+
+Owners and Moderators within a Task Group have the ability to also broadcast notifications to members of different levels of membership authority(Moderator, Member). This is to allow for Task Group wide communications where it is generally absent within other Tasking applications. 
+
+![Notification Broadcast](images/notification_broadcast.png)
+
+#### Deleting your Task Group
+
+To delete your Task Group simply select "Delete Group" inside the main page of the group, or on the list view of your Task Groups via the Dashboard. You will then be presented with a confirmation page to finally delete your Task Group. 
+
+> **Note**: All associated data belonging to the Task Group will be deleted including Task Lists, Notifications and Tasks.
+
+![Delete Group Confirm](images/delete_group_confirm.png)
+
+### Adding and Managing Friends
 
 #### Sending Friend Requests
 
-Users can access the profile of other users. This will provide the same <a name="profile">profile view</a> illustrated previously, however, will include the ability to send a friend request. If a request is already pending, the button will be replaced to say 'Cancel Friend Request'.
+Users can access the profile of other users. This will provide the same [profile view](#profile) illustrated previously, but however, will also include the ability to send a friend request. If a request is already pending, the button will be replaced to say 'Cancel Friend Request'.
 
-#### Viewing User Friends
+![Send Friend Request](images/send_friend_request.png)
+![Cancel Friend Request](images/cancel_friend_request.png)
 
-Once a friendship has been established, you are given permission to view which users are friends with the profile you are viewing.
+The receiving user will have the ability to accept or decline the friend request on both the sending user's profile or via their notifications.
+
+![User Connection Request](images/user_connection_notification.png)
+![Profile Connection Request](images/profile_connection_request.png)
+
+#### Viewing Friends and User Friends
+
+You may view your friends list via accessing your profile the pressing "Friends". Once a friendship has been established, you are given permission to view which users are friends with the profile you are viewing.
+
+![Friends List](images/friends_list.png)
