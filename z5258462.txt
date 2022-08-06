@@ -47,4 +47,7 @@ No further progress from me this week.
 Week 9
 This week, I was focused on the dependency function, linking tasks as either parents or children tasks. This was a bit of trouble so I had to ask Darius to assist me on setting it all up.
 
+Week 10
+Was already completed with my portion of the coding for Tuesday's demonstration, so mostly just helping others with their parts.
 
+After the demonstration on Tuesday, we spent most of the time working on the submission of the report and final code. I was working closely with the third party libraries and API which we had to use throughout the project. Towards the end of Friday, I was focusing more into the formatting of the report until submission.
