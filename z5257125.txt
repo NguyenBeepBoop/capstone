@@ -98,6 +98,10 @@ Friday
 Finished off integrating the backend of the notification system and started working on a forntend ui for users 
 to interact with their notifications.
 
+Some problems I came across was we needed to somehow get notifications across all of our views and it was just
+not viable to get notifications through using Django context. Hence I had create a custom tag which when parsed
+the request user it would return all of the active notifcation objects related to the user. 
+
 Saturday
 Finished off the front end ui for the notification system and created some sidebars for the views of our task 
 group pages (task list creation, task creation). I had also began development on a view for moderators and 
@@ -130,6 +134,11 @@ Met up with my team members after uni and passed on my work with user proficienc
 him through the basics of Django and we eventually got a base view and model working on his branch. Other team members
 also continued or began working on their allocated tasks.
 
+A key discussion which took place in this standup was the integration of React into our system as planned in our initial 
+project proposal. It was agreed across our team members that the implementation of React would cause us to use an 
+additionally uneccessary layer for our front end development. Also learning React on top of JavaScript, HTML and CSS would
+have been too time consuming and risky to finish the sprint.
+
 Thursday
 We addressed issues that teams members were having in relation to the project in this standup ensuring everyone had
 enough support to continue working on their allocated parts. Later during the day after our standup, I began work
@@ -137,6 +146,11 @@ on integrating the user permissions to the app. Darius was in the call with me a
 and developed upon the system in which I was managing the permissions of the users. I during that time worked on 
 integrating the backend for how users would be able to connect to task groups. Later during the night I was also able to
 create a view in which members could be invited to task groups.
+
+Some key problems we had to consider was how to integrate permissions checking across all the pages of out app. With this 
+in mind I was able to find a third party library called "django-braces" which allow for us to develop our own mixins for the
+web-app. With this we were able make our class based views inherit classes which require different permissions. This allowed 
+for us to not need "@login_required" decorators across our class based views.
 
 Friday
 Continued on working with the feature to invite users to task groups, I eventually was then able to integrate accepting and
@@ -155,8 +169,61 @@ during our standup agreed to implement permissions checking across all of our vi
 we had decided in our app design.
 
 Week 8
+
 Monday
 Had a meetup with our team members in preparation for our Progresssive demo on Tuesday. Everyone had completed their assigned 
-components and we only needed to perform minor tweaks and front end cleanup for the demo on Tuesday.
+components and we only needed to perform minor tweaks and front end cleanup for the demo on Tuesday. Brent had trouble with 
+implementing his part as his branch was somehow always broken. As a last resort, I ended up finishing off the work that Brent 
+had started implementing the tagging feature for the Tasks and merging incase it was not going to be ready for tomorrow.
 
+Tuesday
+Conducted our Demo B, we were able to successfully go over all of over features that were adding in sprint 2, this time 
+everyone was able to show up for the demo. On the same day we also conducted our retrospective where we discussed how 
+our sprint went. There were some key issues that were identified across the team including, lingering files that still
+had inconsistent naming. Additionally some members also found the integration of Ajax Requests difficult, and the use of 
+CSS to style our templates a bit time consuming. Nevertheless, this would have been better than us trying to integrate and
+use React which was competing with how Django has been designed. We found the scheduled standup time to be alot better in 
+maintaining communication across team members, cleanup of the front end also really allowed for better app design. 
 
+Thursday
+This was the next time where everyone was able to get together, except Brent who was absent. In this standup we devoted our
+time to focus on sprint planning to assign everyone tasks for this sprint. Looking back we felt that assigned all the tasks 
+at once was too restrictive with some members being able to finish their parts earlier and available more often. As such we 
+assigned a single task to members on whatever they were most comforatable with. 
+
+Saturday
+I began working on the task depency creation so that my peers could begin to use the algorithm. A model was created and 
+I started implementing the front end for the detailed view of the tasks as well as the linking functionality. 
+
+Sunday 
+Finished off allowing users to be able to select tasks as dependecies of one another and began working on the task help 
+system. There was still some front end clean up left to do for the task dependencies but I deduced that it would be more
+important for me to get started on working on the novelty feature. 
+
+Week 9 
+
+Tuesday 
+Conducted standup with my team members right after class as Tam was sick and we had an online class. We discussed
+on what would be the best approach to completing the task help system and Darius had recommended I look into using serpAPI
+which allow for us to make google searches. Taking into consideration his recommendation I began work on developing a system
+to allow users to get help on their tasks with the click of a button. 
+
+Thursday
+Had our standup with the team and I continued work on the help system. Using serpAPI I was able to successfully create a system
+in which the app would search google for results based off of the name of the task and the tags that were assigned to it. I also
+had tried to add the description to the search by using library that would get keywords from the description. This however did not 
+work as intended as it would only grab words by the numbers of times it appeared and were used. Hence, we opted for just using 
+the name of the task and it's tags.
+
+Saturday - Sunday
+With the finished implementation of the task help system the rest of the week for me was mostly focused on cleaning up the front 
+end, and finished off integrating the task dependencies to the Task Dashboard. I finished off creating the UI to show how tasks are
+linked and how to access those tasks via using custom tags in our html template (Similar to that of the Notification system). 
+
+Week 10
+
+Monday
+
+Mostly consisted of helping the guys finish up their parts before the demo as I was mostly done with my tasks, we only really had the
+task auto scheduling system which Brent took up left to implement. As we were short on time we ended up going for a system were it 
+would recommend users based off of their previously completed related tasks, proficiencies and availability. 
