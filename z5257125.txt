@@ -227,3 +227,17 @@ Monday
 Mostly consisted of helping the guys finish up their parts before the demo as I was mostly done with my tasks, we only really had the
 task auto scheduling system which Brent took up left to implement. As we were short on time we ended up going for a system were it 
 would recommend users based off of their previously completed related tasks, proficiencies and availability. 
+
+Tuesday 
+Comepleted out final demo for the project, unforunately whlist about 80% of our features were working we had a bug in realation to 
+recommwding the task masters for a task which as a result ended up in causing an error during the demo. This also ended up affecting
+the ability to update tasks and view tasks aswell after they were created. Another bug we had was with the generation of tasking 
+reports which was a result of deadlines not being specified. Regardless the vast majority of our app was working which was a big 
+achievement considering how much functionality we added. 
+
+Thursday - Friday
+
+Began work on writing the documentation for the project report including how to build, setup, configure, and use your system
+and functionalities. Finished off writing the documentation on the markdown file but had some issues with transferring it over 
+to google documents. Highly reccommend reading the documentation for the app in the README file on the develop branch of our
+repository.
