@@ -164,3 +164,11 @@ autoscheduling algorithms.
 On Monday, I helped Brent tie his autoscheduler ranking algorithm into the broader system. We decided
 to just display the top ranking users when attempting to assign a task. We also made final pull requests
 to prepare for the final demonstration on Tuesday.
+
+Tuesday was the final demo, we had some difficulties in presenting certain features and spent the rest
+of the class trying to figure it out. It turns out it was an error in Brent's code relating to incorrect
+types, i.e cannot + operator on int and NoneType.
+
+The remaining days I worked on the "Implementation Challenges" of the report, which turned out to be
+longer than expected. As well as general code clean up and commenting. You'll find docstrings written
+for every signle class and function.
